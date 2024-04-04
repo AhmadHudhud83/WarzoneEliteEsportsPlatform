@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "env-cmd -f dev.env nodemon server.js",
+    "dev": ""
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "mongoose": "^8.3.0"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "nodemon": "^3.1.0"
   }
 }

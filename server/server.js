@@ -3,11 +3,16 @@ const express = require ("express")
 const app = express();
 const _PORT = 5000;
 const cors = require("cors")
+app.use(cors({
+    origin: 'http://localhost:3000', 
+  }));
+  app.use(express.json());
 //CONNECT TO MONGO DB
+console.log(process.env.DATABASE)
 const mongoose = require("mongoose");
-const username = "ahmadhudhud1212",
-      password ="counterstrike2isthebest",
-      database = "ESPORTS_PROJECT";
+const username = process.env.AHMAD_HUDHUD_USERNAME,
+      password =process.env.AHMAD_HUDHUD_PASSWORD,
+      database = process.env.DATABASE;
 
 mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.ue5yau5.mongodb.net/${database}?retryWrites=true&w=majority&appName=Cluster0`).then(()=>{    
 
@@ -19,9 +24,7 @@ console.log("connected successfully")
 //IMPORT USER MODEL
 const UserModel = require('./models/Users')
 // Use the cors middleware to allow requests from a specific origin
-app.use(cors({
-    origin: 'http://localhost:3000', 
-  }));
+
 
 
 app.get("/",(req,res)=>{
