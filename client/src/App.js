@@ -43,13 +43,16 @@ function App() {
   return (
    <React.Fragment>
     <h1>hello esports team</h1>
+    <ul>
     {(typeof backendData.users==='undefined')? (
       <p>Loading...</p>
     ):  (
       backendData.users.map((user,i)=>{
-       return(<p key={i}>{user}</p>) 
+       return(<li key={i}>{user}</li>) 
       })
     )}
+    </ul>
+    <p>press f12 to see the data from mongoDB database</p>
    </React.Fragment>
   );
 }

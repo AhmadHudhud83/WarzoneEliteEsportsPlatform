@@ -37,7 +37,7 @@ app.get("/users",async (req,res)=>{
 
 app.get("/api",(req,res)=>{
     
-    res.json({"users":["Ahmad","Islam","Kareem"]})
+    res.json({"users":["Ahmad","Islam","Kareem","Osama","Areen","Ahmad adel","Rama","Bissan"]})
 })
 app.listen(5000,()=>{
     console.log(`Server started in port ${_PORT}`)
