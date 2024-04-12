@@ -80,12 +80,12 @@ const Footer = () => {
                                     </li>
                                     <li>
                                         <h6>PHONE:</h6>
-                                        <li><Link className="footer-hover" to="">+1 (062) 109-9222</Link> </li>
+                                        <Link className="footer-hover" to="">+1 (062) 109-9222</Link> 
                                     </li>
                                     <li>
                                         <h6>EMAIL:</h6>
-                                        <li><Link className="footer-hover" to="">Info@YourGmail24.com</Link>                                            </li>
-                                    </li>
+                                        <Link className="footer-hover" to="">Info@YourGmail24.com</Link>                                            </li>
+                                    
                                 </ul>
                             </div>
 
