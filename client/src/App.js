@@ -1,7 +1,7 @@
 import React , {useState,useEffect} from 'react'
 import './App.css';
 import axios from 'axios' //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
-
+import Header from './HomePage/Header/Header';
 function App() {
  
 
@@ -41,7 +41,9 @@ function App() {
 
         //react fragment is the best practice
   return (
-   <React.Fragment>
+   <React.Fragment >
+    <div className='container'>
+    <Header>  </Header>
     <h1>hello esports team</h1>
     <ul>
     {(typeof backendData.users==='undefined')? (
@@ -53,7 +55,7 @@ function App() {
     )}
     </ul>
     <p>press f12 to see the data from mongoDB database</p>
-    
+    </div>  
    </React.Fragment>
   );
 }
