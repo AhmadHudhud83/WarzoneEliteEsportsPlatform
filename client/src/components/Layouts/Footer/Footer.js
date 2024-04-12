@@ -10,6 +10,27 @@ const Footer = () => {
         setSelectedLanguage(language);
     };
 
+    const footerList = [
+        {link:"#",element:"Tournaments"},
+        {link:"#",element:"Help Center"},
+        {link:"#",element:"Privacy and Policy"},
+        {link:"#",element:"Terms of Use"},
+        {link:"#",element:"Contact Us"},
+
+    ]
+    const socialMediaList = [
+"fa-square-facebook",
+"fa-square-twitter",
+"fa-square-instagram",
+"fa-square-youtube",
+
+    ]
+
+    const languages = [
+         "English","العربية"
+        
+    ]
+
 
     return (
 
@@ -38,11 +59,13 @@ const Footer = () => {
                         <div className="col ">
                             <h4>Usefull Links</h4>
                             <ul className="list-unstyled">
-                                <li><Link className="footer-hover" to="">Tournaments</Link></li>
-                                <li><Link className="footer-hover" to="">Help Center</Link></li>
-                                <li><Link className="footer-hover" to="">Privacy and Policy</Link></li>
-                                <li><Link className="footer-hover" to="">Terms of Use</Link></li>
-                                <li><Link className="footer-hover" to="">Contact Us</Link></li>
+                                
+                                {
+                                    footerList.map((item,index)=>{
+
+                                       return(<li key={index}><Link className='footer-hover' to={item.link}>{item.element}</Link></li>) 
+                                    })
+                                }
                             </ul>
                         </div>
                         {/*column 2*/}
@@ -73,10 +96,13 @@ const Footer = () => {
                             <ul className="list-unstyled">
                                 <div className="socials">
                                     <a href="#">
-                                        <i className="fa-brands fa-square-facebook"></i>
-                                        <i className="fa-brands fa-square-twitter"></i>
-                                        <i className="fa-brands fa-square-instagram"></i>
-                                        <i className="fa-brands fa-square-youtube"></i>
+                                   
+
+                                        {
+                                            socialMediaList.map((item,index)=>{
+                                                return(<i key={index} className={`fa-brands ${item}`}></i> )
+                                            })
+                                        }
                                     </a>
                                 </div>
                             </ul>
@@ -105,9 +131,11 @@ const Footer = () => {
                     </Link>
 
                     <ul className="dropdown-menu">
-                        <li><Link className="dropdown-item" to="#" onClick={() => handleLanguageChange('English')}>English</Link></li>
-                        <li><Link className="dropdown-item" to="#" onClick={() => handleLanguageChange('العربية')}>العربية</Link></li>
-
+                        {/* <li><Link className="dropdown-item" to="#" onClick={() => handleLanguageChange('English')}>English</Link></li>
+                        <li><Link className="dropdown-item" to="#" onClick={() => handleLanguageChange('العربية')}>العربية</Link></li> */}
+                        {languages.map((item,index)=>{
+                            return(<li key={index}><Link className='dropdown-item' to="#" onClick={() => handleLanguageChange(item)}>{item}</Link></li>)
+                        })}
 
 
                     </ul>
