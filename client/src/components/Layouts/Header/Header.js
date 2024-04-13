@@ -1,6 +1,6 @@
 import logo from '../images/logo.png';
 import "./header.css";
-import React, { useState } from 'react';
+import React, { useRef,useState } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
@@ -9,7 +9,13 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
-
+   const navbarLinks = [
+    {title:"HOME", link : "#"},
+    {title:"BLOG", link : "#"},
+    {title:"HELP CENTER", link : "#"},
+    {title:"ABOUT US", link : "#"},
+    {title:"CONTACT", link : "#"}
+   ]
   return (
     <div className='container2'>
       <Navbar bg="body-tertiary" expand="lg">
@@ -23,11 +29,11 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleMenu} />
           <Navbar.Collapse in={isOpen}>
             <Nav className="me-auto mb-2 mb-lg-0" id="navitem">
-              <Nav.Link href="#">HOME</Nav.Link>
-              <Nav.Link href="#">BLOG</Nav.Link>
-              <Nav.Link href="#">HELP CENTER</Nav.Link>
-              <Nav.Link href="#">ABOUT US</Nav.Link>
-              <Nav.Link href="#">CONTACT</Nav.Link>
+          
+              {navbarLinks.map((item,index)=>{
+
+                return(<Nav.Link key={index} href={item.link} >{item.title} </Nav.Link>)
+              })}
             </Nav>
           </Navbar.Collapse>
           <form className="cc" role="search">
