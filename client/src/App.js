@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom';
-
+import Header from './components/Layouts/Header/Header';
 import './App.css';
 import Footer from './components/Layouts/Footer/Footer';
 import axios from 'axios' //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
@@ -47,6 +47,7 @@ function App() {
     <BrowserRouter>
 
       <React.Fragment>
+      <Header/>
 
         <h1>hello esports team</h1>
         <ul>
