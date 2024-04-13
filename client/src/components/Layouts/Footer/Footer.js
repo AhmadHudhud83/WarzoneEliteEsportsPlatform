@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './footer.css'
 import { Link } from "react-router-dom";
-import logo from '../images/logo.png';
+
 const Footer = () => {
 
     const [selectedLanguage, setSelectedLanguage] = useState('English');
@@ -40,9 +40,11 @@ const Footer = () => {
                 <Link to="/">
 
                     <img
-                        className="logo"
-                        src={logo}
-                        alt="Logo"
+                       className='logo'
+                       style={{width:"150px",height:"auto"}}
+                        src="https://i.imgur.com/rCPCVg6.png"
+                   
+                        alt="logo"
                     />
                 </Link>
                 <div className="container">
