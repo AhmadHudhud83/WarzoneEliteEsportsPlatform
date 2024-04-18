@@ -111,7 +111,7 @@ const Footer = () => {
                             <div className="sign-upfooter">
                                 <p className="para-sign">Get exclusive assets sent straight to your inbox</p>
                                 <ul className="signup-footer">
-                                    <li><Link className="btn btn-primary footer-hover1" to="">Sign up</Link></li>
+                                    <li><Link className="btn btn-primary footer-hover1"z to="">Sign up</Link></li>
                                 </ul>
                             </div>
                         </div>

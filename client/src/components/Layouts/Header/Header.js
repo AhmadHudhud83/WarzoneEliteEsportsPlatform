@@ -17,6 +17,7 @@ function Header() {
     {title:"CONTACT", link : "#"}
    ]
   return (
+    
     <div className='container2'>
       <Navbar bg="body-tertiary" expand="lg">
         <Container fluid>
