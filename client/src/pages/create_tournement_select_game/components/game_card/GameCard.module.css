@@ -4,6 +4,7 @@
   color: white;
   padding-bottom: 20px;
   transition: transform 0.3s ease-in-out;
+  animation: fadeIn 1s ease;
 }
 
 .card img {
@@ -26,4 +27,13 @@
 
 .card:hover {
   transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
