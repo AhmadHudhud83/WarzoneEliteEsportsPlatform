@@ -1,51 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter } from 'react-router-dom';
-import Header from './components/Layouts/Header/Header';
-import './App.css';
-import Footer from './components/Layouts/Footer/Footer';
-import axios from 'axios' //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import "./App.css";
+import Footer from "./components/Layouts/Footer/Footer";
+import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
+import SelectGame from "./pages/create_tournement_select_game/SelectGame";
 
 function App() {
-
-
-
   useEffect(() => {
-    axios.get("http://localhost:5000/users").then(
-      res => {
-        console.log(res.data)
-      }
-    ).catch((e) => {
-      console.log(e)
-    })
-  }, [])
+    axios
+      .get("http://localhost:5000/users")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
-
-
-  const [backendData, setBackendData] = useState([{}])
+  const [backendData, setBackendData] = useState([{}]);
 
   //FETCH THE BACKEND API
   useEffect(() => {
-    fetch("/api").then(
-      response => response.json()
-
-    ).then(
-      data => {
-        setBackendData(data)
-      }
-    )
-
-
-
-  }, [])
-
-
-
-
+    fetch("/api")
+      .then((response) => response.json())
+      .then((data) => {
+        setBackendData(data);
+      });
+  }, []);
 
   //react fragment is the best practice
   return (
     <BrowserRouter>
-
       <React.Fragment>
       <Header/>
 
@@ -62,8 +48,6 @@ function App() {
         <p>press f12 to see the data from mongoDB database</p>
         <Footer />
       </React.Fragment>
-      <Footer />
-
     </BrowserRouter>
   );
 }
