@@ -4,6 +4,7 @@ import Header from './components/Layouts/Header/Header';
 import './App.css';
 import Footer from './components/Layouts/Footer/Footer';
 import axios from 'axios' //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
+import Card from './components/Layouts/Cards/Card';
 
 function App() {
 
@@ -60,6 +61,17 @@ function App() {
           )}
         </ul>
         <p>press f12 to see the data from mongoDB database</p>
+        <Card 
+        imgSrc="https://i.ibb.co/1GFGvmk/04-21-131723.png"
+        constentHead="Counter Strike"
+        proimg="https://i.ibb.co/wgxRYnb/04-21-152907.png"
+        proname="JD"
+        date="6/8/2023"
+  time="9:30"
+  prize="20$"
+ 
+        />
+        
         <Footer />
       </React.Fragment>
       <Footer />
