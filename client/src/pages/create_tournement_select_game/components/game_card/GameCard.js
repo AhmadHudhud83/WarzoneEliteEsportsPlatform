@@ -9,6 +9,7 @@ function GameCard({ name, imgUrl }) {
         <img src={imgUrl} alt={name} />
         <h3>{name}</h3>
       </a>
+      
     </div>
   );
 }
