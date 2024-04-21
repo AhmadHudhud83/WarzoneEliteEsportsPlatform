@@ -5,7 +5,7 @@ import "./App.css";
 import Footer from "./components/Layouts/Footer/Footer";
 import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
 import SelectGame from "./pages/create_tournement_select_game/SelectGame";
-
+import Header from './components/Layouts/Header/Header.js'
 function App() {
   useEffect(() => {
     axios
