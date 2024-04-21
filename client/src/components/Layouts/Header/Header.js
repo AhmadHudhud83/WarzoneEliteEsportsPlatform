@@ -27,9 +27,9 @@ function Header() {
 
           </Navbar.Brand>
           <div id="demoFont">Warzone Elite</div>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={toggleMenu} />
-          <Navbar.Collapse in={isOpen}>
-            <Nav className="me-auto mb-2 mb-lg-0" id="navitem">
+          <Navbar.Toggle style={{ color: 'white' }} aria-controls="basic-navbar-nav"  onClick={toggleMenu} />
+          <Navbar.Collapse in={isOpen} className="custom-toggle">
+            <Nav className="me-auto mb-2 mb-lg-0" id="navitem" >
           
               {navbarLinks.map((item,index)=>{
 
