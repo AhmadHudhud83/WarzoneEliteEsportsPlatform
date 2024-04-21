@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
-import Footer from "./components/Layouts/Footer/Footer";
+import Footer from "./common/Footer/Footer";
 import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
-import SelectGame from "./pages/create_tournement_select_game/SelectGame";
-import Header from './components/Layouts/Header/Header.js'
+import SelecdctGame from "./pages/create_tournement_select_game/SelectGame";
+import Header from './common/Header/Header.js'
 function App() {
   useEffect(() => {
     axios
