@@ -26,11 +26,11 @@ function SelectGame() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1800) {
-        setNumGamesToShow(5);
+        setNumGamesToShow(20);
       } else if (window.innerWidth >= 1400) {
-        setNumGamesToShow(4);
+        setNumGamesToShow(20);
       } else {
-        setNumGamesToShow(3);
+        setNumGamesToShow(20);
       }
     };
 
