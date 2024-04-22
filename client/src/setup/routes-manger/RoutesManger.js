@@ -12,6 +12,7 @@ return(<BrowserRouter>
         <Route path="/">
           <Route index element={<Temp/>} />
           <Route path="create-tournement" element={<SelectGame />} />
+          
           <Route path="*" element={<h1>Error 404 ! Page not found</h1>} /> 
         </Route>
       </Routes>
