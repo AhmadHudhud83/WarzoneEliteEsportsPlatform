@@ -1,15 +1,15 @@
 import styles from "./SelectGame.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import GameCard from "./components/game_card/GameCard";
 import { games } from "./dummyData";
 
 function SelectGame() {
   const searchInput = useRef(null);
   const [searchValue, setSearchValue] = useState("");
-  const [numGamesToShow, setNumGamesToShow] = useState(4);
   const [searchResults, setSearchResults] = useState([]);
+  const numGamesToShow = 20;
 
   const handleIconClick = () => {
     searchInput.current.focus();
@@ -23,22 +23,7 @@ function SelectGame() {
     setSearchResults(searchResults);
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1800) {
-        setNumGamesToShow(20);
-      } else if (window.innerWidth >= 1400) {
-        setNumGamesToShow(20);
-      } else {
-        setNumGamesToShow(20);
-      }
-    };
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <div id={styles.container}>

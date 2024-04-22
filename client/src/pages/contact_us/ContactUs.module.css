@@ -1,0 +1,16 @@
+#body{
+    background-color: #1c222b;
+    padding-top: 30px;
+}
+#container{
+    height: 100vh;
+    background-color: #151b27;
+    width: 70%;
+    border-radius: 20px;
+    color: white;
+}
+
+#container h1{
+    text-align: center;
+    padding-top: 30px;
+}
