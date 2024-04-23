@@ -1,4 +1,10 @@
+@font-face {
+    font-family: Kardust Condensed;
+    src: url("../../assets/fonts/Kardust\ Condensed\ Bold.otf"); 
+}
+
 footer {
+    font-family:'Kardust Condensed';
     width: 100%;
     position: absolute;
     padding: 20px;

@@ -31,7 +31,7 @@ const Footer = () => {
          "English","العربية"
         
     ]
-
+    const buttonStyle = {background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}
 
     return (
 
@@ -112,7 +112,8 @@ const Footer = () => {
                             <div className="sign-upfooter">
                                 <p className="para-sign">Get exclusive assets sent straight to your inbox</p>
                                 <ul className="signup-footer">
-                                    <li><Link className="btn btn-primary footer-hover1"z to="">Sign up</Link></li>
+                                   
+                                    <li><Link style={buttonStyle} className="btn btn-primary footer-hover1"z to="">Sign up</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -129,13 +130,12 @@ const Footer = () => {
                 </div>
 
                 <div className="dropdown dropdown-loc">
-                    <Link className="btn btn-secondary dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <Link style={buttonStyle} className="btn btn-secondary dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {selectedLanguage}
                     </Link>
 
                     <ul className="dropdown-menu">
-                        {/* <li><Link className="dropdown-item" to="#" onClick={() => handleLanguageChange('English')}>English</Link></li>
-                        <li><Link className="dropdown-item" to="#" onClick={() => handleLanguageChange('العربية')}>العربية</Link></li> */}
+                        
                         {languages.map((item,index)=>{
                             return(<li key={index}><Link className='dropdown-item' to="#" onClick={() => handleLanguageChange(item)}>{item}</Link></li>)
                         })}

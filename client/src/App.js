@@ -11,7 +11,7 @@ function App() {
   //react fragment is the best practice
   return (
   <React.Fragment>
-    <RoutesManger></RoutesManger>
+<RoutesManger></RoutesManger>
   </React.Fragment>
      
   );

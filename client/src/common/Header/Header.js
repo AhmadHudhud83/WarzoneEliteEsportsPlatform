@@ -1,9 +1,7 @@
 import logo from '../images/logo.png';
 import "./header.css";
-import React, { useRef,useState } from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
+import React, { useState } from 'react';
+
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,29 +17,30 @@ function Header() {
   return (
     
     <div className='container2'>
-      <Navbar bg="body-tertiary" expand="lg">
-        <Container fluid>
-          <Navbar.Brand href="#">
-            <img className="logo" src={logo} alt="Logo"/>
-            
+      <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+  <div className="container-fluid ">
+    <a className="navbar-brand" href="#">
+      <img className="logo"  src={logo} alt="Logo" />
+    </a>
+    <div style={{  marginRight:"17%" }}  id="demoFont">Warzone Elite</div>
+    <button  className="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onClick={toggleMenu}>
+      <span className="navbar-toggler-icon "  ></span>
+    </button>
+    <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarNav">
+      <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-xs-0 ms-md-0" id="navitem">
+        {navbarLinks.map((item, index) => (
+          <li  className="nav-item" key={index}>
+            <a className="nav-link" href={item.link} style={{ textDecoration: "none" }}>{item.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <form className="d-flex cc" role="search">
+      <button className="navbtn btn btn-primary">GET STARTED</button>
+    </form>
+  </div>
+</nav>
 
-          </Navbar.Brand>
-          <div id="demoFont">Warzone Elite</div>
-          <Navbar.Toggle style={{ color: 'white' }} aria-controls="basic-navbar-nav"  onClick={toggleMenu} />
-          <Navbar.Collapse in={isOpen} className="custom-toggle">
-            <Nav className="me-auto mb-2 mb-lg-0" id="navitem" >
-          
-              {navbarLinks.map((item,index)=>{
-
-                return(<Nav.Link key={index} href={item.link} >{item.title} </Nav.Link>)
-              })}
-            </Nav>
-          </Navbar.Collapse>
-          <form className="cc" role="search">
-            <button className="navbtn">GET STARTED</button>
-          </form>
-        </Container>
-      </Navbar>
     </div>
   );
 }
