@@ -38,6 +38,7 @@ app.get("/users",async (req,res)=>{
     res.json(users)
 })
 
+
 app.get("/api",(req,res)=>{
     
     res.json({"users":["Ahmad","Islam","Kareem","Osama","Areen","Ahmad adel","Rama","Bissan"]})
