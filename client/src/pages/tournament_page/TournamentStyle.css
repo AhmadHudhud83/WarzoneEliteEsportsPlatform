@@ -7,7 +7,8 @@ body{
 .card-container {
     background-color:#6102a6;;
     padding-top: 3.5rem;
-    padding-left: 3.5rem;
+    padding-left: 10rem;
+
     display: flex;
   
     flex-direction:row ;
@@ -17,14 +18,14 @@ body{
     
 
 }
-@media screen and (max-width:980px) {
+@media screen and (max-width:831px) {
     body {
         align-items: center;
         justify-content: center;
     }
     .card-container {
         background-color:#6102a6;;
-        
+        padding-left: 0rem;
         display: flex;
         
         align-items: center;
@@ -38,8 +39,24 @@ body{
     }
 
 }
-input{
-    background-color:#6102a6;
-    color:azure;
-    color-scheme: aliceblue;
+@media screen and (max-width:831px) {
+    body {
+        align-items: center;
+        justify-content: center;
+    }
+    .card-container {
+        background-color:#6102a6;;
+        padding-left: 0rem;
+        display: flex;
+        
+        align-items: center;
+        justify-content: center;
+        flex-direction:row ;
+        flex-wrap:wrap;
+        margin-right: 2rem;
+        margin-left:2rem ;
+        
+    
+    }
+
 }
