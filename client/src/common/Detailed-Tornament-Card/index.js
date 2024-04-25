@@ -2,10 +2,11 @@ import React,{useState} from "react"
 import './style.css'
 import { Overview } from "./top-navbar-components/Overview/Overview";
 import { Participants } from "./top-navbar-components/Participants/Participants";
-import { Brackets } from "./top-navbar-components/Brackets/Brackets";
+import { Pending } from "./top-navbar-components/Pending/Pending";
 import { Announcements } from "./top-navbar-components/Announcements/Announcements";
 
 import { ManagementButton } from "./managementButton/ManagementButton";
+import Footer from "../Footer/Footer";
 
 
 
@@ -26,11 +27,9 @@ export const DetailedTournamentCard = ()=>{
     const topNavElements = [
         {link:"#",element:"OVERVIEW"},
         {link:"#",element:"PARTICIPANTS"},
-        {link:"#",element:"BRACKETS"},
+        {link:"#",element:"PENDING"},
         {link:"#",element:"ANNOUNCEMENTS"},
         
-
-
 
 ]
 
@@ -49,7 +48,7 @@ return(<React.Fragment>
 
 <div  className="container org-cont " >
 <h2 className="text-start  pb-3" >{tournament_name}</h2>
-<div className="card text-center text-white bg-secondary cont-1  " >
+<div className="card  text-white bg-secondary cont-1  " >
   <div className="card-header border ">
     <div className="border-bottom">
     <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
@@ -72,7 +71,7 @@ return(<React.Fragment>
     </div>
     {activeTopComponent===0 && <Overview></Overview>}
     {activeTopComponent===1 && <Participants></Participants>}
-    {activeTopComponent===2 && <Brackets></Brackets>}
+    {activeTopComponent===2 && <Pending></Pending>}
     {activeTopComponent===3 && <Announcements></Announcements>}
     
     
@@ -89,7 +88,7 @@ return(<React.Fragment>
 
 
 
-
+<Footer></Footer>
 </React.Fragment>)
 
 

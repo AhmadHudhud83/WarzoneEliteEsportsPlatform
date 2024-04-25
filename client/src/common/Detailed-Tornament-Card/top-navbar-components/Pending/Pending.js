@@ -1,16 +1,17 @@
 import React from "react"
-import { Link } from "react-router-dom"
 
-export const Participants =()=>{
-const TeamsArr=[
-    {name:"Ahmad",no:"1"},
-    {name:"Osama",no:"2"},
-    {name:"Rama",no:"3"},
-    {name:"Areen",no:"4"},
-    {name:"Areen",no:"5"},
-]
+export const Pending =()=>{
+    const TeamsArr=[
+        {name:"Ahmad",no:"1"},
+        {name:"Osama",no:"2"},
+        {name:"Rama",no:"3"},
+        {name:"Areen",no:"4"},
+        {name:"Areen",no:"5"},
+    ]
+return(<React.Fragment>
+  
 
-return (<React.Fragment>
+
 
  <h5 className="text-start my-3 ms-5">Participants</h5> 
 
@@ -23,7 +24,7 @@ return (<React.Fragment>
    <table className="table">
   <thead>
     <tr>
-      <th scope="col">Reg#</th>
+    <th scope="col">Id</th>
       <th scope="col">Player</th>
       <th scope="col">Team</th>
      
@@ -35,7 +36,8 @@ return (<React.Fragment>
         return(<tr>
 <th scope="row">{e.no}</th>
 <td>{e.name}</td>
-<td>{e.no}</td>
+<td>{e.name}</td>
+
         </tr>)
     })}
    

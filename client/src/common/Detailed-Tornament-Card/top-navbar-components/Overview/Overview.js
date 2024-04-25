@@ -31,8 +31,9 @@ export const Overview = ()=>{
 
     return(<React.Fragment>
 
-<div className="my-4 py-2"><img style={{height:"30%",width:"70%"}} src="https://4kwallpapers.com/images/walls/thumbs_2t/11129.png" className="card-img-top" alt="..." />  </div>
-<div className="card-header border">
+<div className="my-4 py-2 d-flex justify-content-center"><img style={{height:"30%",width:"70%"}} src="https://4kwallpapers.com/images/walls/thumbs_2t/11129.png" className="card-img-top" alt="..." />  </div>
+<div className="card-header   ">
+    
     <ul className="nav nav-pills card-header-pills my-3 d-flex justify-content-center ">
    
 
@@ -50,12 +51,14 @@ export const Overview = ()=>{
     })}
     
     </ul>
-
+    <hr></hr>
+    
     {activeBottomComponent===0 && <Details></Details>}
     {activeBottomComponent===1 &&<Rules></Rules>}
     {activeBottomComponent===2&&<Prizes></Prizes>}
     {activeBottomComponent===3&&<Schedule></Schedule>}
     {activeBottomComponent===4&&<Contact/>}
+    
     
     
   </div>
