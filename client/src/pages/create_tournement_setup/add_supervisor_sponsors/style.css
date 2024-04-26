@@ -1,0 +1,129 @@
+.background{
+    padding: 50px;
+    background-color: #151b27;
+
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+.title > h1{
+    color: white;
+}
+
+.add-button {
+    color: white;
+    border: 0.5px solid white;
+    border-radius: 5px;
+    width: 15%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    
+}
+
+.add-button > button {
+    color: white;
+    background-color: #1c222b;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.add-button > button:hover {
+    background-color: rgb(130, 7, 245);;
+}
+.result{
+    border: 0.5px dashed gray;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.result > p{
+    color: gray;
+    font-size: 20px;
+}
+
+.container-tow{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.container-three{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    position: relative;
+}
+
+.Supervisors-Sponsors-result{
+    width: 40%;
+}
+
+
+
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th{
+    font-size: larger;
+}
+
+
+  
+ td , th {
+    border-bottom: 0.5px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    color: white;
+}
+
+.add-form{
+    display: flex;
+    flex-direction: column;
+    width: 18%;
+    padding: 10px;
+    gap: 4px;
+    border:0.5px solid #1f2f42;
+    position: absolute;
+    top: 45px;
+    background-color:#18202b ;
+}
+
+.add-form > input{
+    border-radius: 5px;
+    background-color:#18202b ;
+    border: 0.5px solid white;
+    border-radius: 5px;
+    color: white;
+
+}
+
+.add-form > button{
+    border-radius: 5px;
+    background-color: rgb(130, 7, 245);
+    cursor: pointer;
+    color: white;
+
+}
+
+.add-form > button:hover{
+    background-color: red;
+}
+

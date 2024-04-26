@@ -33,7 +33,6 @@ export const Temp = ()=>{
 
 <React.Fragment>
       <Header/>
-
         <h1>hello esports team</h1>
         <ul>
           {(typeof backendData.users === 'undefined') ? (
