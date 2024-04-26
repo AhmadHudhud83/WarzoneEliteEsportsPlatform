@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
-import Header from '../../common/Header/Header'
-import Footer from '../../common/Footer/Footer'
+import Header from '../../common/Header/Header';
+import Footer from '../../common/Footer/Footer';
 export const Temp = ()=>{
 
     useEffect(() => {
@@ -32,6 +32,7 @@ export const Temp = ()=>{
 
 
 <React.Fragment>
+
       <Header/>
 
         <h1>hello esports team</h1>
@@ -48,6 +49,7 @@ export const Temp = ()=>{
         <Footer />
       </React.Fragment>
       <Footer />
+
       </React.Fragment>)
     
     
