@@ -16,7 +16,11 @@ return(<BrowserRouter>
           <Route path="create-tournament" element={<SelectGame />} />
           <Route path="detailed-tournament/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}/>
           <Route path="detailed-tournament/:id/management" element={<TournamentManagementPage></TournamentManagementPage>}/>
-          <Route path="*" element={<h1>Error 404 ! Page not found</h1>} /> 
+          <Route path="*" element={<>
+          
+          
+          
+          </>} /> 
         </Route>
       </Routes>
     </React.Fragment>
