@@ -5,6 +5,7 @@ import SelectGame from "../../pages/create_tournement_select_game/SelectGame";
 import { Temp } from "../../pages/home_page/Temp";
 import { DetailedTournamentCard } from "../../common/Detailed-Tornament-Card";
 import { TournamentManagementPage } from "../../pages/tournament-management-page";
+import { TournamentDashboard } from "../../pages/tournaments_dashboard";
 export const RoutesManger = ()=>{
 
 
@@ -16,9 +17,10 @@ return(<BrowserRouter>
           <Route path="create-tournament" element={<SelectGame />} />
           <Route path="detailed-tournament/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}/>
           <Route path="detailed-tournament/:id/management" element={<TournamentManagementPage></TournamentManagementPage>}/>
+          <Route path="tournamentDashboard" element={<TournamentDashboard></TournamentDashboard>}/>
           <Route path="*" element={<>
           
-          
+          <h1>Error 404</h1>
           
           </>} /> 
         </Route>
