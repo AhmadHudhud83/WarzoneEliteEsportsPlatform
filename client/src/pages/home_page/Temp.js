@@ -1,11 +1,17 @@
 
 import React, { useState, useEffect } from "react";
-
+import { TournamentCard } from "../../common/tournament_card/TournamentCard";
+import { tournaments } from "../tournaments_dashboard/dummyData";
 import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
 import Header from '../../common/Header/Header';
 import Footer from '../../common/Footer/Footer';
+import Carousel from './components/carousel_component/Carousel'
 export const Temp = ()=>{
-
+  const filtersArr = [
+    {index:"By Game",icon:"#",options:["CSGO","Valorant"]},
+    {index:"By Format",icon:"#",options:["1v1","Teams"]},
+    
+  ]
     useEffect(() => {
         axios
           .get("http://localhost:5000/users")
@@ -27,6 +33,7 @@ export const Temp = ()=>{
             setBackendData(data);
           });
       }, []);
+    
 
       return(<React.Fragment>
 
@@ -34,18 +41,33 @@ export const Temp = ()=>{
 <React.Fragment>
 
       <Header/>
+      <div className="container">
+        <Carousel></Carousel>
+        
+        
+      <h2 className="text-start py-4" >Find tournaments</h2>
+    <div className="d-flex justify-content-end">
 
-        <h1>hello esports team</h1>
-        <ul>
-          {(typeof backendData.users === 'undefined') ? (
-            <p>Loading...</p>
-          ) : (
-            backendData.users.map((user, i) => {
-              return (<li key={i}>{user}</li>)
-            })
-          )}
-        </ul>
-        <p>press f12 to see the data from mongoDB database</p>
+      {filtersArr.map((i,e)=><><select className={`form-select mx-3 bg-dark border text-white ` } aria-label="Default select example" style={{width:"15%"}}>
+    <option selected>{i.index}</option>
+    {i.options.map((_option,_index)=>{
+
+
+      return(<option value={_index}>{_option}</option>)
+
+    })}
+  </select></>)}
+
+  
+      
+ 
+  </div>
+
+<div className="row row-cols-1 row-cols-md-3 g-4 m-4  ">
+
+        <TournamentCard props ={tournaments} ></TournamentCard>
+        </div>
+        </div>
         <Footer />
       </React.Fragment>
       <Footer />

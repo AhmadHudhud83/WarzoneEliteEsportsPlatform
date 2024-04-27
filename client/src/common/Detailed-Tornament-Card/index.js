@@ -4,13 +4,13 @@ import { Overview } from "./top-navbar-components/Overview/Overview";
 import { Participants } from "./top-navbar-components/Participants/Participants";
 import  {Matches}  from "./top-navbar-components/Matches/Matches"
 import { Announcements } from "./top-navbar-components/Announcements/Announcements";
-
+import { Children } from "react"
 import { ManagementButton } from "./managementButton/ManagementButton";
 import Footer from "../Footer/Footer";
 
 
 
-export const DetailedTournamentCard = ()=>{
+export const DetailedTournamentCard = (props)=>{
 
     const [activeTopComponent, setActiveTopComponent] = useState(0);
 
@@ -64,8 +64,8 @@ return(<React.Fragment>
         )
     })}
     
-    
-    <ManagementButton/>
+    {props.children}
+   
     </ul>
     
     </div>

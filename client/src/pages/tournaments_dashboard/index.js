@@ -1,4 +1,5 @@
 import React from "react"
+
 import './style.css' 
 import {tournaments} from './dummyData'
 import { TournamentCard } from "../../common/tournament_card/TournamentCard"

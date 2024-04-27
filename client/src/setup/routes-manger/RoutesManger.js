@@ -6,6 +6,7 @@ import { Temp } from "../../pages/home_page/Temp";
 import { DetailedTournamentCard } from "../../common/Detailed-Tornament-Card";
 import { TournamentManagementPage } from "../../pages/tournament-management-page";
 import { TournamentDashboard } from "../../pages/tournaments_dashboard";
+import { ManagementButton } from "../../common/Detailed-Tornament-Card/managementButton/ManagementButton";
 export const RoutesManger = ()=>{
 
 
@@ -15,9 +16,11 @@ return(<BrowserRouter>
         <Route path="/">
           <Route index element={<Temp/>} />
           <Route path="create-tournament" element={<SelectGame />} />
-          <Route path="detailed-tournament/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}/>
+          <Route path="detailed-tournament/:id" element={<DetailedTournamentCard><ManagementButton url="management" ></ManagementButton></DetailedTournamentCard>}/>
           <Route path="detailed-tournament/:id/management" element={<TournamentManagementPage></TournamentManagementPage>}/>
-          <Route path="tournamentDashboard" element={<TournamentDashboard></TournamentDashboard>}/>
+          <Route path="tournamentDashboard" element={<TournamentDashboard>
+            
+          </TournamentDashboard> }/>
           <Route path="*" element={<>
           
           <h1>Error 404</h1>
