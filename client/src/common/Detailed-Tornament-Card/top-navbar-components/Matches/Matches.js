@@ -1,6 +1,6 @@
 import React from "react"
 
-export const Pending =()=>{
+export const Matches =()=>{
     const TeamsArr=[
         {name:"Ahmad",no:"1"},
         {name:"Osama",no:"2"},

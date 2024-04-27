@@ -2,7 +2,7 @@ import React,{useState} from "react"
 import './style.css'
 import { Overview } from "./top-navbar-components/Overview/Overview";
 import { Participants } from "./top-navbar-components/Participants/Participants";
-import { Pending } from "./top-navbar-components/Pending/Pending";
+import  {Matches}  from "./top-navbar-components/Matches/Matches"
 import { Announcements } from "./top-navbar-components/Announcements/Announcements";
 
 import { ManagementButton } from "./managementButton/ManagementButton";
@@ -27,7 +27,7 @@ export const DetailedTournamentCard = ()=>{
     const topNavElements = [
         {link:"#",element:"OVERVIEW"},
         {link:"#",element:"PARTICIPANTS"},
-        {link:"#",element:"PENDING"},
+        {link:"#",element:"MATCHES"},
         {link:"#",element:"ANNOUNCEMENTS"},
         
 
@@ -71,7 +71,7 @@ return(<React.Fragment>
     </div>
     {activeTopComponent===0 && <Overview></Overview>}
     {activeTopComponent===1 && <Participants></Participants>}
-    {activeTopComponent===2 && <Pending></Pending>}
+    {activeTopComponent===2 && <Matches></Matches>}
     {activeTopComponent===3 && <Announcements></Announcements>}
     
     

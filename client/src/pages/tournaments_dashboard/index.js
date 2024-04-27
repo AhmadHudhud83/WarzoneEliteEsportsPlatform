@@ -18,9 +18,9 @@ export const TournamentDashboard = ()=>{
 
 
 return(  <div className="col-lg-4 col-md-6 col-sm-12 ">
-<div className="card h-100 " style={{width:"90%"}}>
-  <img src={i.url} className="card-img-top bg-dark" alt="..." />
-  <div className="card-body bg-dark">
+<div className="card h-100 bg-dark border" style={{height:"20px !important"}} >
+  <img style={{height:"55%"}} src={i.url} className="card-img-top bg-dark mt-2" alt="..." />
+  <div className="card-body ">
     <h5 className="card-title">{i.title}</h5>
     <p className="card-text">{i.text}</p>
   </div>
@@ -36,7 +36,7 @@ return(  <div className="col-lg-4 col-md-6 col-sm-12 ">
         })}
  
 </div>
-<a href="#" className="btn btn-secondary mb-4 custom-btn mt-5" >Create a new tournament</a>
+<a href="#" className="btn btn-secondary mb-4 custom-btn mt-5"  >Create a new tournament</a>
 </div>
 
 
