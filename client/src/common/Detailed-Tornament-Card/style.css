@@ -1,0 +1,9 @@
+.cont-1{
+   background-color: #1c222b !important;
+    
+}
+.org-cont{
+    background-color: #151b27;
+    transform: scale(0.95);
+    transform-origin:top center
+}
