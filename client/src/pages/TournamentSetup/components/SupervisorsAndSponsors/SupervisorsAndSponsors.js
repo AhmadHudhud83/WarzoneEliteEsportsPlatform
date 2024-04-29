@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SupervisorsAndSponsors.css'; // Ensure this is the correct path to your CSS file
+import './SupervisorsAndSponsors.css';
 
 const SupervisorsAndSponsors = () => {
   const [supervisors, setSupervisors] = useState([]);
@@ -33,9 +33,9 @@ const SupervisorsAndSponsors = () => {
   };
 
   const renderTable = (items, title) => (
-    <div>
+    <div className='p-5 border my-5'>
       <h3>{title}</h3>
-      <table className="table table-dark table-striped">
+      <table className="table table-dark table-striped mt-4g">
         <thead>
           <tr>
             <th>Name</th>
@@ -64,11 +64,11 @@ const SupervisorsAndSponsors = () => {
       </button>
       
       {modalType && (
-        <div className="modal show" tabIndex="-1" style={{ display: 'block' }}>
-          <div className="modal-dialog">
-            <div className="modal-content">
+        <div className="modal show  " tabIndex="-1" style={{ display: 'block' }}>
+          <div className="modal-dialog ">
+            <div className="modal-content bg-dark rounded">
               <div className="modal-header">
-                <h5 className="modal-title text-success">Add {modalType}</h5>
+                <h5 className="modal-title text-muted">Add {modalType}</h5>
                 <button type="button" className="btn-close" onClick={handleCloseModal}></button>
               </div>
               <div className="modal-body">

@@ -1,9 +1,9 @@
 .publish-tournament {
-    /* Add your styles here */
-    color: #fff; /* Example style */
+
+    color: #fff;
   }
   
-  /* Add specific styles for your components within .publish-tournament */
+
   .publish-tournament .checkbox-label {
     display: flex;
     align-items: center;
@@ -20,7 +20,7 @@
   }
   
   .publish-tournament button {
-    /* Shared button styles */
+
     padding: 0.5rem 1rem;
     border: none;
     color: #fff;
@@ -32,6 +32,6 @@
   }
   
   .publish-tournament button.publish-button {
-    background-color: #5cb85c; /* Bootstrap's 'btn-success' color */
+    background-color: #5cb85c;
   }
   

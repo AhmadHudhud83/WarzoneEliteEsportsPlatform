@@ -3,7 +3,7 @@ import '../../TournamentSetup.css';
 
 const Settings = () => {
   return (
-    <div className="settings-container">
+    <div className="settings-container border">
       <div className="mb-3">
         <label className="settings-label">Tournament Format</label>
         <input

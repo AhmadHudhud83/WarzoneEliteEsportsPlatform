@@ -1,4 +1,4 @@
-/* Professional table styling */
+
 .table-container {
     margin-top: 20px;
     overflow-x: auto;
@@ -41,7 +41,7 @@
     background-color: rgba(255, 255, 255, 0.075);
   }
   
-  /* Responsive table */
+
   @media (max-width: 768px) {
     .table-responsive {
       display: block;
@@ -51,7 +51,7 @@
     }
   }
   
-  /* Table buttons */
+
   .table-btn {
     font-size: 0.875rem;
     line-height: 1.5;
@@ -67,12 +67,12 @@
     color: #dc3545;
   }
   
-  /* Add some padding inside the box */
+
   .table-container {
     padding: 20px;
   }
   
-  /* Style the buttons */
+
   .add-btn {
     transition: background-color 0.3s ease;
     margin-bottom: 10px;
@@ -87,11 +87,11 @@
   }
   
   .add-btn:hover {
-    background-color: #7b22c4; /* Bootstrap's info color for a hover effect */
+    background-color: #7b22c4; 
     color: white;
     margin-left: auto;
   }
   
   .add-btn:focus {
-    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5); /* Glow effect on focus */
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
   }

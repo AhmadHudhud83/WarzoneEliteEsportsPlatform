@@ -3,7 +3,7 @@ import '../../TournamentSetup.css';
 
 const Info = () => {
   return (
-    <div className="info-container" style={styles.infoContainer}>
+    <div className="info-container border" style={styles.infoContainer}>
       <div className="mb-3">
         <label style={styles.label}>Contact Details</label>
         <textarea

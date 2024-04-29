@@ -1,5 +1,5 @@
 .create-tournament-container {
-  background-color: #121212; 
+
   color: #ffffff; 
   border-radius: 5px;
 }
@@ -26,7 +26,7 @@
  
 
 .info-container {
-  background-color: #0D1117; 
+ 
   padding: 20px;
   border-radius: 10px;
   color: #C9D1D9; 
@@ -41,7 +41,6 @@
 .info-textarea,
 .info-input {
   width: 100%;
-  background-color: #161B22; 
   border: 1px solid #30363D; 
   color: #C9D1D9; 
   padding: .375rem .75rem;
@@ -54,7 +53,6 @@
   resize: vertical; 
 }
 .settings-container {
-  background-color: #0D1117;
   padding: 20px;
   border-radius: 10px;
   color: #C9D1D9; 
@@ -68,7 +66,6 @@
 
 .settings-input {
   width: 100%;
-  background-color: #161B22;
   border: 1px solid #30363D; 
   color: #C9D1D9; 
   padding: .375rem .75rem;
@@ -79,7 +76,6 @@
 }
 
 .form-container {
-  background-color: #121212;
   color: #ffffff; 
   padding: 20px;
   border-radius: 5px;

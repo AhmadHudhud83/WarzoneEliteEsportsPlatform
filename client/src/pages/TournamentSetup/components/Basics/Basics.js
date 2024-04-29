@@ -4,7 +4,7 @@ import '../../TournamentSetup.css';
 const Basics = ({ onNavigate }) => {
   
   return (
-    <div className="container">
+    <div className="container border">
     <div className="form-container">
       <div className="form-group">
         <label htmlFor="gameName" className="form-label">Selected Game</label>

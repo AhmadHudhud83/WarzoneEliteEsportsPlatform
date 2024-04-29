@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import './PublishTournament.css'; // Make sure this path is correct for your CSS
+import './PublishTournament.css'; 
 
 const PublishTournament = () => {
   const [isAgreed, setIsAgreed] = useState(false);
@@ -9,18 +9,14 @@ const PublishTournament = () => {
   const navigate = useNavigate();
 
   const handlePublish = () => {
-    // Implement your publish logic here
-    // For now, we'll just close the modal
     setShowModal(false);
-    // Here, you would typically send your publish data to the backend
     console.log('Tournament published!');
-    // After publishing, redirect to the desired path
     navigate('/success-route');
   };
 
   const handleBack = () => {
-    // Navigate back to the previous component
-    navigate(-1); // This goes back in history
+
+    navigate(-1); 
   };
 
   const handleCheckbox = (event) => {
@@ -28,12 +24,12 @@ const PublishTournament = () => {
   };
 
   return (
-    <div className="publish-tournament-container">
+    <div className="publish-tournament-container border">
       <div className="publish-header">
         <h2>PUBLISH</h2>
       </div>
-      <div className="publish-content ">
-        <p>
+      <div className="publish-content p-5  ">
+        <p >
           Publishing this tournament will enable registration and allow players to join.<br />
           By publishing you agree to our website's policy and community standards.
         </p>
@@ -44,10 +40,10 @@ const PublishTournament = () => {
             checked={isAgreed}
             onChange={handleCheckbox}
           />
-          <label htmlFor="policyAgreement">I agree to website's policy & community standards</label>
+          <label className='mx-4' htmlFor="policyAgreement">I agree to website's policy & community standards</label>
         </div>
         <div className="publish-buttons">
-          <button className="btn btn-secondary" onClick={handleBack}>Back</button>
+          <button className="btn btn-secondary my-4 mx-3" onClick={handleBack}>Back</button>
           <button className="btn btn-primary" onClick={() => setShowModal(true)} disabled={!isAgreed}>
             Publish
           </button>
