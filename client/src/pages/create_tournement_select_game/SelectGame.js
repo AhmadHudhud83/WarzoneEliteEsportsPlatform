@@ -4,7 +4,12 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import GameCard from "./components/game_card/GameCard";
 import { games } from "./dummyData";
+import axios from 'axios';
 
+
+//////
+
+/////
 function SelectGame() {
   const searchInput = useRef(null);
   const [searchValue, setSearchValue] = useState("");
@@ -24,6 +29,14 @@ function SelectGame() {
   };
 
   useEffect(() => {
+    axios.get('http://localhost:5000/Games')
+      .then(response => {
+        setSearchResults(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching game data:', error);
+      });
+
     const handleResize = () => {
       if (window.innerWidth >= 1800) {
         setNumGamesToShow(20);
