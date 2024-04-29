@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import GameCard from "./components/game_card/GameCard";
-import { games } from "./dummyData";
 import axios from 'axios';
 
 
@@ -15,6 +14,7 @@ function SelectGame() {
   const [searchValue, setSearchValue] = useState("");
   const [numGamesToShow, setNumGamesToShow] = useState(4);
   const [searchResults, setSearchResults] = useState([]);
+  const [allSearchResults, setAllSearchResults] = useState([]);
 
   const handleIconClick = () => {
     searchInput.current.focus();
@@ -22,16 +22,22 @@ function SelectGame() {
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
-    const searchResults = games.filter((game) =>
+    const res = searchResults.filter((game) =>
       game.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
-    setSearchResults(searchResults);
+
+    if (e.target.value === "") {
+      setSearchResults(allSearchResults);
+      return
+    }
+    setSearchResults(res);
   };
 
   useEffect(() => {
     axios.get('http://localhost:5000/Games')
       .then(response => {
         setSearchResults(response.data);
+        setAllSearchResults(response.data)
       })
       .catch(error => {
         console.error('Error fetching game data:', error);
@@ -49,6 +55,7 @@ function SelectGame() {
 
     window.addEventListener("resize", handleResize);
     handleResize();
+
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -77,7 +84,7 @@ function SelectGame() {
           <>
             <h2>Most Popular Games</h2>
             <div id={styles["games-container"]}>
-              {games
+              {searchResults
                 .sort((a, b) => b.popularity - a.popularity)
                 .slice(0, numGamesToShow)
                 .map((game) => (
