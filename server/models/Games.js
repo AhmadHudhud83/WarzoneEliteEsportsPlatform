@@ -1,4 +1,4 @@
-import mongoose  from "mongoose";
+import mongoose , {Schema} from "mongoose";
 
 const GameSchema = new mongoose.Schema({
     key: {
@@ -12,3 +12,4 @@ const GameSchema = new mongoose.Schema({
     }
 })
 export const GameModel = mongoose.model("games", GameSchema);
+

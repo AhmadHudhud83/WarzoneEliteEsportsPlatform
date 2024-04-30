@@ -1,9 +1,9 @@
 import  express  from "express";
 
 import { getAllGames } from "../controllers/gamesController.js";
-const routerGame = express.Game();
+const routerGame = express.Router();
 
-routerGame.get("/", (req, res) => {
+routerGame.get("/create-tournament", (req, res) => {
     getAllGames(req, res)
 });
 

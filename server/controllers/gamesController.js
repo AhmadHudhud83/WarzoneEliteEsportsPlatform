@@ -1,9 +1,10 @@
-import {Game} from "../models/Games";
+import { GameModel } from "../models/Games.js";
 
 
-const getAllGames = async (req, res) => {
+
+export const getAllGames = async (req, res) => {
     try {
-        const games = await Game.find();
+        const games = await GameModel.find();
         res.json(games);
         
     } catch (error) {
@@ -12,4 +13,3 @@ const getAllGames = async (req, res) => {
     }
 };
 
-export { getAllGames }
