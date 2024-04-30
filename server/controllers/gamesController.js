@@ -1,10 +1,5 @@
-//function doLogic() {
-// do logic
-//}
+import {Game} from "../models/Games";
 
-//module.exports = doLogic;
-
-const Game = require("../models/Games");
 
 const getAllGames = async (req, res) => {
     try {
@@ -17,4 +12,4 @@ const getAllGames = async (req, res) => {
     }
 };
 
-module.exports = { getAllGames }
+export { getAllGames }
