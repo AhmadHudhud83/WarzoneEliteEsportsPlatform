@@ -1,80 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@font-face {
-    font-family:Kardust Condensed ;
-    src: url('../../assets/fonts/Kardust\ Condensed\ Bold.otf');
-}
-#container{
-    background-color:#151b27 ;
-    height: 100%;
-    font-family: 'Kardust Condensed';
-    min-height: 100vh;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+#container {
+  background-color: #1c222b;
+  height: 100%;
+  font-family: "open sans", sans-serif;
+  min-height: 100vh;
 }
 
-#search-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
+#search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
 }
 
-#container h1{
-    color: white;
-    text-align: center;
-    padding-top: 20px;
-    font-family: 'roboto', sans-serif;
+#container h1 {
+  color: white;
+  text-align: center;
+  padding-top: 20px;
+  font-family: "roboto", sans-serif;
 }
 
 #search {
-    width: 50%;
-    background-color: inherit;
-    margin-left: 10px;
-    font-size: 23px;
-    color: white;
-    caret-color: transparent;
-    padding-left: 10px;
-    border: solid 1px #222b3f;
-    border-radius: 7px;
+  width: 50%;
+  background-color: inherit;
+  margin-left: 10px;
+  font-size: 23px;
+  color: white;
+  caret-color: transparent;
+  padding-left: 10px;
+  border: solid 1px #222b3f;
+  border-radius: 7px;
 }
 
 #search-icon {
-    color: #7e838c;
-    font-size: 23px;
-    
+  color: #7e838c;
+  font-size: 23px;
 }
 
 #search:focus {
-    border: solid 1px #2c3852;
+  border: solid 1px #2c3852;
 }
 
 #search:focus-visible {
-    outline: none;
+  outline: none;
 }
 
-#games-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 50px;
+#games-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 50px;
 }
 
-#contact{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    color: white;
+#contact {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: white;
 }
 
-#contact a{
-    color: #2c3852;
-    margin-left: 5px;
+#contact a {
+  color: #2c3852;
+  margin-left: 5px;
 }
 
 h2 {
-    text-align: center;
-    margin-top: 40px;
-    color: white;
-    font-weight: normal;
-    font-family: 'roboto', sans-serif;
+  text-align: center;
+  margin-top: 40px;
+  color: white;
+  font-weight: normal;
+  font-family: "roboto", sans-serif;
 }
