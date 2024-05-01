@@ -1,0 +1,97 @@
+
+.table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #fff;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #3e3e3e;
+  }
+  
+  .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #3e3e3e;
+  }
+  
+  .table tbody + tbody {
+    border-top: 2px solid #3e3e3e;
+  }
+  
+  .table .table-header {
+    background-color: #212529;
+    color: #fff;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table-hover tbody tr:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.075);
+  }
+  
+
+  @media (max-width: 768px) {
+    .table-responsive {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+
+  .table-btn {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    padding: 0.375rem 0.75rem;
+    margin-right: 5px;
+  }
+  
+  .table-btn-edit {
+    color: #ffc107;
+  }
+  
+  .table-btn-delete {
+    color: #dc3545;
+  }
+  
+
+  .table-container {
+    padding: 20px;
+  }
+  
+
+  .add-btn {
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+  
+  .add-btn:hover {
+    background-color: #495057;
+  }
+  .add-btn {
+    transition: background-color 0.3s ease;
+    margin: auto;
+  }
+  
+  .add-btn:hover {
+    background-color: #7b22c4; 
+    color: white;
+    margin-left: auto;
+  }
+  
+  .add-btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
+  }
