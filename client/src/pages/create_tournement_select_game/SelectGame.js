@@ -6,16 +6,18 @@ import GameCard from "./components/game_card/GameCard";
 import axios from "axios";
 
 function SelectGame() {
-  const searchInput = useRef(null);
-  const [searchValue, setSearchValue] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [data, setData] = useState([]);
-  const numGamesToShow = 20;
+  const searchInput = useRef(null); // Reference to the search input element
+  const [searchValue, setSearchValue] = useState(""); // The value of the search input
+  const [searchResults, setSearchResults] = useState([]); // The search results
+  const [data, setData] = useState([]); // The data fetched from the server
+  const numGamesToShow = 20; // The number of games to show initially
 
+  // Focus the search input when the search icon is clicked
   const handleIconClick = () => {
     searchInput.current.focus();
   };
 
+  // Handle the search input change
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
     const res = data.filter((game) =>
@@ -29,6 +31,7 @@ function SelectGame() {
     setSearchResults(res);
   };
 
+  // Fetch the game data from the server
   useEffect(() => {
     axios
       .get("http://localhost:5000/Games")
@@ -61,7 +64,7 @@ function SelectGame() {
             onChange={handleSearchChange}
           />
         </div>
-        {searchValue === "" ? (
+        {searchValue === "" ? ( // If the search input is empty, show the number of games specified in numGamesToShow
           <>
             <h2>Most Popular Games</h2>
             <div id={styles["games-container"]}>
@@ -71,6 +74,7 @@ function SelectGame() {
             </div>
           </>
         ) : (
+          // If the search input is not empty, show the search results
           <div id={styles["games-container"]}>
             {searchResults.map((game) => (
               <GameCard name={game.name} imgUrl={game.imgUrl} />
