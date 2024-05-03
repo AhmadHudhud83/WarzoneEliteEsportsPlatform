@@ -7,14 +7,10 @@ import { routerGame } from "./routes/gameRoutes.js";
 const app = express();
 const jsonParser = bodyParser.json();
 app.use(jsonParser);
+app.use(cors());
 app.use(routerGame);
 app.use(express.json());
 
-app.use(
-    cors({
-        origin: "http://localhost:3000",
-    }),
-);
 
 
     connectToDB().then(()=>{
