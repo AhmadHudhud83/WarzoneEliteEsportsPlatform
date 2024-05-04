@@ -108,9 +108,9 @@ const setUpRound = async (tournamentId) => {
   }
 
   // Get the winners of the matches in the previous round to be the participants of the next round
-  const participants = tournament.matches[tournament.currentRound - 1].map(
-    (match) => match.winner
-  );
+  const participants = tournament.matches[tournament.currentRound - 1]
+    .map((match) => match.winner)
+    .filter((winner) => winner !== "none");
 
   // Get the supervisors
   const supervisors = tournament.supervisors;
