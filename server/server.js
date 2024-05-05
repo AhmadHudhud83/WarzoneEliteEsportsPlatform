@@ -42,6 +42,12 @@ app.get("/api", (req, res) => {
     });
 });
 
+    app.post("/sponsors",(req,res)=>{
+        
+
+
+    })
+
 app.listen(5000, () => {
     console.log(`Server started in port ${_PORT}`);
 });

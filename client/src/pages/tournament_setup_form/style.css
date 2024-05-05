@@ -1,0 +1,17 @@
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+select option{
+    background-color: #fff;
+    color: #333
+}
+input[type="file"]::file-selector-button {
+    
+   
+    background-color:#212529;
+   color:white;
+  }
+    

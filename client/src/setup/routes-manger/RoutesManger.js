@@ -16,7 +16,9 @@ return(<BrowserRouter>
       <Routes>
         <Route path="/">
           <Route index element={<Temp/>} />
-          <Route path="create-tournament" element={<SelectGame />} />
+          <Route path="select-game/" element={<SelectGame />} />
+          <Route path="tournament-setup/:game" element={<TournamentSetupForm></TournamentSetupForm>}></Route>
+
           <Route path="detailed-tournament/:id" element={<DetailedTournamentCard><ManagementButton url="management"/ ></DetailedTournamentCard>}/>
          <Route path="detailed-tournament/:id/management" element={<TournamentManagementPage></TournamentManagementPage>}/>
           <Route path="tournamentDashboard" element={<TournamentDashboard>
@@ -24,7 +26,7 @@ return(<BrowserRouter>
               
           </TournamentDashboard> }/>
           <Route path="tournament-overview/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}></Route>
-          <Route path="tournament-setup" element={<TournamentSetupForm></TournamentSetupForm>}></Route>
+         
           <Route path="*" element={<>
           
           <h1>Error 404</h1>
