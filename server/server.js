@@ -20,6 +20,6 @@ app.use(express.json());
     })
 
 app.listen(5000, () => {
-    console.log(`Server started in port ${_PORT}`);
+    console.log(`Server started in port 5000`);
 });
 
