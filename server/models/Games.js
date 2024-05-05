@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose , {Schema} from "mongoose";
 
 const GameSchema = new mongoose.Schema({
     key: {
@@ -11,5 +11,5 @@ const GameSchema = new mongoose.Schema({
         type: String,
     }
 })
-const GameModel = mongoose.model("games", GameSchema);
-module.exports = GameModel;
+export const GameModel = mongoose.model("games", GameSchema);
+
