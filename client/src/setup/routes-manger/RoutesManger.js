@@ -24,7 +24,7 @@ return(<BrowserRouter>
               
           </TournamentDashboard> }/>
           <Route path="tournament-overview/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}></Route>
-          
+       
           <Route path="*" element={<>
           
           <h1>Error 404</h1>

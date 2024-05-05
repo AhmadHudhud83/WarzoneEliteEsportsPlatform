@@ -1,9 +1,9 @@
 const express = require("express");
-const router = express.Router();
+const tournamentRouter = express.Router();
 const tournamentController = require("../controllers/tournamentController");
 
 // Initialize a tournament
-router.patch("/:id/initialize-matches", async (req, res) => {
+tournamentRouter.patch("/:id/initialize-matches", async (req, res) => {
   try {
     const tournamentId = req.params.id;
     const matches = await tournamentController.initializeMatches(tournamentId);
@@ -14,7 +14,7 @@ router.patch("/:id/initialize-matches", async (req, res) => {
 });
 
 // set the winner of a match
-router.patch(
+tournamentRouter.patch(
   "/:tournamentId/matches/:matchId/players/:playerId/set-winner",
   async (req, res) => {
     try {
@@ -27,4 +27,4 @@ router.patch(
   }
 );
 
-module.exports = router;
+module.exports = tournamentRouter;
