@@ -8,14 +8,14 @@ export const BasicsForm = ({
   setFormData,
   setValidationErrors,
   validationErrors,
+  intialValidationValuesBasicForm,
+
 }) => {
   const { game } = useParams() //for showing the game selceted from url
-  const intialValidationValues = { title: "", start_date: "", start_time: "" } //init values used for validation logic
+//init values used for validation logic
   //since the validation object is empty ,which means at the refresh the next button will be enabled since the object is empty , 
   //so we gonna use  useEffect() hook to init. the object with init. values i've mentioned, in order to prevent the enabled next button state
-  useEffect(() => {
-    setValidationErrors(intialValidationValues)
-  }, []);
+
 //basic form data handling function 
   const handleChange = (e) => {
     const updatedFormData = { ...formData, [e.target.name]: e.target.value };
@@ -29,12 +29,12 @@ export const BasicsForm = ({
     const updatedValidationErrors = { ...validationErrors }
     if (!inputValue.trim() || inputValue === "") {
       updatedValidationErrors.title = "Title field is required!"
-      setValidationErrors(updatedValidationErrors);
+      setValidationErrors(updatedValidationErrors)
     } else if (inputValue.length < 5 || inputValue.length > 100) {
       updatedValidationErrors.title =
         "Title must be between 4 characters minimum and 100 characters maximum"
       setValidationErrors(updatedValidationErrors)
-  
+ 
     }
     else{
       delete updatedValidationErrors.title

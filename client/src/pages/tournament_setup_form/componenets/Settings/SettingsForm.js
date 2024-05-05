@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../../style.css";
 export const SettingsForm = ({
   formData,
@@ -6,6 +6,13 @@ export const SettingsForm = ({
   setValidationErrors,
   validationErrors,
 }) => {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
   const SelectedInputs = [
     {
       label: "Format",
@@ -33,25 +40,25 @@ export const SettingsForm = ({
       id1: 48,
       id2: 49,
     },
-  ]
-  const platformOptions = ["PC", "Console", "Mobile", "Combained"]
-  const handleMaxParticipantsValidation = (e)=>{
-    const updatedValErrors = {...validationErrors}
-    const inputValue = e.target.value
-    if(inputValue<=0){
-      updatedValErrors.max_participants = "Max participants cannot be equal or less to zero !"
-      setValidationErrors(updatedValErrors)
+  ];
+  const platformOptions = ["PC", "Console", "Mobile", "Combained"];
+  const handleMaxParticipantsValidation = (e) => {
+    const updatedValErrors = { ...validationErrors };
+    const inputValue = e.target.value;
+    if (inputValue === 0 || inputValue < 0) {
+      updatedValErrors.max_participants =
+        "Max participants cannot be equal or less to zero !";
+      setValidationErrors(updatedValErrors);
+    } else {
+      delete updatedValErrors.max_participants;
+      setValidationErrors(updatedValErrors);
     }
-    else{
-     delete updatedValErrors.max_participants
-     setValidationErrors(updatedValErrors)
-    }
-    console.log(updatedValErrors)
-  }
+    console.log(updatedValErrors);
+  };
   const handleMaxParticipantsChange = (e) => {
     const value = e.target.value;
     if (!isNaN(value) && parseInt(value) >= 0) {
-      const updatedFormData = { ...formData, [e.target.name]: value }
+      const updatedFormData = { ...formData, [e.target.name]: value };
       setFormData(updatedFormData);
       console.log(updatedFormData);
     }
@@ -59,7 +66,7 @@ export const SettingsForm = ({
   const platformInputChangeHandler = (e) => {
     const updatedFormData = { ...formData, [e.target.name]: e.target.value };
     setFormData(updatedFormData); //for the default selected input
-    console.log(updatedFormData)
+    console.log(updatedFormData);
 
     //  console.log(updatedFormData);
   };
@@ -69,9 +76,7 @@ export const SettingsForm = ({
     const updatedFormData = { ...formData, [name]: optionValue };
     setFormData(updatedFormData);
   };
-  useEffect(() => {
-    setValidationErrors({});
-  }, []);
+
   return (
     <React.Fragment>
       <div className="container  my-5 row ">
@@ -163,14 +168,15 @@ export const SettingsForm = ({
               Maximum Participants
             </label>
             <input
-            name="max_participants"
+              name="max_participants"
               value={Number(formData.max_participants)}
               onChange={(e) => {
                 handleMaxParticipantsChange(e);
-                handleMaxParticipantsValidation(e)
+                handleMaxParticipantsValidation(e);
                 console.log(validationErrors);
               }}
-              onBlur={e=>handleMaxParticipantsChange(e)}
+              onBlur={(e) => handleMaxParticipantsChange(e)}
+              ref={inputRef}
               type="number"
               className="form-control bg-dark text-white"
               id="max-participants"

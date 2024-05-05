@@ -5,27 +5,40 @@ import { SettingsForm } from "./componenets/Settings/SettingsForm";
 import { PublishForm } from "./componenets/Publish/PublishForm";
 import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
 import { useParams } from "react-router-dom";
+import { set } from "react-hook-form";
 //BY AHMAD HUDHUD
 
 export const TournamentSetupForm = (props) => {
+  useEffect(()=>{
+    setValidationErrors(intialValidationValuesBasicForm)
+  },[])
+
+  const intialValidationValuesBasicForm = { title: "", start_date: "", start_time: ""} 
   const childRef = useRef() // to call the function in the child component <BasicForm/>
   const [nav, setNav] = useState(0) //to keep track of navigation stats
-  const [nextButtonState, setNextButtonState] = useState(true) // to keep track of next button stats
+  const [nextButtonState, setNextButtonState] = useState( ) // to keep track of next button stats
   const [topActiveNav, setTopActiveNav] = useState(0) //to keep track of next active nav stats (also for styling)
-  const [validationErrors, setValidationErrors] = useState({title:""}) //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
+  const [validationErrors, setValidationErrors] = useState({}) //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
   const { game } = useParams()//to get the game name from url (after selecting a game)
   //the next button handler, using handlers is important to not fall with too  many re-render stats problems
-
+  useEffect(()=>{
+nextButtonHandler(true)
+  },[])
   const nextButtonHandler = (bool) => {
     setNextButtonState(bool)
   }
   //validation handler of global object...
   const validationErrorsHandler = (newValidationErrors) => {
-    setValidationErrors(newValidationErrors)
+    setValidationErrors(prevErrors=>{
+      const anyErrors = Object.keys(validationErrors).length > 0;
+      nextButtonHandler(anyErrors)
+      return newValidationErrors
+    })
     console.log(newValidationErrors)
-    const anyErrors = Object.keys(validationErrors).length > 0;
-    nextButtonHandler(anyErrors)
-    console.log(anyErrors)
+   
+    
+
+  
   };
 
  
@@ -37,14 +50,23 @@ export const TournamentSetupForm = (props) => {
       setTopActiveNav((_top) => _top + 1);
     }, 0);
     //setNextButtonState(true);
+    setNextButtonState((e)=>{
+      e=true
+      
+      return e
+    })
     console.log(validationErrors);
   }
   //same for previous click handler..
   const prevClickHandler = () => {
+    setValidationErrors((e)=>{
+      e={}
+      return e
+    }) 
     setNav((n) => n - 1);
     setTopActiveNav((t) => t - 1);
-    //setNextButtonState(false);
-    setValidationErrors({})
+   // setNextButtonState(false);
+   
    
   };
 
@@ -63,10 +85,10 @@ export const TournamentSetupForm = (props) => {
     description: "",
     schedule: "",
     //3rd page validation
-    format: "",
+    format: "Teams",
     platform: "",
-    tournament_status: "",
-    registeration_status: "",
+    tournament_status: "Opened",
+    registeration_status: "Opened",
     max_participants: 0,
     //4th page validation
     sponsors: { brand: "", email: "" },
@@ -94,6 +116,7 @@ export const TournamentSetupForm = (props) => {
           setFormData={handleFormChange}
           setValidationErrors={validationErrorsHandler}
           validationErrors={validationErrors}
+          intialValidationValuesBasicForm={intialValidationValuesBasicForm}
         />
       ),
     },
@@ -148,6 +171,7 @@ export const TournamentSetupForm = (props) => {
 
   // a function to display the componenet based in the nav stats (using nav as an index)
   const NavDisplay = () => {
+   
     return NavElements[nav].component
   }
 

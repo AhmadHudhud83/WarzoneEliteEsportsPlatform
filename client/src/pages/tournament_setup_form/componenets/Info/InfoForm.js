@@ -6,10 +6,14 @@ export const InfoForm = ({
   setValidationErrors,
   validationErrors,
 }) => {
-  const intialValidationValues = { contact_details: "" }
+ 
+  const inputRef = useRef()
+
   useEffect(() => {
-    setValidationErrors(intialValidationValues)
-  }, [])
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
   const FormInputs = [
     { label: "Contact Details", name: "contact_details" },
     { label: "Rules", name: "rules" },
@@ -42,14 +46,19 @@ export const InfoForm = ({
 
   const validationHandler = (e) => {
     const inputValue = e.target.value;
-    const valErrors = {};
+    const valErrors = {...validationErrors};
     if (!inputValue.trim() || inputValue === "") {
-      valErrors.contact_details = "Title field is required!";
+      valErrors.contact_details = "Contact us field is required!"
+      setValidationErrors(valErrors);
     } else if (!isValidUrl(inputValue)) {
       valErrors.contact_details = "You must provide a valid contact link";
+      setValidationErrors(valErrors);
     }
-
-    setValidationErrors(valErrors);
+    else{
+      delete valErrors.contact_details
+      setValidationErrors(valErrors);
+    }
+  
     console.log(validationErrors);
   }
  
@@ -78,6 +87,10 @@ export const InfoForm = ({
                   onFocus={(e) => {
                     index === 0 && validationHandler(e);
                   }}
+                  onBlur={(e)=>{
+                    index===0&&validationHandler(e)
+                  }}
+                  ref={index===0?inputRef:undefined}
                 />
                 {index === 0 ? (
                   <span className="mb-3 d-block text-danger">
