@@ -13,16 +13,13 @@ app.use(express.json());
 
 
 
-    connectToDB().then(()=>{
-        console.log("Connect with DB");
-        app.listen(5000, () => {
-            console.log('Server started in port 5000 ');
-        });  
-    
-    }).catch((err) => console.log(err));
- 
+    app.post("/sponsors",(req,res)=>{
+        
 
 
+    })
 
-
+app.listen(5000, () => {
+    console.log(`Server started in port ${_PORT}`);
+});
 

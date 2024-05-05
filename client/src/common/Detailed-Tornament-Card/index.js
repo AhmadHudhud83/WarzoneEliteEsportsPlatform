@@ -55,11 +55,11 @@ return(<React.Fragment>
    
     {topNavElements.map((item,index)=>{
         return(
-            <li  key ={index} className={`nav-item  ${activeTopNav === index ? 'active' : ''}`}>
+            <li  key ={index} className={`nav-item  ${activeTopNav === index ? 'active border-bottom border-4 border-danger' : ''}`}>
             <a  onClick={() =>{
            handleTopComponent(index);
             handleActiveTopNav(index)}
-            } className={`nav-link ${activeTopNav === index ? 'text-white' : 'text-muted'}`} href={item.link}>{item.element}</a>
+            } className={`nav-link ${activeTopNav === index ? 'fs-4 text-white' : 'fs-4 text-muted'}`} href={item.link}>{item.element}</a>
           </li>
         )
     })}
