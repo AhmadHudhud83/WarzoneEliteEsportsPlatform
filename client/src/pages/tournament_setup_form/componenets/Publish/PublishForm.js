@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useImperativeHandle,forwardRef } from "react";
+import axios from "axios";
 //BY islam
 export const PublishForm =forwardRef( ({ formData, setFormData },ref) => {
   
@@ -22,9 +23,9 @@ const handleShowModal = () => {
   const handlePublishConfirmation = () => {
     if (isAgreed) {
       setShowModal(false);
-      navigate("/tournamentdashboard");
+    axios.post("https://httpbin.org/post",formData).then(r=>console.log("data send success !",r.data )).catch(e=>console.error("error sending data",e))
     } else {
-      alert("Please agree to the terms before publishing.");
+      alert("Please agree to the terms before publishing...")
     }
   };
   useImperativeHandle(ref, () => ({
@@ -85,7 +86,7 @@ const handleShowModal = () => {
             >
               Cancel
             </button>
-            <button className="btn btn-primary" onClick={handlePublishConfirmation}>
+            <button className="btn btn-primary" type="submit" onClick={handlePublishConfirmation} onSubmit={e=>console.log(e)}>
               Publish
             </button>
           </Modal.Footer>
