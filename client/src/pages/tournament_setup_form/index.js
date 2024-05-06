@@ -64,11 +64,14 @@ export const TournamentSetupForm = ({existingGames}) => {
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
     
-      setNav((_nav) => _nav + 1);
+      setNav((_nav) => {
+        
+        
+        return _nav + 1})
       setTopActiveNav((_top) => _top + 1)
     
     //setNextButtonState(true);
-    setNextButtonState(Object.keys(validationErrors).length===0)
+    setNextButtonState(Object.keys(validationErrors).length>0)
     console.log(validationErrors);
   }
   //same for previous click handler..
@@ -76,7 +79,10 @@ export const TournamentSetupForm = ({existingGames}) => {
     setValidationErrors(
       {}
     ) 
-    setNav((n) => n - 1);
+    setNav((n) =>{ 
+        
+      
+      return n - 1})
     setTopActiveNav((t) => t - 1)
    // setNextButtonState(false);
    
@@ -143,6 +149,7 @@ export const TournamentSetupForm = ({existingGames}) => {
           setFormData={handleFormChange}
           setValidationErrors={validationErrorsHandler}
           validationErrors={validationErrors}
+          setNextButtonState={nextButtonHandler}
         />
       ),
     },
@@ -274,8 +281,9 @@ export const TournamentSetupForm = ({existingGames}) => {
                   type="button"
                   className="btn btn-danger  position-relative ms-auto "
                   onClick={() => {
-                    nextClickHandler();
+                    nextClickHandler()
                   }}
+        
                   disabled={nextButtonState}
                 >
                   Next

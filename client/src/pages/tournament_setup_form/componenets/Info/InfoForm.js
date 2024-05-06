@@ -6,7 +6,7 @@ export const InfoForm = ({
   setValidationErrors,
   validationErrors,
 }) => {
- 
+ //to focus on the first required "contact details" input , (used for optimzing form validation handling)
   const inputRef = useRef()
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export const InfoForm = ({
     { label: "Description", name: "description" },
     { label: "Schedule", name: "schedule" },
   ];
-
+//function for testing url pattern (by regex)
   const isValidUrl = (str) => {
     const pattern = new RegExp(
       "^(https?:\\/\\/)?" +
@@ -32,18 +32,18 @@ export const InfoForm = ({
         "(\\?[\\s\\S]*)?" +
         "(\\#[\\s\\S]*)?$",
       "i"
-    );
+    )
     return pattern.test(str);
-  };
-
+  }
+//handle the info form change
   const handleChange = (e) => {
 
     const updatedFormData = { ...formData, [e.target.name]: e.target.value };
 
     setFormData(updatedFormData);
     console.log(updatedFormData);
-  };
-
+  }
+//handle the info form validation change
   const validationHandler = (e) => {
     const inputValue = e.target.value;
     const valErrors = {...validationErrors}

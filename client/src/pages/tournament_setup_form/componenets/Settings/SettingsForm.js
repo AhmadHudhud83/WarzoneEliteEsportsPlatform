@@ -6,11 +6,12 @@ export const SettingsForm = ({
   setValidationErrors,
   validationErrors,
 }) => {
-  const inputRef = useRef();
+  //focus on the required input
+  const inputRef = useRef()
   
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
   }, []);
   const SelectedInputs = [
@@ -57,13 +58,14 @@ export const SettingsForm = ({
     console.log(updatedFormData);
 
     //  console.log(updatedFormData);
-  };
-
+  }
+//handling checkboxes
   const checkBoxesChangeHandler = (e, optionValue) => {
     const name = e.target.name;
     const updatedFormData = { ...formData, [name]: optionValue };
     setFormData(updatedFormData);
   }
+  //handling max-participants validation
   const handleMaxParticipantsValidation = (e)=>{
     const value = e.target.value
     const name =e.target.name
@@ -74,7 +76,7 @@ export const SettingsForm = ({
       ValErrors[name] = "This filed is required !"
     setValidationErrors(ValErrors)
     }
-    else if(value < 11 ){
+    else if(value <10 || value===10 ){
       ValErrors[name] = "Max Particiapants must be atleast equal or higher than 10!"
      setValidationErrors(ValErrors)
     }else{
@@ -135,7 +137,7 @@ export const SettingsForm = ({
                 </label>
               </div>
             </div>
-          );
+          )
         })}
 
         <div className=" rounded col-md-12 col-lg-6 col-sm-12 my-4">
@@ -194,5 +196,5 @@ export const SettingsForm = ({
         </div>
     
     </React.Fragment>
-  );
-};
+  )
+}

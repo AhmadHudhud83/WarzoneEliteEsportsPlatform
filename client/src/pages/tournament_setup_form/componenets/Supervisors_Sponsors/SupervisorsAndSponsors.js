@@ -6,7 +6,7 @@ export const SupervisorsAndSponsors = ({setValidationErrors}) => {
     { brand: "AMD.lnc", email: "amd123@email.com" },
     { brand: "INTEL.lnc", email: "intel123@email.com" },
     { brand: "INTEL.lnc", email: "intel123@email.com" },
-  ];
+  ]
 
   const [sponsorsArray, setSponsorsArray] = useState(sponsorsArrInit);
   useEffect(()=>{
