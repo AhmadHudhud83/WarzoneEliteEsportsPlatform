@@ -7,7 +7,7 @@ export const SettingsForm = ({
   validationErrors,
 }) => {
   const inputRef = useRef();
-
+  
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -42,27 +42,15 @@ export const SettingsForm = ({
     },
   ];
   const platformOptions = ["PC", "Console", "Mobile", "Combained"];
-  const handleMaxParticipantsValidation = (e) => {
-    const updatedValErrors = { ...validationErrors };
-    const inputValue = e.target.value;
-    if (inputValue === 0 || inputValue < 0) {
-      updatedValErrors.max_participants =
-        "Max participants cannot be equal or less to zero !";
-      setValidationErrors(updatedValErrors);
-    } else {
-      delete updatedValErrors.max_participants;
-      setValidationErrors(updatedValErrors);
-    }
-    console.log(updatedValErrors);
-  };
+  
   const handleMaxParticipantsChange = (e) => {
     const value = e.target.value;
-    if (!isNaN(value) && parseInt(value) >= 0) {
-      const updatedFormData = { ...formData, [e.target.name]: value };
-      setFormData(updatedFormData);
-      console.log(updatedFormData);
-    }
-  };
+
+      const updatedFormData = { ...formData, [e.target.name]: value }
+      setFormData(updatedFormData)
+      console.log(updatedFormData)
+    
+  }
   const platformInputChangeHandler = (e) => {
     const updatedFormData = { ...formData, [e.target.name]: e.target.value };
     setFormData(updatedFormData); //for the default selected input
@@ -75,7 +63,29 @@ export const SettingsForm = ({
     const name = e.target.name;
     const updatedFormData = { ...formData, [name]: optionValue };
     setFormData(updatedFormData);
-  };
+  }
+  const handleMaxParticipantsValidation = (e)=>{
+    const value = e.target.value
+    const name =e.target.name
+    
+    const ValErrors = {...validationErrors}
+    console.log(ValErrors)
+    if(value===''||value===false ){
+      ValErrors[name] = "This filed is required !"
+    setValidationErrors(ValErrors)
+    }
+    else if(value < 11 ){
+      ValErrors[name] = "Max Particiapants must be atleast equal or higher than 10!"
+     setValidationErrors(ValErrors)
+    }else{
+      delete ValErrors[name]
+      setValidationErrors(ValErrors)
+
+    }
+  }
+
+
+
 
   return (
     <React.Fragment>
@@ -150,41 +160,39 @@ export const SettingsForm = ({
             </select>
           </div>
 
-          <div
-            className="btn-group"
-            role="group"
-            aria-label="Basic radio toggle button group"
-          ></div>
+         
         </div>
 
-        <div
-          className="btn-group w-50  "
-          role="group"
-          aria-label="Basic radio toggle button group"
-        ></div>
-        <div className="d-flex justify-content-center mt-5">
-          <div className="form-group col-md-6 col-sm-12 ">
+        
+        
+        
+        <div className="form-group col-md-6 col-sm-12 ">
             <label htmlFor="max-participants" className="form-label ">
               Maximum Participants
             </label>
             <input
               name="max_participants"
-              value={Number(formData.max_participants)}
+              value={parseInt(formData.max_participants)}
               onChange={(e) => {
                 handleMaxParticipantsChange(e);
-                handleMaxParticipantsValidation(e);
+                handleMaxParticipantsValidation(e)
                 console.log(validationErrors);
               }}
-              onBlur={(e) => handleMaxParticipantsChange(e)}
+          // onBlur={e=>handleMaxParticipantsValidation (e)}
+              onFocus={e=>handleMaxParticipantsValidation (e)}
+             // onBlur={(e) => handleMaxParticipantsValidation(e)}
               ref={inputRef}
               type="number"
               className="form-control bg-dark text-white"
               id="max-participants"
               placeholder=""
             />
+                  <p className="my-2 text-danger">{validationErrors.max_participants}</p>
           </div>
+         
+          
         </div>
-      </div>
+    
     </React.Fragment>
   );
 };

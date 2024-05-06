@@ -4,26 +4,29 @@ import { InfoForm } from "./componenets/Info/InfoForm";
 import { SettingsForm } from "./componenets/Settings/SettingsForm";
 import { PublishForm } from "./componenets/Publish/PublishForm";
 import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
-import { useParams } from "react-router-dom";
-import { set } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+
 //BY AHMAD HUDHUD
 
-export const TournamentSetupForm = (props) => {
-  useEffect(()=>{
-    setValidationErrors(intialValidationValuesBasicForm)
-  },[])
+export const TournamentSetupForm = ({existingGames}) => {
+  
 
   const intialValidationValuesBasicForm = { title: "", start_date: "", start_time: ""} 
   const childRef = useRef() // to call the function in the child component <BasicForm/>
   const [nav, setNav] = useState(0) //to keep track of navigation stats
-  const [nextButtonState, setNextButtonState] = useState( ) // to keep track of next button stats
+  const [nextButtonState, setNextButtonState] = useState(true ) // to keep track of next button stats
   const [topActiveNav, setTopActiveNav] = useState(0) //to keep track of next active nav stats (also for styling)
   const [validationErrors, setValidationErrors] = useState({}) //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
   const { game } = useParams()//to get the game name from url (after selecting a game)
   //the next button handler, using handlers is important to not fall with too  many re-render stats problems
-  useEffect(()=>{
-nextButtonHandler(true)
-  },[])
+  
+  useEffect(() => {
+   
+
+    const hasErrors = Object.keys(validationErrors).length > 0;
+    setNextButtonState(hasErrors)
+    
+  }, [validationErrors])
   const nextButtonHandler = (bool) => {
     setNextButtonState(bool)
   }
@@ -32,6 +35,7 @@ nextButtonHandler(true)
     setValidationErrors(prevErrors=>{
       const anyErrors = Object.keys(validationErrors).length > 0;
       nextButtonHandler(anyErrors)
+
       return newValidationErrors
     })
     console.log(newValidationErrors)
@@ -39,36 +43,45 @@ nextButtonHandler(true)
     
 
   
-  };
+  }
+  useEffect(()=>{
+    setValidationErrors(intialValidationValuesBasicForm)
+  },[])
 
- 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const gameExists = existingGames.some(
+      (existingGame) => existingGame.toLowerCase() === game.toLowerCase()
+    )
+    
+
+    if (!gameExists) {
+      navigate('/error', { replace: true })
+    }
+  }, [game, navigate, existingGames]);
 
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
-    setTimeout(() => {
+    
       setNav((_nav) => _nav + 1);
-      setTopActiveNav((_top) => _top + 1);
-    }, 0);
+      setTopActiveNav((_top) => _top + 1)
+    
     //setNextButtonState(true);
-    setNextButtonState((e)=>{
-      e=true
-      
-      return e
-    })
+    setNextButtonState(Object.keys(validationErrors).length===0)
     console.log(validationErrors);
   }
   //same for previous click handler..
   const prevClickHandler = () => {
-    setValidationErrors((e)=>{
-      e={}
-      return e
-    }) 
+    setValidationErrors(
+      {}
+    ) 
     setNav((n) => n - 1);
-    setTopActiveNav((t) => t - 1);
+    setTopActiveNav((t) => t - 1)
    // setNextButtonState(false);
    
    
-  };
+  }
 
   //tournament (form) object intialaized
   const initTournamentObjectValue = {
@@ -96,7 +109,8 @@ nextButtonHandler(true)
     announcements: ["hi", "bye"],
     //sueprvisosr (array of supervisors ids (object ids))
     //organizer id (when logged in)
-  };
+  }
+  
 
   const [formData, setFormData] = useState(initTournamentObjectValue) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
 
