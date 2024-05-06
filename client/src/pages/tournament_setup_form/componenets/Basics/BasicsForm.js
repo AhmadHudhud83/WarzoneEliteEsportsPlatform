@@ -8,7 +8,7 @@ export const BasicsForm = ({
   setFormData,
   setValidationErrors,
   validationErrors,
-  intialValidationValuesBasicForm,
+
 
 }) => {
   const { game } = useParams() //for showing the game selceted from url
@@ -124,13 +124,13 @@ export const BasicsForm = ({
                 handleChange(e);
                 validationHandler(e);
               }}
-              onBlur={(e) => validationHandler(e)}
+           //   onBlur={(e) => validationHandler(e)}
               onFocus={(e) => validationHandler(e)}
               type="text"
               className="form-control bg-dark text-white sigma"
               id="gameName"
               placeholder=""
-              ref={inputRef}
+             // ref={inputRef}
             />
             <p className="my-2 text-danger">{validationErrors.title}</p>
           </div>
@@ -156,6 +156,7 @@ export const BasicsForm = ({
               className="form-control bg-dark text-white"
               value={formData.start_date}
             ></input>
+                  <p className="my-2 text-danger">{validationErrors.start_date}</p>
           </div>
 
           <div className="col-md-6 col-sm-12 form-group my-3">
@@ -173,6 +174,7 @@ export const BasicsForm = ({
               className="form-control bg-dark text-white"
               value={formData.start_time}
             ></input>
+                  <p className="my-2 text-danger">{validationErrors.start_time}</p>
           </div>
         </div>
         {/*dates container End */}

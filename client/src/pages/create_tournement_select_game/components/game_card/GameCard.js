@@ -1,7 +1,7 @@
 import styles from "./GameCard.module.css";
 
 function GameCard({ name, imgUrl }) {
-  const url = `tournament-setup/${name.toLowerCase()}`;
+  const url = `tournament-setup/${name}`;
 
   return (
     <div className={styles.card}>

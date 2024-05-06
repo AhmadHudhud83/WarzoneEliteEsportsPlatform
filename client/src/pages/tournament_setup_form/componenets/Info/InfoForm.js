@@ -46,7 +46,7 @@ export const InfoForm = ({
 
   const validationHandler = (e) => {
     const inputValue = e.target.value;
-    const valErrors = {...validationErrors};
+    const valErrors = {...validationErrors}
     if (!inputValue.trim() || inputValue === "") {
       valErrors.contact_details = "Contact us field is required!"
       setValidationErrors(valErrors);
@@ -87,9 +87,9 @@ export const InfoForm = ({
                   onFocus={(e) => {
                     index === 0 && validationHandler(e);
                   }}
-                  onBlur={(e)=>{
-                    index===0&&validationHandler(e)
-                  }}
+                  // onBlur={(e)=>{
+                  //   index===0&&validationHandler(e)
+                  // }}
                   ref={index===0?inputRef:undefined}
                 />
                 {index === 0 ? (
