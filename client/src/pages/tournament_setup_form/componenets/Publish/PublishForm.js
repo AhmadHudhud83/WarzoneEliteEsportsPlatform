@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useImperativeHandle,forwardRef } from "react";
 import axios from "axios";
 //BY islam
-export const PublishForm =forwardRef( ({ formData, setFormData },ref) => {
+export const PublishForm =forwardRef( ({ formData,isAgreed,setIsAgreed },ref) => {
   
  
-  const [isAgreed, setIsAgreed] = useState(false);
+  
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate()
 //   <button
@@ -23,19 +23,17 @@ const handleShowModal = () => {
   const handlePublishConfirmation = () => {
     if (isAgreed) {
       setShowModal(false);
-      axios.post("http://localhost:5000/tournaments",formData).then((res)=>console.log(res.data)).catch((e)=>console.error(e))
+      axios.post("http://localhost:5000/api/tournaments",formData).then((res)=>console.log(res.data)).catch((e)=>console.error(e))
       
     } else {
-      alert("Please agree to the terms before publishing.");
+      alert("Please agree to the terms before publishing.")
     }
   };
   useImperativeHandle(ref, () => ({
     handleShowModal
     
   }))
-  const handleCheckbox = (event) => {
-    setIsAgreed(event.target.checked);
-  };
+
 
   return (
     
@@ -54,7 +52,8 @@ const handleShowModal = () => {
             type="checkbox"
             id="policyAgreement"
             checked={isAgreed}
-            onChange={handleCheckbox}
+           onChange={e=>setIsAgreed(e)}
+        
           />
           <label className="mx-4" htmlFor="policyAgreement">
             I agree to website's policy & community standards
@@ -66,28 +65,29 @@ const handleShowModal = () => {
       </div>
 
       {}
-      <div className="modal-container">
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Publishing Your Tournament</Modal.Title>
+      <div className="modal-container  ">
+        <Modal     show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header className="bg-dark" closeButton>
+            <Modal.Title className="bg-dark">Publishing Your Tournament</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <p class="text-success">
+          <Modal.Body className="bg-dark">
+            <p className="text-white">
               {" "}
               When you publish a tournament, players will be able to register.{" "}
             </p>
-            <p class="text-success">
+            <p className="text-danger">
               Are you sure you want to publish the tournament?
             </p>
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer className="bg-dark">
             <button
-              className="btn btn-secondary me-3"
+              className="btn btn-secondary  me-3"
               onClick={() => setShowModal(false)}
+             
             >
               Cancel
             </button>
-            <button className="btn btn-primary" onClick={handlePublishConfirmation}>
+            <button className="btn btn-secondary" onClick={handlePublishConfirmation} style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}}>
               Publish
             </button>
           </Modal.Footer>

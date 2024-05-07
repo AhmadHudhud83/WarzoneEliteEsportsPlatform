@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { Details } from "../../bottom-navbar-components/Details/Details";
 import { Prizes } from "../../bottom-navbar-components/Prizes/Prizes";
@@ -6,13 +6,16 @@ import { Rules } from "../../bottom-navbar-components/Rules/Rules";
 import { Schedule } from "../../bottom-navbar-components/Schedule/Schedule";
 import { Contact } from "../../bottom-navbar-components/Contact/Contact";
 import { About } from "../../bottom-navbar-components/About/About";
+import { useTournamentDetails } from "../..";
+
 export const Overview = () => {
+  const tournamentDetails = useContext(useTournamentDetails)
   const bottomNavElements = [
-    { link: "#", element: "DETAILS", component: <Details></Details> },
-    { link: "#", element: "RULES", component: <Rules></Rules> },
-    { link: "#", element: "PRIZES", component: <Prizes></Prizes> },
-    { link: "#", element: "SCHEDULE", component: <Schedule></Schedule> },
-    { link: "#", element: "CONTACT", component: <Contact></Contact> },
+    { link: "#", element: "DETAILS", component: <Details/> },
+    { link: "#", element: "RULES", component: <Rules/> },
+    { link: "#", element: "PRIZES", component: <Prizes/> },
+    { link: "#", element: "SCHEDULE", component: <Schedule/> },
+    { link: "#", element: "CONTACT", component: <Contact/> },
     { link: "#", element: "ABOUT", component: <About/> },
   ];
 
@@ -31,7 +34,7 @@ export const Overview = () => {
       <div className="my-4 py-2 d-flex justify-content-center">
         <img
           style={{ height: "30%", width: "70%" }}
-          src="https://4kwallpapers.com/images/walls/thumbs_2t/11129.png"
+          src={tournamentDetails.cover_image_url}
           className="card-img-top"
           alt="..."
         />{" "}
@@ -54,7 +57,7 @@ export const Overview = () => {
                     handleActiveBottomNav(index);
                   }}
                   className={`nav-link ${
-                    activeBottomNav === index ? "fs-4 text-white" : " fs-4 text-muted"
+                    activeBottomNav === index ? "fs-5 text-white" : " fs-5 text-muted"
                   }`}
                   href={item.link}
                 >

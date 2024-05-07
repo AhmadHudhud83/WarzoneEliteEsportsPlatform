@@ -28,7 +28,7 @@ return(<BrowserRouter>
             
               
           </TournamentDashboard> }/>
-          <Route path="tournament-overview/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}></Route>
+          <Route path="tournament-overview/:id" element={<DetailedTournamentCard/>}></Route>
          
           <Route path="*" element={<>
           

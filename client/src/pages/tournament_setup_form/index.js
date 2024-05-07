@@ -10,7 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export const TournamentSetupForm = ({existingGames}) => {
   
-
+  const [isAgreed, setIsAgreed] = useState(false)
   const intialValidationValuesBasicForm = { title: "", start_date: "", start_time: ""} 
   const childRef = useRef() // to call the function in the child component <BasicForm/>
   const [nav, setNav] = useState(0) //to keep track of navigation stats
@@ -19,7 +19,9 @@ export const TournamentSetupForm = ({existingGames}) => {
   const [validationErrors, setValidationErrors] = useState({}) //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
   const { game } = useParams()//to get the game name from url (after selecting a game)
   //the next button handler, using handlers is important to not fall with too  many re-render stats problems
-  
+  const handlePublishCheckBox =(e)=>{
+    setIsAgreed(e.target.checked)
+  }
   useEffect(() => {
    
 
@@ -188,6 +190,8 @@ export const TournamentSetupForm = ({existingGames}) => {
         <PublishForm
           formData={formData}
           setFormData={handleFormChange}
+          isAgreed={isAgreed}
+          setIsAgreed = {handlePublishCheckBox}
           ref={childRef}
         />
       ),
@@ -298,6 +302,7 @@ export const TournamentSetupForm = ({existingGames}) => {
                 <button
                   type="button"
                   className="btn btn-danger ms-auto position-relative bottom-0 end-0"
+                  disabled={!isAgreed}
                   onClick={() => {
                     childRef.current.handleShowModal();
                   }}

@@ -1,11 +1,13 @@
-import React from "react"
+import React, { useContext } from "react"
+import { useTournamentDetails } from "../.."
 export const Prizes = ()=>{
+    const tournamentDetails = useContext(useTournamentDetails)
     return(<React.Fragment>
 
 <div className="border p-5">
        <h4>Prizes</h4>
        <hr></hr>
-       <p className="text-muted mt-3">100$</p> 
+       <p className="text-muted mt-3">{tournamentDetails.prize}</p> 
 
         </div>
     </React.Fragment>)
