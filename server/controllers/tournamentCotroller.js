@@ -1,8 +1,10 @@
+import { Await } from "react-router-dom";
 import { TouranmentModel } from "../models/Tournaments.js";
 import Joi from "joi"; //for a better valdiation
 export const createTournament = async(req,res)=>{
-    
-        const { error } = creatingTournamentValidation(req.body);
+       //custom empty data validation function
+        const newReqBody=emptyDataValidation(req.body)
+        const { error } = creatingTournamentValidation(newReqBody);
         if (error) {
           return res.status(400).json({ message: error.details[0].message });
         }
@@ -30,12 +32,36 @@ export const createTournament = async(req,res)=>{
           });
           const result = await tournament.save();
           res.status(201).json(result);
+          console.log(typeof(req.body.rules),"YEAH BOY")
         } catch (error) {
           console.error(error);
           res.status(500).json({ message: "Something went wrong" });
         }
  
         
+}
+//empty values validation
+const emptyDataValidation = (tournamentObject)=>{
+  const defaultValue = "Not Available"
+  
+  if(tournamentObject.about===""){
+    tournamentObject.about=defaultValue
+  }
+  if(tournamentObject.rules===""){
+    tournamentObject.rules=defaultValue
+  }
+  if(tournamentObject.about===""){
+    tournamentObject.about=defaultValue
+  }
+  if(tournamentObject.description===""){
+    tournamentObject.description=defaultValue
+  }
+  if(tournamentObject.schedule===""){
+    tournamentObject.schedule=defaultValue
+  }
+  return tournamentObject
+  
+
 }
 //contact details URL validation  
 const contact_details_url_validation = (value,helpers)=>{
@@ -57,6 +83,7 @@ const contact_details_url_validation = (value,helpers)=>{
 }
 //validation of creating tournament
 const creatingTournamentValidation = (tournamentObject) => {
+  
   const schema = Joi.object({
     game: Joi.string().trim().required(),
     title: Joi.string().trim().min(4).max(100).required(),
@@ -83,6 +110,7 @@ const creatingTournamentValidation = (tournamentObject) => {
       email: "brand@example.com",
     }),
     supervisors:Joi.array().default(["123","8910"])
+    
   });
 
   return schema.validate(tournamentObject);
