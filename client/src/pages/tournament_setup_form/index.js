@@ -90,35 +90,39 @@ export const TournamentSetupForm = ({existingGames}) => {
   }
 
   //tournament (form) object intialaized
-  const initTournamentObjectValue = {
-    //1st page validation
-    game: game, //string
-    title: "",
-    start_date: "",
-    start_time: "",
-    about: "",
-    //2nd page validation
-    contact_details: "",
-    rules: "",
-    prize: "",
-    description: "",
-    schedule: "",
-    //3rd page validation
-    format: "Teams",
-    platform: "",
-    tournament_status: "Opened",
-    registeration_status: "Opened",
-    max_participants: 0,
-    //4th page validation
-    sponsors: { brand: "", email: "" },
-    //other attributes related to the tournament object
-    announcements: ["hi", "bye"],
-    //sueprvisosr (array of supervisors ids (object ids))
-    //organizer id (when logged in)
-  }
+  //const initTournamentObjectValue = {:}
+  // // const initTournamentObjectValue = {
+  //   //1st page validation
+  //   game: game, //string
+  //   title: "",
+  //   start_date: "",
+  //   start_time: "",
+  //   about: "",
+  //   //2nd page validation
+  //   contact_details: "",
+  //   rules: "",
+  //   prize: "",
+  //   description: "",
+  //   schedule: "",
+  //   //3rd page validation
+  //   format: "Teams",
+  //   platform: "",
+  //   tournament_status: "Opened",
+  //   registeration_status: "Opened",
+  //   max_participants: 0,
+  //   //4th page validation
+  //   //sponsors: { brand: "", email: "" },
+  //   //other attributes related to the tournament object
+  //   announcements: ["hi", "bye"],
+  //   supervisors : ["123","456"],
+  //   //organizerID:"8910",
+  //   //sueprvisosr (array of supervisors ids (object ids))
+  //   //organizer id (when logged in)
+  //   cover_image_url:"https://i.imgur.com/CqiHFdW.png"
+  // }
   
 
-  const [formData, setFormData] = useState(initTournamentObjectValue) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
+  const [formData, setFormData] = useState({game:game}) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
 
   //the function to handle any form change
   const handleFormChange = (newFormData) => { 

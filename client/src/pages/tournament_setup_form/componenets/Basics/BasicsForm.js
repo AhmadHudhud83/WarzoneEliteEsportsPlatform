@@ -8,73 +8,69 @@ export const BasicsForm = ({
   setFormData,
   setValidationErrors,
   validationErrors,
-
-
 }) => {
-  const { game } = useParams() //for showing the game selceted from url
-//init values used for validation logic
-  //since the validation object is empty ,which means at the refresh the next button will be enabled since the object is empty , 
+  const { game } = useParams(); //for showing the game selceted from url
+  //init values used for validation logic
+  //since the validation object is empty ,which means at the refresh the next button will be enabled since the object is empty ,
   //so we gonna use  useEffect() hook to init. the object with init. values i've mentioned, in order to prevent the enabled next button state
 
-//basic form data handling function 
+  //basic form data handling function
   const handleChange = (e) => {
     const updatedFormData = { ...formData, [e.target.name]: e.target.value };
 
     setFormData(updatedFormData);
-  }
-  //validaton handler of the form data , consdier each step, note how the object filled with attributes ,and deleted in case there is no validation errros 
+  };
+  //validaton handler of the form data , consdier each step, note how the object filled with attributes ,and deleted in case there is no validation errros
   //remember next button state is related to the object attributes number
   const validationHandler = (e) => {
     const inputValue = e.target.value;
-    const updatedValidationErrors = { ...validationErrors }
+    const updatedValidationErrors = { ...validationErrors };
     if (!inputValue.trim() || inputValue === "") {
-      updatedValidationErrors.title = "Title field is required!"
-      setValidationErrors(updatedValidationErrors)
-    } else if (inputValue.length < 5 || inputValue.length > 100) {
+      updatedValidationErrors.title = "Title field is required!";
+      setValidationErrors(updatedValidationErrors);
+    } else if (inputValue.length < 4 || inputValue.length > 100) {
       updatedValidationErrors.title =
-        "Title must be between 4 characters minimum and 100 characters maximum"
-      setValidationErrors(updatedValidationErrors)
- 
-    }
-    else{
-      delete updatedValidationErrors.title
-      setValidationErrors(updatedValidationErrors)
-    }
-    console.log(updatedValidationErrors)
-  }
-//this function is exclusive for time input validation handling
-  const time_valdation_handler = (e) => {
-    const inputValue = e.target.value
-
-    const updatedValidationErrors = { ...validationErrors }
-    if (!inputValue.trim() || inputValue === "") {
-      updatedValidationErrors.start_time = `time field is required!`
-      setValidationErrors(updatedValidationErrors)
+        "Title must be between 4 characters minimum and 100 characters maximum";
+      setValidationErrors(updatedValidationErrors);
     } else {
-      delete updatedValidationErrors.start_time
-      setValidationErrors(updatedValidationErrors)
+      delete updatedValidationErrors.title;
+      setValidationErrors(updatedValidationErrors);
     }
-  }
-//this function is exclusive for date input validation handling
+    console.log(updatedValidationErrors);
+  };
+  //this function is exclusive for time input validation handling
+  const time_valdation_handler = (e) => {
+    const inputValue = e.target.value;
+
+    const updatedValidationErrors = { ...validationErrors };
+    if (!inputValue.trim() || inputValue === "") {
+      updatedValidationErrors.start_time = `time field is required!`;
+      setValidationErrors(updatedValidationErrors);
+    } else {
+      delete updatedValidationErrors.start_time;
+      setValidationErrors(updatedValidationErrors);
+    }
+  };
+  //this function is exclusive for date input validation handling
   const date_valdation_handler = (e) => {
-    const inputValue = e.target.value
-    const inputName = e.target.name
-    const selectedDate = new Date(inputValue)
-    const currentDate = new Date()
-    const updatedValidationErrors = { ...validationErrors }
+    const inputValue = e.target.value;
+    const inputName = e.target.name;
+    const selectedDate = new Date(inputValue);
+    const currentDate = new Date();
+    const updatedValidationErrors = { ...validationErrors };
     //make sure the date input isn't empty
     if (!inputValue.trim() || inputValue === "") {
-      updatedValidationErrors[inputName] = `date field is required!`
-      setValidationErrors(updatedValidationErrors)
+      updatedValidationErrors[inputName] = `date field is required!`;
+      setValidationErrors(updatedValidationErrors);
       //make sure the date input isn't in the past
     } else if (selectedDate < currentDate) {
-      updatedValidationErrors.start_date = "Start date cannot be in the past!"
-      setValidationErrors(updatedValidationErrors)
+      updatedValidationErrors.start_date = "Start date cannot be in the past!";
+      setValidationErrors(updatedValidationErrors);
     } else {
-      delete updatedValidationErrors.start_date
-      setValidationErrors(updatedValidationErrors)
+      delete updatedValidationErrors.start_date;
+      setValidationErrors(updatedValidationErrors);
     }
-  }
+  };
   //input refrence, focus in the first input (used for more stable next button state)
   const inputRef = useRef();
 
@@ -95,8 +91,6 @@ export const BasicsForm = ({
       console.error("nothing selected");
     }
   };
-
-
 
   return (
     <React.Fragment>
@@ -124,13 +118,13 @@ export const BasicsForm = ({
                 handleChange(e);
                 validationHandler(e);
               }}
-           //   onBlur={(e) => validationHandler(e)}
+              //   onBlur={(e) => validationHandler(e)}
               onFocus={(e) => validationHandler(e)}
               type="text"
               className="form-control bg-dark text-white sigma"
               id="gameName"
               placeholder=""
-             // ref={inputRef}
+              // ref={inputRef}
             />
             <p className="my-2 text-danger">{validationErrors.title}</p>
           </div>
@@ -156,7 +150,7 @@ export const BasicsForm = ({
               className="form-control bg-dark text-white"
               value={formData.start_date}
             ></input>
-                  <p className="my-2 text-danger">{validationErrors.start_date}</p>
+            <p className="my-2 text-danger">{validationErrors.start_date}</p>
           </div>
 
           <div className="col-md-6 col-sm-12 form-group my-3">
@@ -174,7 +168,7 @@ export const BasicsForm = ({
               className="form-control bg-dark text-white"
               value={formData.start_time}
             ></input>
-                  <p className="my-2 text-danger">{validationErrors.start_time}</p>
+            <p className="my-2 text-danger">{validationErrors.start_time}</p>
           </div>
         </div>
         {/*dates container End */}

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useImperativeHandle,forwardRef } from "react";
+import axios from "axios";
 //BY islam
 export const PublishForm =forwardRef( ({ formData, setFormData },ref) => {
   
@@ -22,7 +23,8 @@ const handleShowModal = () => {
   const handlePublishConfirmation = () => {
     if (isAgreed) {
       setShowModal(false);
-      navigate("/tournamentdashboard");
+      axios.post("http://localhost:5000/tournaments",formData).then((res)=>console.log(res.data)).catch((e)=>console.error(e))
+      
     } else {
       alert("Please agree to the terms before publishing.");
     }
