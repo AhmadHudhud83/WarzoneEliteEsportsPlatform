@@ -1,23 +1,25 @@
 import { body,query} from "express-validator";
-
 import bcrypt from "bcrypt";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { Player } from "../models/player.js";
+import { Supervaisor } from "../models/supervaisor.js";
 
-export const AllPlayer = async(req,res)=>{
+
+
+export const AllSupervaisor = async(req,res)=>{
     try{
-        const players = await Player.find({});
-        res.status(StatusCode.Ok).send(players);
+        const supervaisors = await Supervaisor.find({});
+        res.status(StatusCode.Ok).send(supervaisors);
     }
     catch(e){
         res.status(StatusCode.ServerError).send("Server busy try again later");
     }
 }
 
-export const LoginPlayer = async(req,res)=>{
+
+export const LoginSupervaisor = async(req,res)=>{
     const {name , password}=req.body;
         try{ 
-            const user = await Player.findOne({name : name});
+            const user = await Supervaisor.findOne({name : name});
             if(user){
                 const CorrectPassword = await bcrypt.compare(password , user.password);
                 if(CorrectPassword){
@@ -37,17 +39,17 @@ export const LoginPlayer = async(req,res)=>{
 }
 
 
-export const SignUpPlayer = async(req,res)=>{
+export const SignUpSupervaisor = async(req,res)=>{
+    const{name , email , password} = req.body;
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(password , saltRounds);
     try{
-        const{name , email , password} = req.body;
-        const saltRounds = 10;
-        const hash = await bcrypt.hash(password , saltRounds);
-        const NewPlayer = new Player({
+        const NewSupervaisor = new Supervaisor({
             name,
             email,
             password:hash
         });
-        await NewPlayer.save();
+        await NewSupervaisor.save();
         res.status(StatusCode.Ok).send("Created successfully");
     }
     catch(e){
@@ -55,14 +57,14 @@ export const SignUpPlayer = async(req,res)=>{
     }
 }
 
-export const UpdatePlayer = async(req,res)=>{
+export const UpdateSupervaisor = async(req,res)=>{
     const {id,name ,email,password} =req.body;
     const saltRounds = 10;
     const hash = await bcrypt.hash(password , saltRounds);
     try{
-        const checkName = await Player.findOne({name:name});
+        const checkName = await Supervaisor.findOne({name:name});
         if(checkName===null){
-            const UpdatePlayer = await Player.updateOne(
+            const UpdateSupervaisor = await Supervaisor.updateOne(
                 {_id:id},
                 {
                     name:name,
@@ -71,18 +73,17 @@ export const UpdatePlayer = async(req,res)=>{
                 }
                 
             );
-            if(UpdatePlayer.modifiedCount !=0){
+            if(UpdateSupervaisor.modifiedCount !=0){
                 res.status(StatusCode.Ok).send("True");
             }
             else{
                 res.status(StatusCode.NotFound).send("false");
             }
         }
-
         else{
             res.status(StatusCode.BadRequst).send("name exist for anothor account");
         }
-        
+       
 
     }
     catch(e){
@@ -92,12 +93,12 @@ export const UpdatePlayer = async(req,res)=>{
 }
 
 
-export const DeletePlayer = async(req,res)=>{
+export const DeleteSupervaisor = async(req,res)=>{
     const {id} = req.query;
     try{
-        const DeletePlayer = await Player.deleteOne({_id:id});
+        const DeleteSupervaisor = await Supervaisor.deleteOne({_id:id});
 
-        if(DeletePlayer.deletedCount != 0){
+        if(DeleteSupervaisor.deletedCount != 0){
             return res.status(StatusCode.Ok).send("true");
         }
         else{

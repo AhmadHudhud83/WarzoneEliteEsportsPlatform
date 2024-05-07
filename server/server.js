@@ -5,6 +5,7 @@ import cors from "cors";
 import { routerGame } from "./routes/gameRoutes.js";
 import { PlayerRoute } from "./routes/PlayerRoute.js";
 import { OrganizerRoute } from "./routes/OrganaizerRoute.js";
+import { SupervaisorRoute } from "./routes/supervaisorRout.js";
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(routerGame);
 app.use(PlayerRoute);
 app.use(OrganizerRoute);
+app.use(SupervaisorRoute);
 
 
     connectToDB().then(()=>{

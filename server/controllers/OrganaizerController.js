@@ -40,10 +40,7 @@ export const SignUpOrganaizer = async(req,res)=>{
         res.status(StatusCode.Ok).send("Created successfully");
     }
     catch(e){
-        return res.status(StatusCode.ServerError).send({message:"System busy....try again latter"} );
+        return res.status(StatusCode.BadRequst).send({message:"the name is exist for anothor account"} );
     }
 };
 
-export const DeleteOrganaizer = async(req,res)=>{
-
-}

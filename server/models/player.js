@@ -1,7 +1,7 @@
 import mongoose , {Schema} from "mongoose";
 
 const playerSchema = new Schema({
-    name:String,
+    name:{type:String , unique:true , index:true},
     email:String,
     password:String
 });
