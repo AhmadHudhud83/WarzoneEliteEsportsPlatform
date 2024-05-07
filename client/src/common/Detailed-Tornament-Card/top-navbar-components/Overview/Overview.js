@@ -5,6 +5,7 @@ import { Prizes } from "../../bottom-navbar-components/Prizes/Prizes";
 import { Rules } from "../../bottom-navbar-components/Rules/Rules";
 import { Schedule } from "../../bottom-navbar-components/Schedule/Schedule";
 import { Contact } from "../../bottom-navbar-components/Contact/Contact";
+import { About } from "../../bottom-navbar-components/About/About";
 export const Overview = () => {
   const bottomNavElements = [
     { link: "#", element: "DETAILS", component: <Details></Details> },
@@ -12,6 +13,7 @@ export const Overview = () => {
     { link: "#", element: "PRIZES", component: <Prizes></Prizes> },
     { link: "#", element: "SCHEDULE", component: <Schedule></Schedule> },
     { link: "#", element: "CONTACT", component: <Contact></Contact> },
+    { link: "#", element: "ABOUT", component: <About/> },
   ];
 
   const [activeBottomComponent, setActiveBottomComponent] = useState(0);
