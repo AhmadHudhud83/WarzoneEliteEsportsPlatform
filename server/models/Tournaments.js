@@ -60,7 +60,7 @@ const TournamentSchema  = new mongoose.Schema({
     },
     rules:{
         type:String,
-        
+            
         
         default:"Not Available"
        , optional:true,

@@ -1,6 +1,12 @@
-import { Await } from "react-router-dom";
 import { TouranmentModel } from "../models/Tournaments.js";
 import Joi from "joi"; //for a better valdiation
+/**
+ * @desc Create a new tournament
+ * @route /api/tournaments
+ * @method POST
+ * @access private
+ *
+ */
 export const createTournament = async(req,res)=>{
        //custom empty data validation function
         const newReqBody=emptyDataValidation(req.body)
@@ -114,4 +120,24 @@ const creatingTournamentValidation = (tournamentObject) => {
   });
 
   return schema.validate(tournamentObject);
-};
+}
+
+
+/**
+ * @desc get a tournament by id for the user
+ * @route /api/tournaments
+ * @method GET
+ * @access public
+ *
+ */
+
+
+export const getTournamentById = async (req,res)=>{
+  const tournament = await TouranmentModel.findById(req.params.id)
+  if(tournament){
+    res.status(200).json(tournament)
+
+  }else{
+    res.status(404).json({message:"error :tournament not found"})
+  }
+}
