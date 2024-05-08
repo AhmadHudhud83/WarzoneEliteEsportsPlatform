@@ -16,7 +16,9 @@ export const DetailedTournamentCard = (props) => {
   useEffect(() => {
     axios
       .get(`/api/tournaments/${id}`)
-      .then((res) => setTournamentDetails(res.data))
+      .then((res) => {
+        
+        setTournamentDetails(res.data)})
       .catch((e) =>
         console.error("Error returning back the tournament details", e)
       );

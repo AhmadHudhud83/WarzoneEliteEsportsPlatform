@@ -16,6 +16,9 @@ function SelectGame() {
   const [searchResults, setSearchResults] = useState([]);
   const [allSearchResults, setAllSearchResults] = useState([]);
 
+
+
+    
   const handleIconClick = () => {
     searchInput.current.focus();
   };
@@ -34,15 +37,16 @@ function SelectGame() {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:5000/Games')
+    axios.get('http://localhost:5000/api/games')
       .then(response => {
         setSearchResults(response.data);
         setAllSearchResults(response.data)
+       
       })
       .catch(error => {
         console.error('Error fetching game data:', error);
       });
-
+  
     const handleResize = () => {
       if (window.innerWidth >= 1800) {
         setNumGamesToShow(20);
@@ -88,14 +92,14 @@ function SelectGame() {
                 .sort((a, b) => b.popularity - a.popularity)
                 .slice(0, numGamesToShow)
                 .map((game) => (
-                  <GameCard name={game.name} imgUrl={game.imgUrl} />
+                  <GameCard name={game.name} imgUrl={game.imgUrl} id={game._id} />
                 ))}
             </div>
           </>
         ) : (
           <div id={styles["games-container"]}>
             {searchResults.map((game) => (
-              <GameCard name={game.name} imgUrl={game.imgUrl} />
+              <GameCard name={game.name} imgUrl={game.imgUrl} id={game._id} />
             ))}
             <div id={styles.contact}>
               <p>can't find the game? please reach us</p>

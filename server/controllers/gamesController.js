@@ -13,3 +13,25 @@ export const getAllGames = async (req, res) => {
     }
 }
 
+
+/**
+ * @desc get a game by id
+ * @route /api/games/:gameId
+ * @method POST
+ * @access private
+ *
+ */
+
+export const getGameById = async(req,res)=>{
+    try{
+        const game =await GameModel.findById(req.params.gameId)
+        if(game){
+            res.status(200).json(game);
+        }else{
+            res.status(404).json({message:"game not found"})
+        }
+    }catch{(e)=>{
+        console.error(e)
+        res.status(500).json({message:"Something went wrong"})
+    }}
+}

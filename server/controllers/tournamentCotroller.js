@@ -133,11 +133,15 @@ const creatingTournamentValidation = (tournamentObject) => {
 
 
 export const getTournamentById = async (req,res)=>{
+  try{
   const tournament = await TouranmentModel.findById(req.params.id)
   if(tournament){
     res.status(200).json(tournament)
 
   }else{
     res.status(404).json({message:"error :tournament not found"})
+  }}catch(error){
+    console.error(error)
+    res.status(500).json({message:"Something went wrong"})
   }
 }

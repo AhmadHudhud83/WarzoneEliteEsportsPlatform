@@ -5,11 +5,28 @@ import { SettingsForm } from "./componenets/Settings/SettingsForm";
 import { PublishForm } from "./componenets/Publish/PublishForm";
 import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 //BY AHMAD HUDHUD
 
-export const TournamentSetupForm = ({existingGames}) => {
+export const TournamentSetupForm = () => {
+  const [loading,setLoading] = useState(true)
+  const [_game , setGame] = useState(null)
+const {gameId} = useParams() //to get the game name from url (after selecting a game)
+  useEffect(()=>{
   
+
+    axios.get(`http://localhost:5000/api/games/${gameId}`).
+    then((res=>{
+      console.log(res.data)
+    setGame(res.data)
+    setLoading(false)
+    })).catch((e)=>console.error("error , game not found",e))
+  },[gameId])
+
+
+
+
   const [isAgreed, setIsAgreed] = useState(false)
   const intialValidationValuesBasicForm = { title: "", start_date: "", start_time: ""} 
   const childRef = useRef() // to call the function in the child component <BasicForm/>
@@ -17,11 +34,12 @@ export const TournamentSetupForm = ({existingGames}) => {
   const [nextButtonState, setNextButtonState] = useState(true ) // to keep track of next button stats
   const [topActiveNav, setTopActiveNav] = useState(0) //to keep track of next active nav stats (also for styling)
   const [validationErrors, setValidationErrors] = useState({}) //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
-  const { game } = useParams()//to get the game name from url (after selecting a game)
+
   //the next button handler, using handlers is important to not fall with too  many re-render stats problems
   const handlePublishCheckBox =(e)=>{
     setIsAgreed(e.target.checked)
   }
+ 
   useEffect(() => {
    
 
@@ -46,22 +64,21 @@ export const TournamentSetupForm = ({existingGames}) => {
 
   
   }
-  useEffect(()=>{
-    setValidationErrors(intialValidationValuesBasicForm)
-  },[])
+  // useEffect(()=>{
+  //   setValidationErrors(intialValidationValuesBasicForm)
+  // },[])
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const gameExists = existingGames.some(
-      (existingGame) => existingGame.toLowerCase() === game.toLowerCase()
-    )
+  //  useEffect( () => {
+  //  const gameExists = games.find(g=>g.name===game)
     
 
-    if (!gameExists) {
-      navigate('/error', { replace: true })
-    }
-  }, [game, navigate, existingGames]);
+  //   if (!gameExists) {
+  //    //  navigate('/tournament-setup', { replace: true })
+  //    console.log("GAME DOESNT EXIST")
+  //   }
+  // }, [game, navigate, games]);
 
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
@@ -124,8 +141,12 @@ export const TournamentSetupForm = ({existingGames}) => {
   // }
   
 
-  const [formData, setFormData] = useState({game:game}) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
-
+  const [formData, setFormData] = useState({game:""}) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
+  useEffect(() => {
+    if (_game) {
+      setFormData({ game: _game.name })
+    }
+  }, [_game])
   //the function to handle any form change
   const handleFormChange = (newFormData) => { 
     setFormData(newFormData)
@@ -224,11 +245,17 @@ export const TournamentSetupForm = ({existingGames}) => {
         </a>
       </li>
     ));
-  };
-
+  }
+  const navigate = useNavigate()
+  if(loading){
+     return<h1>{""}</h1>
+   }
+   if(!_game){
+  return <h1>ERROR 404</h1>
+   }
   return (
     <React.Fragment>
-  
+
       <div className="container pt-5 mt-3 org-cont">
         <div className="card text-white bg-secondary  cont-1">
           <div className="card-header border ">

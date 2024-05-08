@@ -9,7 +9,7 @@ export const BasicsForm = ({
   setValidationErrors,
   validationErrors,
 }) => {
-  const { game } = useParams(); //for showing the game selceted from url
+
   //init values used for validation logic
   //since the validation object is empty ,which means at the refresh the next button will be enabled since the object is empty ,
   //so we gonna use  useEffect() hook to init. the object with init. values i've mentioned, in order to prevent the enabled next button state
@@ -99,7 +99,7 @@ export const BasicsForm = ({
         {/* Selected game section start */}
         <div className="mt-5 mb-4 col-12 ">
           <h5 className="text-muted mb-3">Selected Game</h5>
-          <h4 className="text-white">{game}</h4>
+          <h4 className="text-white">{formData.game}</h4>
           <hr />
         </div>
         {/* Selected game section end */}
