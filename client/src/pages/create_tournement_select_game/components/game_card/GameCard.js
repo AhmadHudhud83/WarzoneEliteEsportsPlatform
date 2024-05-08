@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import styles from "./GameCard.module.css";
 
-function GameCard({ name, imgUrl }) {
+function GameCard({ name, imgUrl,id }) {
+
   const url = `tournament-setup/${name}`;
 
   return (

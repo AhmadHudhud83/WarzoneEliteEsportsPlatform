@@ -5,21 +5,44 @@ import { SettingsForm } from "./componenets/Settings/SettingsForm";
 import { PublishForm } from "./componenets/Publish/PublishForm";
 import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 //BY AHMAD HUDHUD
 
-export const TournamentSetupForm = ({existingGames}) => {
+export const TournamentSetupForm = () => {
+  const [loading,setLoading] = useState(true)
+  const [_game , setGame] = useState(null)
+const {gameName} = useParams() //to get the game name from url (after selecting a game)
+  useEffect(()=>{
   
 
+    axios.get(`http://localhost:5000/api/games/${gameName}`).
+    then((res=>{
+      console.log(res.data)
+    setGame(res.data)
+    setLoading(false)
+    })).catch((e)=>{console.error("error , game not found",e)
+
+   setLoading(false)
+    } )
+  },[gameName])
+
+
+
+
+  const [isAgreed, setIsAgreed] = useState(false)
   const intialValidationValuesBasicForm = { title: "", start_date: "", start_time: ""} 
   const childRef = useRef() // to call the function in the child component <BasicForm/>
   const [nav, setNav] = useState(0) //to keep track of navigation stats
   const [nextButtonState, setNextButtonState] = useState(true ) // to keep track of next button stats
   const [topActiveNav, setTopActiveNav] = useState(0) //to keep track of next active nav stats (also for styling)
   const [validationErrors, setValidationErrors] = useState({}) //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
-  const { game } = useParams()//to get the game name from url (after selecting a game)
+
   //the next button handler, using handlers is important to not fall with too  many re-render stats problems
-  
+  const handlePublishCheckBox =(e)=>{
+    setIsAgreed(e.target.checked)
+  }
+ 
   useEffect(() => {
    
 
@@ -44,22 +67,21 @@ export const TournamentSetupForm = ({existingGames}) => {
 
   
   }
-  useEffect(()=>{
-    setValidationErrors(intialValidationValuesBasicForm)
-  },[])
+  // useEffect(()=>{
+  //   setValidationErrors(intialValidationValuesBasicForm)
+  // },[])
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const gameExists = existingGames.some(
-      (existingGame) => existingGame.toLowerCase() === game.toLowerCase()
-    )
+  //  useEffect( () => {
+  //  const gameExists = games.find(g=>g.name===game)
     
 
-    if (!gameExists) {
-      navigate('/error', { replace: true })
-    }
-  }, [game, navigate, existingGames]);
+  //   if (!gameExists) {
+  //    //  navigate('/tournament-setup', { replace: true })
+  //    console.log("GAME DOESNT EXIST")
+  //   }
+  // }, [game, navigate, games]);
 
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
@@ -90,36 +112,44 @@ export const TournamentSetupForm = ({existingGames}) => {
   }
 
   //tournament (form) object intialaized
-  const initTournamentObjectValue = {
-    //1st page validation
-    game: game, //string
-    title: "",
-    start_date: "",
-    start_time: "",
-    about: "",
-    //2nd page validation
-    contact_details: "",
-    rules: "",
-    prize: "",
-    description: "",
-    schedule: "",
-    //3rd page validation
-    format: "Teams",
-    platform: "",
-    tournament_status: "Opened",
-    registeration_status: "Opened",
-    max_participants: 0,
-    //4th page validation
-    sponsors: { brand: "", email: "" },
-    //other attributes related to the tournament object
-    announcements: ["hi", "bye"],
-    //sueprvisosr (array of supervisors ids (object ids))
-    //organizer id (when logged in)
-  }
+  //const initTournamentObjectValue = {:}
+  // // const initTournamentObjectValue = {
+  //   //1st page validation
+  //   game: game, //string
+  //   title: "",
+  //   start_date: "",
+  //   start_time: "",
+  //   about: "",
+  //   //2nd page validation
+  //   contact_details: "",
+  //   rules: "",
+  //   prize: "",
+  //   description: "",
+  //   schedule: "",
+  //   //3rd page validation
+  //   format: "Teams",
+  //   platform: "",
+  //   tournament_status: "Opened",
+  //   registeration_status: "Opened",
+  //   max_participants: 0,
+  //   //4th page validation
+  //   //sponsors: { brand: "", email: "" },
+  //   //other attributes related to the tournament object
+  //   announcements: ["hi", "bye"],
+  //   supervisors : ["123","456"],
+  //   //organizerID:"8910",
+  //   //sueprvisosr (array of supervisors ids (object ids))
+  //   //organizer id (when logged in)
+  //   cover_image_url:"https://i.imgur.com/CqiHFdW.png"
+  // }
   
 
-  const [formData, setFormData] = useState(initTournamentObjectValue) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
-
+  const [formData, setFormData] = useState({game:gameName}) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
+  // useEffect(() => {
+  //   if (_game) {
+  //     setFormData({ game: _game.name })
+  //   }
+  // }, [_game])
   //the function to handle any form change
   const handleFormChange = (newFormData) => { 
     setFormData(newFormData)
@@ -184,6 +214,8 @@ export const TournamentSetupForm = ({existingGames}) => {
         <PublishForm
           formData={formData}
           setFormData={handleFormChange}
+          isAgreed={isAgreed}
+          setIsAgreed = {handlePublishCheckBox}
           ref={childRef}
         />
       ),
@@ -216,11 +248,17 @@ export const TournamentSetupForm = ({existingGames}) => {
         </a>
       </li>
     ));
-  };
-
+  }
+  const navigate = useNavigate()
+  if(loading){
+     return null  
+   }
+   if(!_game){
+  return <h1>ERROR 404</h1>
+   }
   return (
     <React.Fragment>
-  
+
       <div className="container pt-5 mt-3 org-cont">
         <div className="card text-white bg-secondary  cont-1">
           <div className="card-header border ">
@@ -294,6 +332,7 @@ export const TournamentSetupForm = ({existingGames}) => {
                 <button
                   type="button"
                   className="btn btn-danger ms-auto position-relative bottom-0 end-0"
+                  disabled={!isAgreed}
                   onClick={() => {
                     childRef.current.handleShowModal();
                   }}
