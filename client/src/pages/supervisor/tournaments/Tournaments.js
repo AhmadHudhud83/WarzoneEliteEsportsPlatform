@@ -21,7 +21,7 @@ function TournamentPage() {
           (tournament) =>
             tournament.supervisors.some(
               (supervisor) => supervisor.id === supervisorId
-            ) && tournament.currentRound !== -1
+            ) && tournament.status === "in progress"
         );
 
         setTournaments(tournaments);

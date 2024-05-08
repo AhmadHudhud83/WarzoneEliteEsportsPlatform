@@ -18,7 +18,6 @@ const fillMatches = (matches, roundId, participants, supervisors) => {
     j++;
 
 
-
     if (matches[roundId][i].team2 === null) {
       // to avoid overriding the bye
       matches[roundId][i].team2 = participants[j]; // add the second participant to the match
@@ -73,6 +72,8 @@ export const initializeMatches = async (tournamentId) => {
   // Fill the first round with participants and supervisors
   fillMatches(matches, 0, participants, supervisors);
 
+
+
   // Update the tournament document
   tournament.matches = matches;
   tournament.currentRound = 0;
@@ -97,7 +98,6 @@ export const setWinner = async (tournamentId, matchId, player) => {
 
   // Check if all matches in the current round have a winner
   if (isRoundComplete(tournament.matches[currentRound])) {
-    tournament.currentRound++; // Move to the next round
     setUpRound(tournamentId); // Set up the next round
   }
   tournament.markModified("matches"); // Mark the matches array as modified
@@ -111,23 +111,41 @@ export const setUpRound = async (tournamentId) => {
     throw new Error("Tournament not found", tournamentId);
   }
 
+  const currentRound = tournament.currentRound + 1;
+
   // Get the winners of the matches in the previous round to be the participants of the next round
-  console.log(tournament.currentRound)
-  const participants = tournament.matches[tournament.currentRound - 1]
+  const participants = tournament.matches[tournament.currentRound]
     .map((match) => match.winner)
     .filter((winner) => winner !== "none");
 
   // Get the supervisors
   const supervisors = tournament.supervisors;
 
+  if (participants.length === 1) {
+    // Delete the rest of the matches and rounds
+    tournament.matches = tournament.matches.slice(0, tournament.currentRound);
+
+    // Set the winner of the tournament
+    tournament.winner = participants[0];
+    await tournament.save();
+    return;
+  }
+
   // Fill the matches of the current round with the participants and supervisors
   fillMatches(
     tournament.matches,
-    tournament.currentRound,
+    currentRound,
     participants,
     supervisors
   );
+
+  // Remove matches with null participants
+  const matches = tournament.matches[currentRound];
+  tournament.matches[currentRound] = matches.filter(match => match.team1 !== null);
+
   tournament.markModified("matches"); // Mark the matches array as modified
+  tournament.currentRound++; // Move to the next round
+
   await tournament.save(); // Save the updated tournament document
 };
 

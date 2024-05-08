@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import styles from './Matches.module.css';
-import Bracket from '../components/bracket/Bracket';
+import Bracket from '../../../common/bracket/Bracket';
 import Header from '../components/header/Header';
 
 const Matches = () => {
