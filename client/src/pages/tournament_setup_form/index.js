@@ -67,9 +67,9 @@ const {gameName} = useParams() //to get the game name from url (after selecting 
 
   
   }
-  // useEffect(()=>{
-  //   setValidationErrors(intialValidationValuesBasicForm)
-  // },[])
+   useEffect(()=>{
+     setValidationErrors(intialValidationValuesBasicForm)
+   },[])
 
   // const navigate = useNavigate();
 
