@@ -8,13 +8,13 @@ routerGame.get("/api/games", (req, res) => {
 });
 
 /**
- * @desc get a game by id
- * @route /api/games/:gameId
+ * @desc get a game by name
+ * @route /api/games/:gameName
  * @method POST
  * @access private
  *
  */
-routerGame.get("/api/games/:gameId",(req,res)=>[
+routerGame.get("/api/games/:gameName",(req,res)=>[
     getGameById(req,res)
 ])
 

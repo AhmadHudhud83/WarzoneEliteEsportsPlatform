@@ -20,7 +20,7 @@ return(<BrowserRouter>
         <Route path="/">
           <Route index element={<Temp/>} />
           <Route path="select-game/" element={<SelectGame />} />
-          <Route path="tournament-setup/:gameId" element={<TournamentSetupForm />}></Route>
+          <Route path="tournament-setup/:gameName" element={<TournamentSetupForm />}></Route>
 
           <Route path="detailed-tournament/:id" element={<DetailedTournamentCard><ManagementButton url="management"/ ></DetailedTournamentCard>}/>
          <Route path="detailed-tournament/:id/management" element={<TournamentManagementPage></TournamentManagementPage>}/>

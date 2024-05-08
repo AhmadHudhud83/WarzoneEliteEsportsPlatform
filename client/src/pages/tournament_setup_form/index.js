@@ -12,17 +12,20 @@ import axios from "axios";
 export const TournamentSetupForm = () => {
   const [loading,setLoading] = useState(true)
   const [_game , setGame] = useState(null)
-const {gameId} = useParams() //to get the game name from url (after selecting a game)
+const {gameName} = useParams() //to get the game name from url (after selecting a game)
   useEffect(()=>{
   
 
-    axios.get(`http://localhost:5000/api/games/${gameId}`).
+    axios.get(`http://localhost:5000/api/games/${gameName}`).
     then((res=>{
       console.log(res.data)
     setGame(res.data)
     setLoading(false)
-    })).catch((e)=>console.error("error , game not found",e))
-  },[gameId])
+    })).catch((e)=>{console.error("error , game not found",e)
+
+   setLoading(false)
+    } )
+  },[gameName])
 
 
 
@@ -141,12 +144,12 @@ const {gameId} = useParams() //to get the game name from url (after selecting a 
   // }
   
 
-  const [formData, setFormData] = useState({game:""}) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
-  useEffect(() => {
-    if (_game) {
-      setFormData({ game: _game.name })
-    }
-  }, [_game])
+  const [formData, setFormData] = useState({game:gameName}) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
+  // useEffect(() => {
+  //   if (_game) {
+  //     setFormData({ game: _game.name })
+  //   }
+  // }, [_game])
   //the function to handle any form change
   const handleFormChange = (newFormData) => { 
     setFormData(newFormData)
@@ -248,7 +251,7 @@ const {gameId} = useParams() //to get the game name from url (after selecting a 
   }
   const navigate = useNavigate()
   if(loading){
-     return<h1>{""}</h1>
+     return null  
    }
    if(!_game){
   return <h1>ERROR 404</h1>
