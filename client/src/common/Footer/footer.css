@@ -1,6 +1,6 @@
 @font-face {
     font-family: Kardust Condensed;
-    src: url("../../assets/fonts/Kardust\ Condensed\ Bold.otf"); 
+  src: url('../../../public/assets/fonts/Kardust Condensed Bold.otf');
 }
 
 footer {
@@ -19,7 +19,6 @@ footer {
     flex-direction: column;
     align-items: center;
     padding: 20px 0;
-
 
 }
 

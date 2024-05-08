@@ -1,4 +1,3 @@
-import logo from '../images/logo.png';
 import "./header.css";
 import React, { useState } from 'react';
 
@@ -20,7 +19,7 @@ function Header() {
       <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary">
   <div className="container-fluid d-flex ">
     <a className="navbar-brand" href="#">
-      <img className="logo"  src={logo} alt="Logo" />
+      <img className="logo"  src="/images/logo.png" alt="Logo" />
     </a>
     <div   id="demoFont">Warzone Elite</div>
     <button  className="navbar-toggler navbar-dark " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onClick={toggleMenu}>

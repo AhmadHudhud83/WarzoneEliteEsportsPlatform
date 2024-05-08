@@ -11,7 +11,7 @@ app.use(jsonParser);
 app.use(cors());
 app.use(routerGame);
 app.use(express.json());
-app.use(tournamentRouter);
+app.use("/tournaments", tournamentRouter);
 
 connectToDB()
   .then(() => {

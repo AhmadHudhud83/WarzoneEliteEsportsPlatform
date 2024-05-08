@@ -1,15 +1,23 @@
-const TournamentModel = require("../models/Tournament");
+import TournamentModel from "../models/Tournament.js";
 
 // This function takes the matches array, which is passed by refrerence and the index of the current round,
 // and fills it with given participants and supervisors
 const fillMatches = (matches, roundId, participants, supervisors) => {
-  i = 0; // traverse through the matches in a round
-  j = 0; // traverse through the participants
-  k = 0; // traverse through the supervisors
+  const numberOfMatches = Math.round(participants.length / 2);
 
-  while (i < Math.round(participants.length / 2)) {
+  if (participants.length % 2 !== 0) {
+    const byeIndex = Math.floor(Math.random() * numberOfMatches); // randomly select a match to have a bye
+    matches[roundId][byeIndex].team2 = "bye"; // add the bye to the match
+  }
+
+  var i = 0, // traverse through the matches in a round
+    j = 0; // traverse through the participants
+
+  while (i < numberOfMatches) {
     matches[roundId][i].team1 = participants[j]; // add the first participant to the match
     j++;
+
+
 
     if (matches[roundId][i].team2 === null) {
       // to avoid overriding the bye
@@ -25,7 +33,7 @@ const fillMatches = (matches, roundId, participants, supervisors) => {
 
 // This function initializes the matches for a tournament by creating the matches array with proper structure,
 // adding needed byes to arrange proper matches, and filling the first round with participants and supervisors
-exports.initializeMatches = async (tournamentId) => {
+export const initializeMatches = async (tournamentId) => {
   // Fetch the tournament document
   const tournament = await TournamentModel.findById(tournamentId);
   if (!tournament) {
@@ -52,15 +60,11 @@ exports.initializeMatches = async (tournamentId) => {
       matches[i][k] = {
         team1: null,
         team2: null,
-        suppervisor: null,
+        supervisor: null,
         winner: null,
       };
     }
 
-    if (p % 2 !== 0) {
-      const byeIndex = Math.floor(Math.random() * j); // randomly select a match to have a bye
-      matches[i][byeIndex].team2 = "bye"; // add the bye to the match
-    }
     i++;
     j = Math.round(j / 2);
     p = Math.round(p / 2);
@@ -81,7 +85,7 @@ const isRoundComplete = (round) => {
 };
 
 // This function sets the winner of a match then checks if all matches in the current round have a winner to move to the next round
-exports.setWinner = async (tournamentId, matchId, playerId) => {
+export const setWinner = async (tournamentId, matchId, player) => {
   // Fetch the tournament document
   const tournament = await TournamentModel.findById(tournamentId);
   if (!tournament) {
@@ -89,7 +93,7 @@ exports.setWinner = async (tournamentId, matchId, playerId) => {
   }
   const currentRound = tournament.currentRound;
 
-  tournament.matches[currentRound][matchId].winner = playerId; // Set the winner of the match
+  tournament.matches[currentRound][matchId].winner = player; // Set the winner of the match
 
   // Check if all matches in the current round have a winner
   if (isRoundComplete(tournament.matches[currentRound])) {
@@ -100,7 +104,7 @@ exports.setWinner = async (tournamentId, matchId, playerId) => {
   await tournament.save(); // Save the updated tournament document
 };
 
-const setUpRound = async (tournamentId) => {
+export const setUpRound = async (tournamentId) => {
   // Fetch the tournament document
   const tournament = await TournamentModel.findById(tournamentId);
   if (!tournament) {
@@ -108,6 +112,7 @@ const setUpRound = async (tournamentId) => {
   }
 
   // Get the winners of the matches in the previous round to be the participants of the next round
+  console.log(tournament.currentRound)
   const participants = tournament.matches[tournament.currentRound - 1]
     .map((match) => match.winner)
     .filter((winner) => winner !== "none");
@@ -122,4 +127,28 @@ const setUpRound = async (tournamentId) => {
     participants,
     supervisors
   );
+  tournament.markModified("matches"); // Mark the matches array as modified
+  await tournament.save(); // Save the updated tournament document
+};
+
+// Get tournaments
+export const getTournaments = async () => {
+  const tournaments = await TournamentModel.find();
+  return tournaments;
+};
+
+// Add a new tournament
+export const addTournament = async (tournament) => {
+  const newTournament = new TournamentModel(tournament);
+  await newTournament.save();
+  return newTournament;
+};
+
+// Get a tournament by id
+export const getTournament = async (tournamentId) => {
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+  return tournament;
 };

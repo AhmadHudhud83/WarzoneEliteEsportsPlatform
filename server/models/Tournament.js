@@ -1,6 +1,10 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const TournamentSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+  },
   supervisors: {
     type: Array,
     required: true,
@@ -17,16 +21,16 @@ const TournamentSchema = new mongoose.Schema({
     type: Number,
     required: false,
   },
-  status: {
+  image: {
     type: String,
     required: false,
   },
-  registrationEndDate: {
-    type: Date,
-    required: true,
+  title: {
+    type: String,
+    required: false,
   },
 });
 
-const TournamentModel = mongoose.model("Tournament", TournamentSchema);
+const TournamentModel = mongoose.model("tournaments", TournamentSchema);
 
-module.exports = TournamentModel;
+export default TournamentModel;
