@@ -1,25 +1,26 @@
 @font-face {
   font-family: Kardust Condensed;
-  src: url("../../assets/fonts/Kardust\ Condensed\ Bold.otf"); 
+  src: url("../../assets/fonts/Kardust\ Condensed\ Bold.otf");
 }
 
 
 
- .logo {
-    width: 70px;
-    height: auto;
-    margin-bottom: 10px;
+.logo {
+  width: 70px;
+  height: auto;
+  margin-bottom: 10px;
 }
-.container2{
- 
-    background: linear-gradient(to right, #250053, #000000);
+
+.container2 {
+
+  background: linear-gradient(to right, #250053, #000000);
 }
 
 
 
 #navitem .nav-link {
-  color: #fff; 
-  
+  color: #fff;
+
 }
 
 
@@ -27,81 +28,120 @@
 
 
 .navbar-nav .nav-link {
-  color: #fff; 
-  transition: color 0.3s ease; 
+  color: #fff;
+  transition: color 0.3s ease;
 }
 
 #navitem .nav-link:hover {
-  color: #7c4372; 
-  text-decoration: underline; 
+  color: #7c4372;
+  text-decoration: underline;
 }
 
 
 
-.navbtn{
-padding-right: 50cap;
-font-family: 'Kardust Condensed';
-font-weight: 0;
-font-size: 14px;
-color: #fff;
-background: linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%);
-padding: 10px 30px;
-border: none;
-box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
-border-radius: 0px 25px 0px 0px;
-transition : 1000ms;
-transform: translateY(0);
-display: flex;
-flex-direction: row;
-align-items: center;
-cursor: pointer;
+.navbtn {
+  padding-right: 50cap;
+  font-family: 'Kardust Condensed';
+  font-weight: 0;
+  font-size: 14px;
+  color: #fff;
+  background: linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%);
+  padding: 10px 30px;
+  border: none;
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  border-radius: 0px 25px 0px 0px;
+  transition: 1000ms;
+  transform: translateY(0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  min-width: 10%;
+  padding: 1rem 3rem
 }
 
-.navbtn:hover{
 
-transition : 1000ms;
-padding: 10px 50px;
-transform : translateY(-0px);
-background: linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%);
-color: #0066cc;
-border: solid 2px #0066cc;
-}
+
 #demoFont {
-  
-    font-family: "Kardust Condensed";
-    font-size:40px;
-    letter-spacing: -2px;
-    word-spacing: 3.8px;
-    color: #FFFFFF;
-    font-weight: normal;
-    text-decoration: none solid rgb(68, 68, 68);
-  
-    font-variant: small-caps;
-    text-transform: uppercase;
-    
-    }
+
+  font-family: "Kardust Condensed";
+  font-size: 40px;
+  letter-spacing: -2px;
+  word-spacing: 3.8px;
+  color: #FFFFFF;
+  font-weight: normal;
+  text-decoration: none solid rgb(68, 68, 68);
+
+  font-variant: small-caps;
+  text-transform: uppercase;
+
+}
 
 
-    .navbar {
-      font-family: "Kardust Condensed";
-      padding: 10px 20px; 
-    
-    }
+.navbar {
+  font-family: "Kardust Condensed";
+  padding: 10px 20px;
+
+}
+
+
 
 @media (max-width: 768px) {
- 
+
   .logo {
-    width: 20%; 
+    max-width: 80%;
+    height: auto;
+
   }
+
   #demoFont {
     display: none;
-  } 
+  }
 
 
- 
+
 }
 
+.nav-menu-user ul {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  /* Remove default padding */
+}
 
+.nav-menu-user ul .anchor-rep,
+.nav-menu-user ul a {
+  min-width: 50px;
+}
 
+.nav-menu-user ul li {
+  margin: 10px;
+  min-width: 37px;
+}
 
-  
+.nav-menu-user ul button {
+  min-width: 60px;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 4px;
+  height: fit-content;
+  padding: 3px 0;
+}
+
+.nav-menu-user ul button:hover {
+  animation: alternateButtonAnimation 0.3s ease-in-out forwards;
+}
+
+@keyframes alternateButtonAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
