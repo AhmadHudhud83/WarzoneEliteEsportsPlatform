@@ -13,7 +13,7 @@ const Bracket = ({ user, tournamentId }) => {
         if (user === "supervisor") {
             // Retrieve the current supervisor id from the session storage
             //const supervisorId = sessionStorage.getItem("supervisorId");
-            const supervisorId = "supervisor1";
+            const supervisorId = "s1";
             setSupervisorId(supervisorId);
         }
         axios.get(`/tournaments/${tournamentId}`)
@@ -46,26 +46,25 @@ const Bracket = ({ user, tournamentId }) => {
                     if (roundIndex <= currentRound) {
                         return (
                             <div className={styles.round}>
-                                {round.map((match, index) => {
-                                    if (match !== null) {
-                                        return (<div className={styles["match-container"]} >
-                                            <div className={styles.match}>
-                                                <div className={styles.team + " " + ((match.winner !== null) ? (match.winner.id === match.team1.id ? styles.winner : styles.loser) : "")}>
-                                                    {match.team1.name}
-                                                    <button className={styles["winner-btn"] + " " + ((currentRound === roundIndex) && (match.supervisor.id === supervisorId) && (match.winner === null) ? styles.vis : styles.invis)}
-                                                        onClick={() => handleOutcome(index, match.team1)}>WINNER</button>
-                                                </div>
-                                                <div className={styles.team + " " + ((match.winner !== null) ? (((match.winner.id === match.team2.id) && (match.winner !== "none")) ? styles.winner : styles.loser) : "")}>
-                                                    {match.team2 === "bye" ? "BYE" : match.team2.name}
-                                                    <button className={styles["winner-btn"] + " " + ((match.supervisor.id === supervisorId) && (match.team2 !== "bye") && (match.winner === null) ? styles.vis : styles.invis)}
-                                                        onClick={() => handleOutcome(index, match.team2)}>WINNER</button>
-                                                </div>
+                                {round.map((match, index) => (
+                                    <div className={styles["match-container"]} >
+                                        <div className={styles.match}>
+                                            <div className={styles.team + " " + ((match.winner !== null) ? (match.winner.id === match.team1.id ? styles.winner : styles.loser) : "")}>
+                                                {match.team1.name}
+                                                <button className={styles["winner-btn"] + " " + ((currentRound === roundIndex) && (match.supervisor.id === supervisorId) && (match.winner === null) ? styles.vis : styles.invis)}
+                                                    onClick={() => handleOutcome(index, match.team1)}>WINNER</button>
                                             </div>
-                                            <button className={styles.none + " " + ((match.supervisor.id === supervisorId) && (match.winner === null) ? styles.vis : styles.invis)}
-                                                onClick={() => handleOutcome(index, "none")}>None</button>
-                                        </div>);
-                                    }
-                                })}
+                                            <div className={styles.team + " " + ((match.winner !== null) ? (((match.winner.id === match.team2.id) && (match.winner !== "none")) ? styles.winner : styles.loser) : "")}>
+                                                {match.team2 === "bye" ? "BYE" : match.team2.name}
+                                                <button className={styles["winner-btn"] + " " + ((match.supervisor.id === supervisorId) && (match.team2 !== "bye") && (match.winner === null) ? styles.vis : styles.invis)}
+                                                    onClick={() => handleOutcome(index, match.team2)}>WINNER</button>
+                                            </div>
+                                        </div>
+                                        <button className={styles.none + " " + ((match.supervisor.id === supervisorId) && (match.winner === null) ? styles.vis : styles.invis)}
+                                            onClick={() => handleOutcome(index, "none")}>None</button>
+                                    </div>
+
+                                ))}
                             </div>
 
                         );

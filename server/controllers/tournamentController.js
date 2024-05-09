@@ -1,9 +1,40 @@
 import TournamentModel from "../models/Tournament.js";
 
+// This function structures the matches array by creating the matches array with proper structure
+const structureMatches = (matches, currentRound, numberOfParticipants, numberOfRounds, init) => {
+  console.log(numberOfParticipants);
+
+  let i = currentRound,
+    j = Math.ceil(numberOfParticipants / 2), // number of matches in a round
+    p = numberOfParticipants; // number of participants in a round
+
+  while (i < numberOfRounds) {
+    console.log("round", i, "matches", j, "participants", p, "number of rounds", numberOfRounds);
+    matches[i] = Array(j).fill(null); // create an array of matches for each round
+    for (let k = 0; k < j; k++) {
+      // initialize each match
+      matches[i][k] = {
+        team1: null,
+        team2: null,
+        supervisor: null,
+        winner: null,
+      };
+    }
+
+    i++;
+    j = Math.ceil(j / 2);
+    p = Math.ceil(p / 2);
+  }
+
+  // remove the extra rounds after the last round
+  matches.splice(currentRound + numberOfRounds - init);
+};
+
+
 // This function takes the matches array, which is passed by refrerence and the index of the current round,
 // and fills it with given participants and supervisors
 const fillMatches = (matches, roundId, participants, supervisors) => {
-  const numberOfMatches = Math.round(participants.length / 2);
+  const numberOfMatches = Math.ceil(participants.length / 2);
 
   if (participants.length % 2 !== 0) {
     const byeIndex = Math.floor(Math.random() * numberOfMatches); // randomly select a match to have a bye
@@ -46,44 +77,19 @@ export const initializeMatches = async (tournamentId) => {
   // Create the matches array
   const numberOfParticipants = participants.length;
   const numberOfRounds = Math.ceil(Math.log2(numberOfParticipants));
-  const matches = Array(numberOfRounds);
-
-  let i = 0, // round index
-    j = Math.round(numberOfParticipants / 2), // number of matches in a round
-    p = numberOfParticipants; // number of participants in a round
-
-  while (i < numberOfRounds) {
-    matches[i] = Array(j).fill(null); // create an array of matches for each round
-    for (let k = 0; k < j; k++) {
-      // initialize each match
-      matches[i][k] = {
-        team1: null,
-        team2: null,
-        supervisor: null,
-        winner: null,
-      };
-    }
-
-    i++;
-    j = Math.round(j / 2);
-    p = Math.round(p / 2);
-  }
+  structureMatches(tournament.matches, 0, numberOfParticipants, numberOfRounds, 0);
 
   // Fill the first round with participants and supervisors
-  fillMatches(matches, 0, participants, supervisors);
+  fillMatches(tournament.matches, 0, participants, supervisors);
 
 
 
   // Update the tournament document
-  tournament.matches = matches;
   tournament.currentRound = 0;
+  tournament.status = "in progress";
   await tournament.save();
 };
 
-// This function checks if all matches in a round have a winner
-const isRoundComplete = (round) => {
-  return round.every((match) => match.winner !== null);
-};
 
 // This function sets the winner of a match then checks if all matches in the current round have a winner to move to the next round
 export const setWinner = async (tournamentId, matchId, player) => {
@@ -98,38 +104,46 @@ export const setWinner = async (tournamentId, matchId, player) => {
 
   // Check if all matches in the current round have a winner
   if (isRoundComplete(tournament.matches[currentRound])) {
-    setUpRound(tournamentId); // Set up the next round
+    setUpRound(tournament); // Set up the next round
   }
   tournament.markModified("matches"); // Mark the matches array as modified
   await tournament.save(); // Save the updated tournament document
 };
 
-export const setUpRound = async (tournamentId) => {
-  // Fetch the tournament document
-  const tournament = await TournamentModel.findById(tournamentId);
-  if (!tournament) {
-    throw new Error("Tournament not found", tournamentId);
+// This function checks if all matches in a round have a winner
+const isRoundComplete = (round) => {
+  return round.every((match) => match.winner !== null);
+};
+
+// This function sets up the next round by moving the winners of the current round to the next round
+export const setUpRound = async (tournament) => {
+  tournament.currentRound++; // Move to the next round
+
+  const previousRound = tournament.currentRound - 1;
+  const currentRound = tournament.currentRound;
+
+  // Get the winners of none empty matches in the previous round to be the participants of the next round but exlude the matches with no winner
+  var participants = [];
+
+  tournament.matches[previousRound].forEach(match => {
+    if (match.winner !== null && match.winner !== "none") {
+      participants.push(match.winner)
+    }
+  });
+
+  // Recreate the matches array with the new number of matches
+  const numberOfParticipants = participants.length;
+  const numberOfRounds = Math.ceil(Math.log2(numberOfParticipants)) + 1;
+  structureMatches(tournament.matches, currentRound, numberOfParticipants, numberOfRounds, 1);
+
+  if (participants.length === 1) {
+    // Set the winner of the tournament
+    tournament.winner = participants[0];
+    return;
   }
-
-  const currentRound = tournament.currentRound + 1;
-
-  // Get the winners of the matches in the previous round to be the participants of the next round
-  const participants = tournament.matches[tournament.currentRound]
-    .map((match) => match.winner)
-    .filter((winner) => winner !== "none");
 
   // Get the supervisors
   const supervisors = tournament.supervisors;
-
-  if (participants.length === 1) {
-    // Delete the rest of the matches and rounds
-    tournament.matches = tournament.matches.slice(0, tournament.currentRound);
-
-    // Set the winner of the tournament
-    tournament.winner = participants[0];
-    await tournament.save();
-    return;
-  }
 
   // Fill the matches of the current round with the participants and supervisors
   fillMatches(
@@ -139,14 +153,7 @@ export const setUpRound = async (tournamentId) => {
     supervisors
   );
 
-  // Remove matches with null participants
-  const matches = tournament.matches[currentRound];
-  tournament.matches[currentRound] = matches.filter(match => match.team1 !== null);
-
-  tournament.markModified("matches"); // Mark the matches array as modified
-  tournament.currentRound++; // Move to the next round
-
-  await tournament.save(); // Save the updated tournament document
+  return tournament;
 };
 
 // Get tournaments

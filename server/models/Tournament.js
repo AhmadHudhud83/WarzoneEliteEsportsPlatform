@@ -29,6 +29,14 @@ const TournamentSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  status: {
+    type: String,
+    required: false,
+  },
+  winner: {
+    type: Object,
+    required: false,
+  },
 });
 
 const TournamentModel = mongoose.model("tournaments", TournamentSchema);
