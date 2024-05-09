@@ -107,3 +107,4 @@ export const InfoForm = ({
     </React.Fragment>
   );
 };
+export default InfoForm

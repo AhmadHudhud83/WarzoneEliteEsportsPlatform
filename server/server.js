@@ -4,8 +4,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { routerGame } from "./routes/gameRoutes.js"
 import { tournamentRouter } from "./routes/tournamentRoutes.js"
+
 const app = express();
-const jsonParser = bodyParser.json();
+const jsonParser = bodyParser.json({limit:'50mb'});
 app.use(jsonParser);
 app.use(cors());
 //app.use(express.json());

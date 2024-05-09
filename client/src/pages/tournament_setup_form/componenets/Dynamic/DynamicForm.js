@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useImperativeHandle,forwardRef } from "react";
 import axios from "axios";
 //BY islam
-export const PublishForm =forwardRef( ({ formData,isAgreed,setIsAgreed },ref) => {
+export const DynamicForm =forwardRef( ({ formData,isAgreed,setIsAgreed,request },ref) => {
   
  
   
@@ -23,7 +23,7 @@ const handleShowModal = () => {
   const handlePublishConfirmation = () => {
     if (isAgreed) {
       setShowModal(false);
-      axios.post("http://localhost:5000/api/tournaments",formData).then((res)=>console.log(res.data)).catch((e)=>console.error(e))
+      request.reqFunction(formData)
       
     } else {
       alert("Please agree to the terms before publishing.")
@@ -41,11 +41,9 @@ const handleShowModal = () => {
  
       <div className="publish-content p-5  ">
         <p>
-          Publishing this tournament will enable registration and allow players
-          to join.
+         {request.content.paragraphOne}
           <br />
-          By publishing you agree to our website's policy and community
-          standards.
+          {request.content.paragraphTwo}
         </p>
         <div className="checkbox-group">
           <input
@@ -68,15 +66,15 @@ const handleShowModal = () => {
       <div className="modal-container  ">
         <Modal     show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header className="bg-dark" closeButton>
-            <Modal.Title className="bg-dark">Publishing Your Tournament</Modal.Title>
+            <Modal.Title className="bg-dark">{request.modalInfo.header}</Modal.Title>
           </Modal.Header>
           <Modal.Body className="bg-dark">
             <p className="text-white">
-              {" "}
-              When you publish a tournament, players will be able to register.{" "}
+            {request.modalInfo.bodyParagraphOne}
+           
             </p>
             <p className="text-danger">
-              Are you sure you want to publish the tournament?
+            {request.modalInfo.bodyParagraphTwo}
             </p>
           </Modal.Body>
           <Modal.Footer className="bg-dark">
@@ -88,7 +86,7 @@ const handleShowModal = () => {
               Cancel
             </button>
             <button className="btn btn-secondary" onClick={handlePublishConfirmation} style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}}>
-              Publish
+              Confirm
             </button>
           </Modal.Footer>
         </Modal>
@@ -96,3 +94,4 @@ const handleShowModal = () => {
     </div>
   )
 })
+export default DynamicForm

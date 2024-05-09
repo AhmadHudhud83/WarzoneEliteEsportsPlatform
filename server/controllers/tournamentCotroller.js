@@ -145,3 +145,4 @@ export const getTournamentById = async (req,res)=>{
     res.status(500).json({message:"Something went wrong"})
   }
 }
+

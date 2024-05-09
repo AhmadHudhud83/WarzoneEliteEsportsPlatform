@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../../style.css";
-export const SettingsForm = ({
+ export const SettingsForm = ({
   formData,
   setFormData,
   setValidationErrors,
@@ -88,12 +88,41 @@ export const SettingsForm = ({
 
 
 
+  const Platform = ()=>{
+    return(  <div className=" rounded col-md-12 col-lg-6 col-sm-12 my-4">
+    <h5 className="text-white mb-4">Platform</h5>
+
+    <div className="col-md-12 col-lg-6 col-sm-12 my-4">
+      <select
+        name={"platform"}
+        onChange={(e) => {
+          platformInputChangeHandler(e);
+        }}
+        className="form-select bg-dark text-white mt-3 "
+        value={formData["platform"] || "choose"}
+      >
+        <option disabled value="choose">
+          Choose
+        </option>
+        \
+        {platformOptions.map((item, index) => {
+          return <option value={item}>{item}</option>;
+        })}
+      </select>
+    </div>
+
+   
+  </div>
+)
+  }
+
 
   return (
     <React.Fragment>
       <div className="container  my-5 row ">
         {SelectedInputs.map((item, index) => {
           return (
+            <React.Fragment>
             <div
               key={index}
               className=" rounded col-md-12 col-lg-6 col-sm-12 my-4"
@@ -137,34 +166,12 @@ export const SettingsForm = ({
                 </label>
               </div>
             </div>
+            {index===1?<Platform/> : <></>}
+            </React.Fragment>
           )
         })}
 
-        <div className=" rounded col-md-12 col-lg-6 col-sm-12 my-4">
-          <h5 className="text-white mb-4">Platform</h5>
-
-          <div className="col-md-12 col-lg-6 col-sm-12 my-4">
-            <select
-              name={"platform"}
-              onChange={(e) => {
-                platformInputChangeHandler(e);
-              }}
-              className="form-select bg-dark text-white mt-3 "
-              value={formData["platform"] || "choose"}
-            >
-              <option disabled value="choose">
-                Choose
-              </option>
-              \
-              {platformOptions.map((item, index) => {
-                return <option value={item}>{item}</option>;
-              })}
-            </select>
-          </div>
-
-         
-        </div>
-
+      
         
         
         
@@ -198,3 +205,4 @@ export const SettingsForm = ({
     </React.Fragment>
   )
 }
+export default SettingsForm

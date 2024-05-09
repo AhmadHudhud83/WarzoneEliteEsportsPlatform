@@ -11,6 +11,7 @@ import axios from "axios";
 export const useTournamentDetails = createContext()
 
 export const DetailedTournamentCard = (props) => {
+  const [loading , setLoading]=useState(true)
   const [tournamentDetails, setTournamentDetails] = useState(null)
   const { id } = useParams()
   useEffect(() => {
@@ -18,10 +19,13 @@ export const DetailedTournamentCard = (props) => {
       .get(`/api/tournaments/${id}`)
       .then((res) => {
         
-        setTournamentDetails(res.data)})
-      .catch((e) =>
+        setTournamentDetails(res.data)
+      setLoading(false)})
+      .catch((e) =>{
         console.error("Error returning back the tournament details", e)
-      );
+      setLoading(false)
+      }
+      )
   }, [id]);
 
 
@@ -111,7 +115,9 @@ export const DetailedTournamentCard = (props) => {
       );
     });
   };
-
+  if(loading){
+    return null
+  }
    if(tournamentDetails===null){
      return <h1>Error 404 ,Page not found</h1>
   }

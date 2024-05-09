@@ -93,3 +93,4 @@ export const SupervisorsAndSponsors = ({setValidationErrors}) => {
     </React.Fragment>
   );
 };
+export default SupervisorsAndSponsors
