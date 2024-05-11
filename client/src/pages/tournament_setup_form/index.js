@@ -120,7 +120,7 @@ export const TournamentSetupForm = ({ request }) => {
   //   registeration_status: "Opened",
   //   max_participants: 0,
   //   //4th page validation
-  //   sponsors: { brand: "", email: "" },
+  //   sponsors: [{ brand: "", email: "" }],
   //   //other attributes related to the tournament object
   //   announcements: ["hi", "bye"],
   //   supervisors : ["123","456"],

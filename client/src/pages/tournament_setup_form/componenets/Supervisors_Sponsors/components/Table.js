@@ -22,13 +22,21 @@ const Table = () => {
     console.log(addingSponsor);
   };
   const addInputHandler = () => {
-    const updatedSponsorsArray = [
-      ...formData.sponsors,
-      { email: addingSponsor.email, brand: addingSponsor.brand },
-    ];
-    const updatedFormData = { ...formData, sponsors: updatedSponsorsArray };
-
-    setFormData(updatedFormData);
+  //duplicate chcker
+  const sponsorExists   =formData.sponsors.find(s=> s.email ===addingSponsor.email &&s.brand===addingSponsor.brand )
+    if(!sponsorExists){
+      const updatedSponsorsArray = [
+        ...formData.sponsors,
+        { email: addingSponsor.email, brand: addingSponsor.brand },
+      ];
+     
+      const updatedFormData = { ...formData, sponsors: updatedSponsorsArray };
+  
+      setFormData(updatedFormData);
+    }
+   else{
+    alert("duplicated sponsors not allowed")
+   }
     console.log(formData);
     setaAddingSponsor({ brand: "", email: "" });
   };
@@ -46,6 +54,7 @@ const Table = () => {
     setFormData(updatedFormData);
     console.log(formData);
   };
+  
   //===========================================================================
   //states for editing sponsor and editing modal
   const [showEditingModal, setShowEditingModal] = useState(false);
@@ -65,7 +74,7 @@ const Table = () => {
   };
 
   //===============================================================
-
+  
   const modals = [
     {
       //=======================Adding modal====================
@@ -78,7 +87,7 @@ const Table = () => {
       emailValue: addingSponsor.email,
       brandOnChange: (e) => sponsorBrandHandler(e),
       emailOnChange: (e) => sponsorEmailHandler(e),
-      disabled: addingSponsor.brand === "" || addingSponsor.email === "",
+      disabled: addingSponsor.brand === "" || addingSponsor.email === "" ,
       onClick: () => {
         addInputHandler(addingSponsor);
         handleCloseAddingModal();
@@ -103,17 +112,28 @@ const Table = () => {
           ...editedSponsor,
           email: e.target.value,
         }),
-      disabled: editedSponsor.brand === "" || editedSponsor.email === "",
+      disabled: editedSponsor.brand===""||editedSponsor.email==="",
       onClick: () => {
-        const updatedSponsorsArray = [...formData.sponsors];
-        updatedSponsorsArray[editingIndex] = { ...editedSponsor };
-        const updatedFormData = {
-          ...formData,
-          sponsors: updatedSponsorsArray,
-        };
-        setFormData(updatedFormData);
-        handleCloseEditingModal();
-        setEditedSponsor({ brand: "", email: "" });
+         //at editing modal trigger , to fix update same sponsor bug that alerts the warning if its the defaul valuem
+         //index parameter is important for that role
+        const sponsorExists = formData.sponsors.find(
+          (sponsor, index) =>
+            index !== editingIndex &&//is this current selected sponsor ? if it is it then never mind updating it to same value again
+          //but if not , then this means there is another value in the formData.sponsors that will be same as current value , then deny it
+            sponsor.email === editedSponsor.email &&
+            sponsor.brand === editedSponsor.brand
+        );
+        if (sponsorExists) {
+          alert("This sponsor already exists!");
+        } else {
+          const updatedSponsorsArray = formData.sponsors.map((sponsor, index) =>
+            index === editingIndex ? { ...editedSponsor } : sponsor
+          );
+          const updatedFormData = { ...formData, sponsors: updatedSponsorsArray };
+          setFormData(updatedFormData);
+          handleCloseEditingModal();
+        }
+        setEditedSponsor({ brand: "", email: "" });//reseting the state of edited sponsor , will change the state of the save button in case modifying the value into existing one
         setEditingIndex(null);
       },
     },
@@ -169,6 +189,7 @@ const Table = () => {
                       {item.firstButtonLabel}
                     </button>
                     <button
+                
                       onClick={item.onClick}
                       className="btn btn-danger btn-sm  px-4 border rounded border-danger"
                       type="button"
