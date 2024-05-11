@@ -211,6 +211,7 @@ export const TournamentSetupForm = ({ request }) => {
           setIsAgreed={handlePublishCheckBox}
           ref={childRef}
           request={request}
+          validationErrors={validationErrors}
         />
       ),
     };

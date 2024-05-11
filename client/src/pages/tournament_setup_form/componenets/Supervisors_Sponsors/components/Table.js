@@ -4,10 +4,23 @@ import { Link } from "react-router-dom";
 import { useSupervisorsAndSponsorsDetails } from "../SupervisorsAndSponsors";
 //exporting data
 const Table = () => {
-  const { formData, setFormData, SponsorsfiledNames } = useContext(
+  const { formData, setFormData, SponsorsfiledNames,setValidationErrors,validationErrors } = useContext(
     useSupervisorsAndSponsorsDetails
   );
-
+  useEffect(()=>{
+    if(formData.sponsors.length===0){
+      setValidationErrors({...validationErrors,sponsors:"Atleast add one sponsor !"})
+    }else{
+  
+        const newError = {...validationErrors}
+        if(newError.sponsors){
+          delete newError.sponsors
+        }
+        setValidationErrors(newError)
+      
+    }
+    
+  },[setValidationErrors,validationErrors])
   //states for adding sponsor , and it's modal
   const [addingSponsor, setaAddingSponsor] = useState({ brand: "", email: "" });
 
@@ -125,15 +138,15 @@ const Table = () => {
         );
         if (sponsorExists) {
           alert("This sponsor already exists!");
+          handleCloseEditingModal();
         } else {
-          const updatedSponsorsArray = formData.sponsors.map((sponsor, index) =>
-            index === editingIndex ? { ...editedSponsor } : sponsor
-          );
+          const updatedSponsorsArray = [...formData.sponsors];
+          updatedSponsorsArray[editingIndex] = { ...editedSponsor };
           const updatedFormData = { ...formData, sponsors: updatedSponsorsArray };
           setFormData(updatedFormData);
           handleCloseEditingModal();
         }
-        setEditedSponsor({ brand: "", email: "" });//reseting the state of edited sponsor , will change the state of the save button in case modifying the value into existing one
+        setEditedSponsor({ brand: "", email: "" });
         setEditingIndex(null);
       },
     },
@@ -251,7 +264,9 @@ const Table = () => {
                   </td>
                 </tr>
               );
-            }):<h4 className="text-start p-3 px-4">No Sponsors Available...</h4>} 
+            }):<>
+            <h4 className="text-start p-3 px-4">No Sponsors Available...</h4>
+            <p className="text-danger mx-4">{validationErrors.sponsors}</p></>} 
            
           </tbody>
         </table>
