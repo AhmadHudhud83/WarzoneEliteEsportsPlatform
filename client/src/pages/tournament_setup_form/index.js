@@ -2,34 +2,47 @@ import React, { useEffect, useRef, useState } from "react";
 import { BasicsForm } from "./componenets/Basics/BasicsForm";
 import { InfoForm } from "./componenets/Info/InfoForm";
 import { SettingsForm } from "./componenets/Settings/SettingsForm";
-//import { PublishForm } from "./componenets/Publish/PublishForm";
 import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import PublishForm from "./componenets/Dynamic/DynamicForm";
 
 //BY AHMAD HUDHUD
 
 export const TournamentSetupForm = ({ request }) => {
+  const [formData, setFormData] = useState({}); //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
   const params = useParams();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //loading screen to fix component flash
   const [requiredObject, setRequiredObject] = useState(null); //retrive the game object in the craeting tournament case
   //if the request was for editing a tournament , then the tournament object must be retrived
-  let intialValidationValuesBasicForm = {}
-  let requiredParam = null;
+
+  let intialValidationValuesBasicForm = {};
+  let requiredParam =  params[request.requiredParam] //based on the requried object , if it was for creating tournament , then the game name is needed , 
+  //if the required object were the tournament object , then the pramaeter id will be different
   if (request.type === "CREATE_TOURNAMENT") {
-    requiredParam = params[request.requiredParam];
-    intialValidationValuesBasicForm={ title: "",
-    start_date: "",
-    start_time: "",}
-  } //to get the game name from url (after selecting a game)
+   
+    intialValidationValuesBasicForm = { //for the intial next button to be disabled at first (when there is no formData yet )
+      title: "",
+      start_date: "",
+      start_time: "",
+    }
+    
+    
+
+  }//when updating a tournament ,
+    // all tournament values from database will be the deafult values for the inputs , so the next button state must be enabled
+  else if(request.type==="UPDATE_TOURNAMENT"){
+
+    intialValidationValuesBasicForm={} ;
+    
+  }
+
+
   useEffect(() => {
     request.getFunction(requiredParam, setRequiredObject, setLoading);
   }, [requiredParam, request]);
 
-  const [isAgreed, setIsAgreed] = useState(false);
-  
   const childRef = useRef(); // to call the function in the child component <BasicForm/>
+  const [isAgreed, setIsAgreed] = useState(false); //for the publish/save changes dynamic form handling
   const [nav, setNav] = useState(0); //to keep track of navigation stats
   const [nextButtonState, setNextButtonState] = useState(true); // to keep track of next button stats
   const [topActiveNav, setTopActiveNav] = useState(0); //to keep track of next active nav stats (also for styling)
@@ -39,15 +52,9 @@ export const TournamentSetupForm = ({ request }) => {
   const handlePublishCheckBox = (e) => {
     setIsAgreed(e.target.checked);
   };
-
-  useEffect(() => {
-    const hasErrors = Object.keys(validationErrors).length > 0;
-    setNextButtonState(hasErrors);
-  }, [validationErrors]);
   const nextButtonHandler = (bool) => {
     setNextButtonState(bool);
   };
-  //validation handler of global object...
   const validationErrorsHandler = (newValidationErrors) => {
     setValidationErrors((prevErrors) => {
       const anyErrors = Object.keys(validationErrors).length > 0;
@@ -57,17 +64,25 @@ export const TournamentSetupForm = ({ request }) => {
     });
     console.log(newValidationErrors);
   };
+
   useEffect(() => {
-    setValidationErrors(intialValidationValuesBasicForm);
+    const hasErrors = Object.keys(validationErrors).length > 0;
+    setNextButtonState(hasErrors);
+  }, [validationErrors]);
+
+  //validation handler of global object...
+
+  useEffect(() => {
+    validationErrorsHandler(intialValidationValuesBasicForm);
     console.log("CHILDREEN ", request);
   }, []);
 
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
-    setNav((_nav) => {
-      return _nav + 1;
-    });
-    setTopActiveNav((_top) => _top + 1);
+    setNav((_navElement) => {
+      return _navElement + 1;
+    })
+    setTopActiveNav((_topElement) => _topElement + 1);
 
     //setNextButtonState(true);
     setNextButtonState(Object.keys(validationErrors).length > 0);
@@ -118,11 +133,10 @@ export const TournamentSetupForm = ({ request }) => {
   //const game_name = requiredObject.name
   //console.log(game_name)
 
-  const [formData, setFormData] = useState({}); //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
   useEffect(() => {
     if (requiredObject) {
       if (requiredObject.name) {
-        setFormData({ game: requiredObject.name });
+        setFormData({ game: requiredObject.name,sponsors:[]} );
       } else if (requiredObject.about) {
         setFormData(requiredObject);
       }
@@ -185,7 +199,7 @@ export const TournamentSetupForm = ({ request }) => {
     //here pushing the 5th element , might be the publish form or the save form based on the inputs
   ];
 
-  let SelecetedNavElementButton = null
+  let SelecetedNavElementButton = null;
   let SelectedNavElement = null;
   if (request.type === "CREATE_TOURNAMENT") {
     SelectedNavElement = {
@@ -216,32 +230,6 @@ export const TournamentSetupForm = ({ request }) => {
       );
     };
   }
-  
-
-  //   if(children[0].text==="PUBLISH"){
-  //     SelectedNavElementForm =React.Children.map(children[0].component,child=>{
-  //     if(React.isValidElement(child)){
-
-  //       return React.cloneElement(child,{formData:formData,isAgreed:isAgreed,setIsAgreed:handlePublishCheckBox,ref:childRef})
-
-  //     }
-  //     return child
-  //   })
-  //   const SelectedElement = {text:children[0].text,component:SelectedNavElementForm}
-  //   NavElements[4]=SelectedElement
-  //   SelecetedNavElementButton = ()=>{
-
-  //   }
-
-  // }else if(children[0].text==="SAVE CHANGES"){
-  // const SelectedElement = children[0]
-  // NavElements[4]=SelectedElement
-  // SelecetedNavElementButton=()=>{
-  //   return<button>SAVE AND CHANGES BABAY</button>
-  // }
-
-  // }
-  //navbar elements , by label and component, also passing the needed data for them as props like form data , and validation errors to keep the track of them inside the child components
 
   // a function to display the componenet based in the nav stats (using nav as an index)
   const NavDisplay = () => {

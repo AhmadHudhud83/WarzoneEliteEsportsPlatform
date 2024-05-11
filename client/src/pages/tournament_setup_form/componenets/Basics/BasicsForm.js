@@ -161,7 +161,7 @@ export const BasicsForm = ({
           {TimetableInputs.map((item,index)=>{
 
             return (
-              <div className="col-md-6 col-sm-12 form-group my-3">
+              <div key={index} className="col-md-6 col-sm-12 form-group my-3">
                   <label htmlFor={item.name} className="form-label">
                     {item.label}
                   </label>

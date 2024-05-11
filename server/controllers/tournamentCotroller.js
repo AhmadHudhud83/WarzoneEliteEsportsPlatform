@@ -123,13 +123,7 @@ const creatingTournamentValidation = (tournamentObject) => {
 }
 
 
-/**
- * @desc get a tournament by id for the user
- * @route /api/tournaments
- * @method GET
- * @access public
- *
- */
+
 
 
 export const getTournamentById = async (req,res)=>{

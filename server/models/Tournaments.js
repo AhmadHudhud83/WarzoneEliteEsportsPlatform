@@ -116,8 +116,8 @@ const TournamentSchema  = new mongoose.Schema({
         default:["Welcome to my tournament","Consider Being a nice person !"]
     },
     sponsors:{
-        type:Object,
-        default:{ brand: "brand.inc", email: "barnd@example.com" }
+        type:Array,
+        default:[{ brand: "brand.inc", email: "barnd@example.com" },{ brand: "brand.inc", email: "barnd@example.com" },]
     },
     supervisors:{
        type:[String],
