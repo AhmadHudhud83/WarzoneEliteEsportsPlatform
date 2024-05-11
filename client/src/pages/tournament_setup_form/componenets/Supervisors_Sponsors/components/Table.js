@@ -4,23 +4,28 @@ import { Link } from "react-router-dom";
 import { useSupervisorsAndSponsorsDetails } from "../SupervisorsAndSponsors";
 //exporting data
 const Table = () => {
-  const { formData, setFormData, SponsorsfiledNames,setValidationErrors,validationErrors } = useContext(
-    useSupervisorsAndSponsorsDetails
-  );
-  useEffect(()=>{
-    if(formData.sponsors.length===0){
-      setValidationErrors({...validationErrors,sponsors:"Atleast add one sponsor !"})
-    }else{
-  
-        const newError = {...validationErrors}
-        if(newError.sponsors){
-          delete newError.sponsors
-        }
-        setValidationErrors(newError)
-      
-    }
-    
-  },[setValidationErrors,validationErrors])
+  const {
+    formData,
+    setFormData,
+    SponsorsfiledNames,
+    setValidationErrors,
+    validationErrors,
+  } = useContext(useSupervisorsAndSponsorsDetails);
+  //SPONSOR VALIDATION , CANCELED .....
+  // useEffect(()=>{
+  //   if(formData.sponsors.length===0){
+  //     setValidationErrors({...validationErrors,sponsors:"Atleast add one sponsor !"})
+  //   }else{
+
+  //       const newError = {...validationErrors}
+  //       if(newError.sponsors){
+  //         delete newError.sponsors
+  //       }
+  //       setValidationErrors(newError)
+
+  //   }
+
+  // },[setValidationErrors,validationErrors])
   //states for adding sponsor , and it's modal
   const [addingSponsor, setaAddingSponsor] = useState({ brand: "", email: "" });
 
@@ -35,21 +40,22 @@ const Table = () => {
     console.log(addingSponsor);
   };
   const addInputHandler = () => {
-  //duplicate chcker
-  const sponsorExists   =formData.sponsors.find(s=> s.email ===addingSponsor.email &&s.brand===addingSponsor.brand )
-    if(!sponsorExists){
+    //duplicate chcker
+    const sponsorExists = formData.sponsors.find(
+      (s) => s.email === addingSponsor.email && s.brand === addingSponsor.brand
+    );
+    if (!sponsorExists) {
       const updatedSponsorsArray = [
         ...formData.sponsors,
         { email: addingSponsor.email, brand: addingSponsor.brand },
       ];
-     
+
       const updatedFormData = { ...formData, sponsors: updatedSponsorsArray };
-  
+
       setFormData(updatedFormData);
+    } else {
+      alert("duplicated sponsors not allowed");
     }
-   else{
-    alert("duplicated sponsors not allowed")
-   }
     console.log(formData);
     setaAddingSponsor({ brand: "", email: "" });
   };
@@ -67,7 +73,7 @@ const Table = () => {
     setFormData(updatedFormData);
     console.log(formData);
   };
-  
+
   //===========================================================================
   //states for editing sponsor and editing modal
   const [showEditingModal, setShowEditingModal] = useState(false);
@@ -87,7 +93,7 @@ const Table = () => {
   };
 
   //===============================================================
-  
+
   const modals = [
     {
       //=======================Adding modal====================
@@ -100,7 +106,7 @@ const Table = () => {
       emailValue: addingSponsor.email,
       brandOnChange: (e) => sponsorBrandHandler(e),
       emailOnChange: (e) => sponsorEmailHandler(e),
-      disabled: addingSponsor.brand === "" || addingSponsor.email === "" ,
+      disabled: addingSponsor.brand === "" || addingSponsor.email === "",
       onClick: () => {
         addInputHandler(addingSponsor);
         handleCloseAddingModal();
@@ -125,14 +131,14 @@ const Table = () => {
           ...editedSponsor,
           email: e.target.value,
         }),
-      disabled: editedSponsor.brand===""||editedSponsor.email==="",
+      disabled: editedSponsor.brand === "" || editedSponsor.email === "",
       onClick: () => {
-         //at editing modal trigger , to fix update same sponsor bug that alerts the warning if its the defaul valuem
-         //index parameter is important for that role
+        //at editing modal trigger , to fix update same sponsor bug that alerts the warning if its the defaul valuem
+        //index parameter is important for that role
         const sponsorExists = formData.sponsors.find(
           (sponsor, index) =>
-            index !== editingIndex &&//is this current selected sponsor ? if it is it then never mind updating it to same value again
-          //but if not , then this means there is another value in the formData.sponsors that will be same as current value , then deny it
+            index !== editingIndex && //is this current selected sponsor ? if it is it then never mind updating it to same value again
+            //but if not , then this means there is another value in the formData.sponsors that will be same as current value , then deny it
             sponsor.email === editedSponsor.email &&
             sponsor.brand === editedSponsor.brand
         );
@@ -142,7 +148,10 @@ const Table = () => {
         } else {
           const updatedSponsorsArray = [...formData.sponsors];
           updatedSponsorsArray[editingIndex] = { ...editedSponsor };
-          const updatedFormData = { ...formData, sponsors: updatedSponsorsArray };
+          const updatedFormData = {
+            ...formData,
+            sponsors: updatedSponsorsArray,
+          };
           setFormData(updatedFormData);
           handleCloseEditingModal();
         }
@@ -156,7 +165,7 @@ const Table = () => {
     <React.Fragment>
       <div className="p-4 mt-4">
         {/* =================================================MODALS========================================================= */}
-        
+
         {modals.map((item, index) => {
           return (
             <Modal
@@ -202,7 +211,6 @@ const Table = () => {
                       {item.firstButtonLabel}
                     </button>
                     <button
-                
                       onClick={item.onClick}
                       className="btn btn-danger btn-sm  px-4 border rounded border-danger"
                       type="button"
@@ -218,7 +226,7 @@ const Table = () => {
             </Modal>
           );
         })}
-{/* ==========================================================================================THE TABLE ======================================= */}
+        {/* ==========================================================================================THE TABLE ======================================= */}
         <div className="d-flex ">
           <h4 className="text-white mb-4 ">Sponsors</h4>
 
@@ -230,7 +238,7 @@ const Table = () => {
             ADD SPONSOR
           </button>
         </div>
-    
+
         <table className="table table-dark table-striped border border-secondary border-1">
           <thead>
             <tr>
@@ -241,33 +249,39 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-          {formData.sponsors.length>0?  formData.sponsors.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <th scope="row">{item.brand}</th>
-                  <td>{item.email}</td>
-                  <td>
-                    <div className="d-flex">
-                      <Link
-                        onClick={() => deleteHandler(index)}
-                        className="me-5 btn  "
-                      >
-                        <i className="fa-solid fa-trash fa-lg" />
-                      </Link>
-                      <Link
-                        onClick={() => handleShowEditingModal(index)}
-                        className="btn "
-                      >
-                        <i className="fa-solid fa-pen fa-lg " />
-                      </Link>
-                    </div>
-                  </td>
-                </tr>
-              );
-            }):<>
-            <h4 className="text-start p-3 px-4">No Sponsors Available...</h4>
-            <p className="text-danger mx-4">{validationErrors.sponsors}</p></>} 
-           
+            {formData.sponsors.length > 0 ? (
+              formData.sponsors.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <th scope="row">{item.brand}</th>
+                    <td>{item.email}</td>
+                    <td>
+                      <div className="d-flex">
+                        <Link
+                          onClick={() => deleteHandler(index)}
+                          className="me-5 btn  "
+                        >
+                          <i className="fa-solid fa-trash fa-lg" />
+                        </Link>
+                        <Link
+                          onClick={() => handleShowEditingModal(index)}
+                          className="btn "
+                        >
+                          <i className="fa-solid fa-pen fa-lg " />
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <>
+                <h4 className="text-start p-3 px-4">
+                  No Sponsors Available...
+                </h4>
+                <p className="text-danger mx-4">{validationErrors.sponsors}</p>
+              </>
+            )}
           </tbody>
         </table>
       </div>
