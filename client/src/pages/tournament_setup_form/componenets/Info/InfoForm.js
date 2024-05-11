@@ -6,8 +6,8 @@ export const InfoForm = ({
   setValidationErrors,
   validationErrors,
 }) => {
- //to focus on the first required "contact details" input , (used for optimzing form validation handling)
-  const inputRef = useRef()
+  //to focus on the first required "contact details" input , (used for optimzing form validation handling)
+  const inputRef = useRef();
 
   useEffect(() => {
     if (inputRef.current) {
@@ -21,7 +21,7 @@ export const InfoForm = ({
     { label: "Description", name: "description" },
     { label: "Schedule", name: "schedule" },
   ];
-//function for testing url pattern (by regex)
+  //function for testing url pattern (by regex)
   const isValidUrl = (str) => {
     const pattern = new RegExp(
       "^(https?:\\/\\/)?" +
@@ -32,36 +32,33 @@ export const InfoForm = ({
         "(\\?[\\s\\S]*)?" +
         "(\\#[\\s\\S]*)?$",
       "i"
-    )
+    );
     return pattern.test(str);
-  }
-//handle the info form change
+  };
+  //handle the info form change
   const handleChange = (e) => {
-
     const updatedFormData = { ...formData, [e.target.name]: e.target.value };
 
     setFormData(updatedFormData);
     console.log(updatedFormData);
-  }
-//handle the info form validation change
+  };
+  //handle the info form validation change
   const validationHandler = (e) => {
     const inputValue = e.target.value;
-    const valErrors = {...validationErrors}
+    const valErrors = { ...validationErrors };
     if (!inputValue.trim() || inputValue === "") {
-      valErrors.contact_details = "Contact us field is required!"
+      valErrors.contact_details = "Contact us field is required!";
       setValidationErrors(valErrors);
     } else if (!isValidUrl(inputValue)) {
       valErrors.contact_details = "You must provide a valid contact link";
       setValidationErrors(valErrors);
-    }
-    else{
-      delete valErrors.contact_details
+    } else {
+      delete valErrors.contact_details;
       setValidationErrors(valErrors);
     }
-  
+
     console.log(validationErrors);
-  }
- 
+  };
 
   return (
     <React.Fragment>
@@ -72,7 +69,7 @@ export const InfoForm = ({
               <div key={index} className="mb-3  my-4">
                 <label className="my-4 ">{item.label}</label>
                 <textarea
-                name={item.name}
+                  name={item.name}
                   className="form-control bg-dark  text-white"
                   onChange={(e) => {
                     handleChange(e);
@@ -90,7 +87,7 @@ export const InfoForm = ({
                   // onBlur={(e)=>{
                   //   index===0&&validationHandler(e)
                   // }}
-                  ref={index===0?inputRef:undefined}
+                  ref={index === 0 ? inputRef : undefined}
                 />
                 {index === 0 ? (
                   <span className="mb-3 d-block text-danger">
@@ -107,4 +104,4 @@ export const InfoForm = ({
     </React.Fragment>
   );
 };
-export default InfoForm
+export default InfoForm;

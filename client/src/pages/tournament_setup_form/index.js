@@ -132,11 +132,13 @@ export const TournamentSetupForm = ({ request }) => {
 
   //const game_name = requiredObject.name
   //console.log(game_name)
-
+  const handleFileChange = (file) => {
+    setFormData({ ...formData, cover_image_url: file });
+  };
   useEffect(() => {
     if (requiredObject) {
       if (requiredObject.name) {
-        setFormData({ game: requiredObject.name,sponsors:[]} );
+        setFormData({ game: requiredObject.name,sponsors:[],cover_image_url:null} );
       } else if (requiredObject.about) {
         setFormData(requiredObject);
       }
@@ -158,6 +160,7 @@ export const TournamentSetupForm = ({ request }) => {
           setValidationErrors={validationErrorsHandler}
           validationErrors={validationErrors}
           intialValidationValuesBasicForm={intialValidationValuesBasicForm}
+          handleFileChange={handleFileChange}
         />
       ),
     },
