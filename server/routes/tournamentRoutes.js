@@ -1,4 +1,5 @@
 import express from "express"; //by ahmad hudhud
+
 const tournamentRouter = express.Router();
 import upload from "../middlewares/uploadImage.js";
 import {
@@ -14,8 +15,8 @@ import { getTournamentById } from "../controllers/tournamentCotroller.js";
  *
  */
 
-
-tournamentRouter.post("/api/tournaments",upload.single('file'), createTournament);
+tournamentRouter.use(express.static('public'))
+tournamentRouter.post("/api/tournaments",upload.single('cover_image_url'), createTournament)
 
 /**
  * @desc get a tournament by id for the user

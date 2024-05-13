@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+
 import "../../style.css";
 //consider the probs
 export const BasicsForm = ({
@@ -8,6 +10,8 @@ export const BasicsForm = ({
   setFormData,
   setValidationErrors,
   validationErrors,
+  image,
+  setImage
 }) => {
   //init values used for validation logic
   //since the validation object is empty ,which means at the refresh the next button will be enabled since the object is empty ,
@@ -77,18 +81,16 @@ export const BasicsForm = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
+
+    
   }, []);
   //image file handler , try it (expermental use only)
-  const [file, setFile] = useState();
-  const [image, setImage] = useState();
-
+  const [file, setFile] = useState(null);
   const imageHandleChange = (e) => {
-    console.log(e.target.files);
-    if (e) {
-      setFile(URL.createObjectURL(e.target.files[0]));
-    } else {
-      console.error("nothing selected");
-    }
+    setFile(e.target.files[0]);
+    setFormData({ ...formData, cover_image_url: e.target.files[0] });
+
+    console.log("image =>>>", file);
   };
 
   //==============CANCELLED (BASE64 METHOD) ====================
@@ -129,6 +131,18 @@ export const BasicsForm = ({
     },
   ];
 
+  const imageHandler = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <React.Fragment>
       {/*whole container start*/}
@@ -212,22 +226,29 @@ export const BasicsForm = ({
           <p>Upload Game Banner</p>
 
           <div className="input-group">
+            
             <input
+            
               type="file"
+              name="cover_image_url"
               accept="image/*"
-              onChange={imageHandleChange}
+              onChange={(e)=>{
+                
+                imageHandler(e)
+                imageHandleChange(e)
+              }}
               className="form-control bg-dark bg-primary text-white"
-              id="inputGroupFile04"
+              id="image"
               aria-describedby="inputGroupFileAddon04"
               aria-label="Upload"
+              style={{display:"none"}}
             />
+           <label htmlFor="image" style={{cursor:"pointer",}}  id="image_label">
+            <img id="preview_image" className="img-fluid rounded" style={{height:"600px",width:"1290px"}} src={image} alt="selected-    banner" />
+          </label>
           </div>
           <div className="d-flex justify-content-center pt-5">
-            {image === "" || image === null ? (
-              ""
-            ) : (
-              <img src={image} classname="img-fluid rounded" alt={image} />
-            )}
+       
           </div>
         </div>
       </div>

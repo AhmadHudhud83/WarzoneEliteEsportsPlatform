@@ -84,6 +84,8 @@ export const InfoForm = ({
                   onFocus={(e) => {
                     index === 0 && validationHandler(e);
                   }}
+
+                 
                   // onBlur={(e)=>{
                   //   index===0&&validationHandler(e)
                   // }}

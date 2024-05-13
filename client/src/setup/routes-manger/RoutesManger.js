@@ -6,7 +6,7 @@ import { Temp } from "../../pages/home_page/Temp";
 import { DetailedTournamentCard } from "../../common/Detailed-Tornament-Card";
 import { TournamentManagementPage } from "../../pages/tournament-management-page";
 import { TournamentDashboard } from "../../pages/tournaments_dashboard";
-import { TournamentSetupForm } from "../../pages/tournament_setup_form";
+import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import DynamicForm from "../../pages/tournament_setup_form/componenets/Dynamic/DynamicForm";
 import axios from "axios";
 
@@ -69,7 +69,7 @@ const UpdateTournamentRequest = {
     paragraphTwo:
       " By saving, you agree to our website's policy and community standards.",
   },
-  requiredParam:"gameName",
+  requiredParam:"tournamentId",
   getFunction:(requiredParam,setRequiredObject,setLoading)=>{
     axios.get(`http://localhost:5000/api/tournaments/${requiredParam}`).
     then((res=>{
@@ -92,9 +92,9 @@ return(<BrowserRouter>
         <Route path="/">
           <Route index element={<Temp/>} />
           <Route path="select-game/" element={<SelectGame />} />
-          <Route path="tournament-setup/:gameName" element={<TournamentSetupForm request={CreateTournamentRequest} />}></Route>
-          <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}></Route>
-
+          <Route path="select-game/tournament-setup/:gameName" element={<TournamentForm request={CreateTournamentRequest} />}/>
+          {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */}
+          <Route path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form" element={<TournamentForm request={UpdateTournamentRequest} />}/>
           <Route path="detailed-tournament/:id" element={<DetailedTournamentCard/>}/>
          <Route path="detailed-tournament/:id/management" element={<TournamentManagementPage/>}/>
           <Route path="organaizer/dashboard" element={<TournamentDashboard>

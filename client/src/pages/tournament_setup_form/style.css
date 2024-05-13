@@ -12,6 +12,12 @@ input[type="file"]::file-selector-button {
     
    
     background-color:#212529;
-   color:white;
+    color: transparent;
+    border: none;
+    display: none;
   }
-    
+::-webkit-file-upload-button{
+  color:transparent;
+  display:none
+}
+

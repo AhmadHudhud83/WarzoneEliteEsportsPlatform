@@ -8,7 +8,7 @@ import PublishForm from "./componenets/Dynamic/DynamicForm";
 
 //BY AHMAD HUDHUD
 
-export const TournamentSetupForm = ({ request }) => {
+export const TournamentForm = ({ request }) => {
   const [formData, setFormData] = useState({}); //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
   const params = useParams();
   const [loading, setLoading] = useState(true); //loading screen to fix component flash
@@ -16,26 +16,20 @@ export const TournamentSetupForm = ({ request }) => {
   //if the request was for editing a tournament , then the tournament object must be retrived
 
   let intialValidationValuesBasicForm = {};
-  let requiredParam =  params[request.requiredParam] //based on the requried object , if it was for creating tournament , then the game name is needed , 
+  let requiredParam = params[request.requiredParam]; //based on the requried object , if it was for creating tournament , then the game name is needed ,
   //if the required object were the tournament object , then the pramaeter id will be different
   if (request.type === "CREATE_TOURNAMENT") {
-   
-    intialValidationValuesBasicForm = { //for the intial next button to be disabled at first (when there is no formData yet )
+    intialValidationValuesBasicForm = {
+      //for the intial next button to be disabled at first (when there is no formData yet )
       title: "",
       start_date: "",
       start_time: "",
-    }
-    
-    
-
-  }//when updating a tournament ,
-    // all tournament values from database will be the deafult values for the inputs , so the next button state must be enabled
-  else if(request.type==="UPDATE_TOURNAMENT"){
-
-    intialValidationValuesBasicForm={} ;
-    
+    };
+  } //when updating a tournament ,
+  // all tournament values from database will be the deafult values for the inputs , so the next button state must be enabled
+  else if (request.type === "UPDATE_TOURNAMENT") {
+    intialValidationValuesBasicForm = {};
   }
-
 
   useEffect(() => {
     request.getFunction(requiredParam, setRequiredObject, setLoading);
@@ -81,7 +75,7 @@ export const TournamentSetupForm = ({ request }) => {
   const nextClickHandler = () => {
     setNav((_navElement) => {
       return _navElement + 1;
-    })
+    });
     setTopActiveNav((_topElement) => _topElement + 1);
 
     //setNextButtonState(true);
@@ -100,45 +94,62 @@ export const TournamentSetupForm = ({ request }) => {
 
   //tournament (form) object intialaized
 
-  //  const initTournamentObjectValue = {
-  //   //1st page validation
-  //   game: gameName, //string
-  //   title: "",
-  //   start_date: "",
-  //   start_time: "",
-  //   about: "",
-  //   //2nd page validation
-  //   contact_details: "",
-  //   rules: "",
-  //   prize: "",
-  //   description: "",
-  //   schedule: "",
-  //   //3rd page validation
-  //   format: "Teams",
-  //   platform: "",
-  //   tournament_status: "Opened",
-  //   registeration_status: "Opened",
-  //   max_participants: 0,
-  //   //4th page validation
-  //   sponsors: [{ brand: "", email: "" }],
-  //   //other attributes related to the tournament object
-  //   announcements: ["hi", "bye"],
-  //   supervisors : ["123","456"],
-  //   organizerID:"8910",
-  //   //sueprvisosr (array of supervisors ids (object ids))
-  //  // organizer id (when logged in)
-  //   cover_image_url:"https://i.imgur.com/CqiHFdW.png"
-  // }
+  const initTournamentObjectValue = {
+    //1st page validation
+    //game: , //string
+    title: undefined,
+    start_date: undefined,
+    start_time: undefined,
+    about: undefined,
+    cover_image_url: undefined,
+    //2nd page validation
+    contact_details: undefined,
+    rules: undefined,
+    prize: undefined,
+    description: undefined,
+    schedule: undefined,
+    //3rd page validation
+    format: undefined,
+    platform: undefined,
+    tournament_status: undefined,
+    registeration_status: undefined,
+    max_participants: 0,
+    //4th page validation
+    sponsors: [{ brand: "", email: "" }],
+    //other attributes related to the tournament object
+    announcements: ["hi", "bye"],
+    supervisors: ["123", "456"],
+    organizerID: "8910",
+    //sueprvisosr (array of supervisors ids (object ids))
+    // organizer id (when logged in)
+  };
 
   //const game_name = requiredObject.name
   //console.log(game_name)
+  //================Image uploading and default image features============================
   const handleFileChange = (file) => {
-    setFormData({ ...formData, cover_image_url: file });
+    setFormData({ ...formData, cover_image_url: "" });
+  };
+  const [image, setImage] = useState();
+  useEffect(() => {
+    if (request.type === "UPDATE_TOURNAMENT" && requiredObject) {
+      console.log("image path :", requiredObject.cover_image_url);
+
+      setImage(`http://localhost:5000/${requiredObject.cover_image_url}`);//for the updating request
+    } else {
+      setImage("https://i.imgur.com/pnLUOkV.png");//for the creating request ( for first time)
+    }
+  }, [setImage, request, requiredObject]);
+
+  const selectedImageHandler = (newImage) => {
+    setImage(newImage);
   };
   useEffect(() => {
     if (requiredObject) {
       if (requiredObject.name) {
-        setFormData({ game: requiredObject.name,sponsors:[],cover_image_url:null} );
+        initTournamentObjectValue.game = requiredObject.name;
+        initTournamentObjectValue.sponsors = [];
+        setFormData(initTournamentObjectValue);
       } else if (requiredObject.about) {
         setFormData(requiredObject);
       }
@@ -161,6 +172,8 @@ export const TournamentSetupForm = ({ request }) => {
           validationErrors={validationErrors}
           intialValidationValuesBasicForm={intialValidationValuesBasicForm}
           handleFileChange={handleFileChange}
+          image={image}
+          setImage={selectedImageHandler}
         />
       ),
     },
@@ -210,6 +223,7 @@ export const TournamentSetupForm = ({ request }) => {
       component: (
         <PublishForm
           formData={formData}
+          setFormData={setFormData}
           isAgreed={isAgreed}
           setIsAgreed={handlePublishCheckBox}
           ref={childRef}

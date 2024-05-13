@@ -83,7 +83,7 @@ const Table = () => {
   //index as the main parameter for each sponsor field to send the deafult values in the inputs, and to update the selected sponsor info
   const handleShowEditingModal = (index) => {
     setEditingIndex(index);
-    //targetted sponsor
+    //targetted sponsor 
     const sponsorToEdit = formData.sponsors[index];
     setEditedSponsor({
       brand: sponsorToEdit.brand,
@@ -97,6 +97,8 @@ const Table = () => {
   const modals = [
     {
       //=======================Adding modal====================
+      emailName:"email",
+      brandName:"brand",
       title: "Add Sponsor",
       firstButtonLabel: "Close",
       secondButtonLabel: "Add",
@@ -185,6 +187,7 @@ const Table = () => {
                 <div className="input-group mb-3 ms-auto">
                   <div className="input-group mb-3 ">
                     <input
+                    name={item.brandName}
                       type="text"
                       className="form-control bg-dark text-white "
                       placeholder="Sponsor Brand"
@@ -195,6 +198,7 @@ const Table = () => {
                   </div>
                   <div className="input-group mb-3 ">
                     <input
+                     name={item.emailName}
                       type="text"
                       className="form-control bg-dark text-white "
                       placeholder="Sponsor Email"
