@@ -5,7 +5,7 @@ import { Prizes } from "../../bottom-navbar-components/Prizes/Prizes";
 import { Rules } from "../../bottom-navbar-components/Rules/Rules";
 import { Schedule } from "../../bottom-navbar-components/Schedule/Schedule";
 import { Contact } from "../../bottom-navbar-components/Contact/Contact";
-import { About } from "../../bottom-navbar-components/About/About";
+
 import { useTournamentDetails } from "../..";
 
 export const Overview = () => {
@@ -16,7 +16,7 @@ export const Overview = () => {
     { link: "#", element: "PRIZES", component: <Prizes/> },
     { link: "#", element: "SCHEDULE", component: <Schedule/> },
     { link: "#", element: "CONTACT", component: <Contact/> },
-    { link: "#", element: "ABOUT", component: <About/> },
+
   ];
 
   const [activeBottomComponent, setActiveBottomComponent] = useState(0);
@@ -31,7 +31,9 @@ export const Overview = () => {
 
   return (
     <React.Fragment>
+      
       <div className="my-4 py-2 d-flex justify-content-center">
+      
         <img
           style={{ height: "30%", width: "70%" }}
           src={tournamentDetails.cover_image_url}
@@ -40,7 +42,15 @@ export const Overview = () => {
         />{" "}
       </div>
       <div className="card-header   ">
+      <div className="border-bottom border-start border-top border-end p-5">
+    <h4>ABOUT</h4>
+    <hr/>
+
+    <p className="text-muted mt-3">{tournamentDetails.about}</p> 
+
+     </div>
         <ul className="nav nav-pills card-header-pills my-3 d-flex justify-content-center ">
+          
           {bottomNavElements.map((item, index) => {
             return (
               <li

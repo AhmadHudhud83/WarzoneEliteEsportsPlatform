@@ -2,163 +2,215 @@ import React, { useEffect, useRef, useState } from "react";
 import { BasicsForm } from "./componenets/Basics/BasicsForm";
 import { InfoForm } from "./componenets/Info/InfoForm";
 import { SettingsForm } from "./componenets/Settings/SettingsForm";
-import { PublishForm } from "./componenets/Publish/PublishForm";
 import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import DynamicForm from "./componenets/Dynamic/DynamicForm";
 import axios from "axios";
 
 //BY AHMAD HUDHUD
 
-export const TournamentSetupForm = () => {
-  const [loading,setLoading] = useState(true)
-  const [_game , setGame] = useState(null)
-const {gameName} = useParams() //to get the game name from url (after selecting a game)
-  useEffect(()=>{
-  
+export const TournamentForm = ({ request }) => {
+  const [formData, setFormData] = useState({}); //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
+  const params = useParams();
+  const [loading, setLoading] = useState(true); //loading screen to fix component flash
+  const [requiredObject, setRequiredObject] = useState(null); //retrive the game object in the craeting tournament case
+  //if the request was for editing a tournament , then the tournament object must be retrived
 
-    axios.get(`http://localhost:5000/api/games/${gameName}`).
-    then((res=>{
-      console.log(res.data)
-    setGame(res.data)
-    setLoading(false)
-    })).catch((e)=>{console.error("error , game not found",e)
+  let intialValidationValuesBasicForm = {};
 
-   setLoading(false)
-    } )
-  },[gameName])
+  const requiredParamsFunction = () => {
+    if (request === "CREATE_TOURNAMENT") return "gameName";
+    else if (request === "UPDATE_TOURNAMENT") return "tournamentId";
+  };
+  const _param = requiredParamsFunction();
+  const requiredParam = params[_param];
+  //based on the requried object , if it was for creating tournament , then the game name is needed ,
+  //if the required object were the tournament object , then the pramaeter id will be different
+  if (request === "CREATE_TOURNAMENT") {
+    intialValidationValuesBasicForm = {
+      //for the intial next button to be disabled at first (when there is no formData yet )
+      title: "",
+      start_date: "",
+      start_time: "",
+    };
+  } //when updating a tournament ,
+  // all tournament values from database will be the deafult values for the inputs , so the next button state must be enabled
+  else if (request === "UPDATE_TOURNAMENT") {
+    intialValidationValuesBasicForm = {};
+  }
 
+  useEffect(() => {//based on the request , updating or creating a tournament
+    if (request === "CREATE_TOURNAMENT") {
+      console.log("required param : ", requiredParam);
+      axios
+        .get(`http://localhost:5000/api/games/${requiredParam}`)
+        .then((res) => {
+          console.log(res.data);
+          setRequiredObject(res.data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.error("error , game not found", e);
 
-
-
-  const [isAgreed, setIsAgreed] = useState(false)
-  const intialValidationValuesBasicForm = { title: "", start_date: "", start_time: ""} 
-  const childRef = useRef() // to call the function in the child component <BasicForm/>
-  const [nav, setNav] = useState(0) //to keep track of navigation stats
-  const [nextButtonState, setNextButtonState] = useState(true ) // to keep track of next button stats
-  const [topActiveNav, setTopActiveNav] = useState(0) //to keep track of next active nav stats (also for styling)
-  const [validationErrors, setValidationErrors] = useState({}) //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
+          setLoading(false);
+        });
+    } else if (request === "UPDATE_TOURNAMENT") {
+      console.log("required param : ", requiredParam);
+      axios
+        .get(`http://localhost:5000/api/tournaments/${requiredParam}`)
+        .then((res) => {
+          console.log(res.data);
+          setRequiredObject(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err, "error, tournament not found");
+        });
+      setLoading(true);
+    }
+  }, [requiredParam, request]);
+  useEffect(() => {
+    setFormData({ ...formData, cover_image_url: undefined });
+  }, []);
+  const childRef = useRef(); // to call the function in the child component <BasicForm/>
+  const [isAgreed, setIsAgreed] = useState(false); //for the publish/save changes dynamic form handling
+  const [nav, setNav] = useState(0); //to keep track of navigation stats
+  const [nextButtonState, setNextButtonState] = useState(true); // to keep track of next button stats
+  const [topActiveNav, setTopActiveNav] = useState(0); //to keep track of next active nav stats (also for styling)
+  const [validationErrors, setValidationErrors] = useState({}); //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
 
   //the next button handler, using handlers is important to not fall with too  many re-render stats problems
-  const handlePublishCheckBox =(e)=>{
-    setIsAgreed(e.target.checked)
-  }
- 
-  useEffect(() => {
-   
-
-    const hasErrors = Object.keys(validationErrors).length > 0;
-    setNextButtonState(hasErrors)
-    
-  }, [validationErrors])
+  const handleCheckBox = (e) => {
+    setIsAgreed(e.target.checked);
+  };
   const nextButtonHandler = (bool) => {
-    setNextButtonState(bool)
-  }
-  //validation handler of global object...
+    setNextButtonState(bool);
+  };
   const validationErrorsHandler = (newValidationErrors) => {
-    setValidationErrors(prevErrors=>{
+    setValidationErrors((prevErrors) => {
       const anyErrors = Object.keys(validationErrors).length > 0;
-      nextButtonHandler(anyErrors)
+      nextButtonHandler(anyErrors);
 
-      return newValidationErrors
-    })
-    console.log(newValidationErrors)
-   
-    
+      return newValidationErrors;
+    });
+    console.log(newValidationErrors);
+  };
 
-  
-  }
-   useEffect(()=>{
-     setValidationErrors(intialValidationValuesBasicForm)
-   },[])
+  useEffect(() => {
+    const hasErrors = Object.keys(validationErrors).length > 0;
+    setNextButtonState(hasErrors);
+  }, [validationErrors]);
 
-  // const navigate = useNavigate();
+  //validation handler of global object...
 
-  //  useEffect( () => {
-  //  const gameExists = games.find(g=>g.name===game)
-    
-
-  //   if (!gameExists) {
-  //    //  navigate('/tournament-setup', { replace: true })
-  //    console.log("GAME DOESNT EXIST")
-  //   }
-  // }, [game, navigate, games]);
+  useEffect(() => {
+    validationErrorsHandler(intialValidationValuesBasicForm);
+    console.log("CHILDREEN ", request);
+  }, []);
+  useEffect(() => {
+    setFormData({ ...formData, cover_image_url: undefined });
+  }, []);
 
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
-    
-      setNav((_nav) => {
-        
-        
-        return _nav + 1})
-      setTopActiveNav((_top) => _top + 1)
-    
+    setNav((_navElement) => {
+      return _navElement + 1;
+    });
+    setTopActiveNav((_topElement) => _topElement + 1);
+
     //setNextButtonState(true);
-    setNextButtonState(Object.keys(validationErrors).length>0)
+    setNextButtonState(Object.keys(validationErrors).length > 0);
     console.log(validationErrors);
-  }
+  };
   //same for previous click handler..
   const prevClickHandler = () => {
-    setValidationErrors(
-      {}
-    ) 
-    setNav((n) =>{ 
-        
-      
-      return n - 1})
-    setTopActiveNav((t) => t - 1)
-   // setNextButtonState(false);
-   
-   
-  }
+    setValidationErrors({});
+    setNav((n) => {
+      return n - 1;
+    });
+    setTopActiveNav((t) => t - 1);
+    // setNextButtonState(false);
+  };
 
   //tournament (form) object intialaized
-  //const initTournamentObjectValue = {:}
-  // // const initTournamentObjectValue = {
-  //   //1st page validation
-  //   game: game, //string
-  //   title: "",
-  //   start_date: "",
-  //   start_time: "",
-  //   about: "",
-  //   //2nd page validation
-  //   contact_details: "",
-  //   rules: "",
-  //   prize: "",
-  //   description: "",
-  //   schedule: "",
-  //   //3rd page validation
-  //   format: "Teams",
-  //   platform: "",
-  //   tournament_status: "Opened",
-  //   registeration_status: "Opened",
-  //   max_participants: 0,
-  //   //4th page validation
-  //   //sponsors: { brand: "", email: "" },
-  //   //other attributes related to the tournament object
-  //   announcements: ["hi", "bye"],
-  //   supervisors : ["123","456"],
-  //   //organizerID:"8910",
-  //   //sueprvisosr (array of supervisors ids (object ids))
-  //   //organizer id (when logged in)
-  //   cover_image_url:"https://i.imgur.com/CqiHFdW.png"
-  // }
-  
 
-  const [formData, setFormData] = useState({game:gameName}) //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
-  // useEffect(() => {
-  //   if (_game) {
-  //     setFormData({ game: _game.name })
-  //   }
-  // }, [_game])
-  //the function to handle any form change
-  const handleFormChange = (newFormData) => { 
-    setFormData(newFormData)
-    console.log(newFormData)
-  }
-//navbar elements , by label and component, also passing the needed data for them as props like form data , and validation errors to keep the track of them inside the child components
+  const initTournamentObjectValue = {
+    //1st page validation
+    //game: , //string
+    title: undefined,
+    start_date: undefined,
+    start_time: undefined,
+    about: undefined,
+    cover_image_url: undefined,
+    //2nd page validation
+    contact_details: undefined,
+    rules: undefined,
+    prize: undefined,
+    description: undefined,
+    schedule: undefined,
+    //3rd page validation
+    format: undefined,
+    platform: undefined,
+    tournament_status: undefined,
+    registeration_status: undefined,
+    max_participants: 0,
+    //4th page validation
+    sponsors: [{ brand: "", email: "" }],
+    //other attributes related to the tournament object
+    announcements: ["hi", "bye"],
+    supervisors: ["123", "456"],
+    organizerID: "8910",
+    //sueprvisosr (array of supervisors ids (object ids))
+    // organizer id (when logged in)
+  };
+
+  //const game_name = requiredObject.name
+  //console.log(game_name)
+  //================Image uploading and default image features============================
+  const handleFileChange = (file) => {
+    setFormData({ ...formData, cover_image_url: "" });
+  };
+
+  const [image, setImage] = useState();
+  useEffect(() => {
+    if (request === "UPDATE_TOURNAMENT" && requiredObject) {
+      //for the updating request
+      console.log("image path :", requiredObject.cover_image_url);
+      if (
+        requiredObject.cover_image_url.includes(
+          "public\\images\\cover_image_url"
+        )
+      ) {
+        //if it was uploaded image with localhost path
+        setImage(`http://localhost:5000/${requiredObject.cover_image_url}`);
+      } else setImage(requiredObject.cover_image_url); //if there wasn't any uploaded image , return default image without localhost path
+    } else {
+      setImage("https://i.imgur.com/R8Ze4GS.png"); //for the creating request ( for first time)
+    }
+  }, [setImage, request, requiredObject]);
+
+  const selectedImageHandler = (newImage) => {
+    setImage(newImage);
+  };
+  useEffect(() => {
+    if (requiredObject) {
+      if (requiredObject.name) {
+        initTournamentObjectValue.game = requiredObject.name;
+        initTournamentObjectValue.sponsors = [];
+        setFormData(initTournamentObjectValue);
+      } else if (requiredObject.about) {
+        setFormData(requiredObject);
+      }
+    }
+  }, [requiredObject]);
+
+  const handleFormChange = (newFormData) => {
+    setFormData(newFormData);
+    console.log(newFormData);
+    //console.log(requiredObject);
+  };
   const NavElements = [
     {
-      link: "#",
       text: "BASICS",
       component: (
         <BasicsForm
@@ -167,11 +219,13 @@ const {gameName} = useParams() //to get the game name from url (after selecting 
           setValidationErrors={validationErrorsHandler}
           validationErrors={validationErrors}
           intialValidationValuesBasicForm={intialValidationValuesBasicForm}
+          handleFileChange={handleFileChange}
+          image={image}
+          setImage={selectedImageHandler}
         />
       ),
     },
     {
-      link: "#",
       text: "INFO",
       component: (
         <InfoForm
@@ -184,7 +238,6 @@ const {gameName} = useParams() //to get the game name from url (after selecting 
       ),
     },
     {
-      link: "#",
       text: "SETTINGS",
       component: (
         <SettingsForm
@@ -196,7 +249,6 @@ const {gameName} = useParams() //to get the game name from url (after selecting 
       ),
     },
     {
-      link: "#",
       text: "SUPERVISORS & SPONSORS",
       component: (
         <SupervisorsAndSponsors
@@ -207,26 +259,133 @@ const {gameName} = useParams() //to get the game name from url (after selecting 
         />
       ),
     },
+
+    //here pushing the 5th element , might be the publish form or the save form based on the inputs
+  ];
+  const undefinedAttributeValidation = (att, tournamentObject, fieldName) => {
+    if (att !== undefined) {
+      return tournamentObject.append(fieldName, att);
+    } else if (fieldName === "sponsors") {
+      tournamentObject.append(fieldName, "sponsors");
+    }
+  };
+  //assigning optional + required attributes to the tournament object to send to the backend
+  // useEffect(()=>{
+  //   const newSponsor = JSON.stringify(formData.sponsors)
+  //   setFormData({...formData,sponsors:newSponsor})
+  // },[])
+
+  const optionalAttributes = [
+    { fieldName: "about", attribute: formData.about },
+    { fieldName: "rules", attribute: formData.rules },
+    { fieldName: "prize", attribute: formData.prize },
+    { fieldName: "description", attribute: formData.description },
+    { fieldName: "schedule", attribute: formData.schedule },
+    { fieldName: "platform", attribute: formData.platform },
     {
-      link: "#",
+      fieldName: "registeration_status",
+      attribute: formData.registeration_status,
+    },
+    { fieldName: "tournament_status", attribute: formData.tournament_status },
+    //  { fieldName: "sponsors", attribute: newSponsor },
+  ];
+
+  const requiredAttributes = [
+    { filedName: "game", attribute: formData.game },
+    { filedName: "title", attribute: formData.title },
+    { filedName: "start_date", attribute: formData.start_date },
+    { filedName: "start_time", attribute: formData.start_time },
+    { filedName: "cover_image_url", attribute: formData.cover_image_url },
+    { filedName: "contact_details", attribute: formData.contact_details },
+    { filedName: "max_participants", attribute: formData.max_participants },
+  ];
+  console.log("sponsors:", formData.sponsors);
+  console.log(typeof formData.sponsors);
+  const newSponsor = JSON.stringify(formData.sponsors);
+  const tournamentObject = new FormData();
+  requiredAttributes.map((item, index) => {
+    return tournamentObject.append(item.filedName, item.attribute);
+  });
+
+  optionalAttributes.map((item, index) => {
+    return undefinedAttributeValidation(
+      item.attribute,
+      tournamentObject,
+      item.fieldName
+    );
+  });
+
+  tournamentObject.append("sponsors", newSponsor); // newSponsor );
+  //tournamentObject.append("sponsors",formData.sponsors)
+  //const body =JSON.stringify(tournamentObject)
+
+  let SelecetedNavElementButton = null;
+  let SelectedNavElement = null;
+  if (request === "CREATE_TOURNAMENT") {
+    SelectedNavElement = {
       text: "PUBLISH",
       component: (
-        <PublishForm
-          formData={formData}
-          setFormData={handleFormChange}
+        <DynamicForm
+          tournamentObject={tournamentObject}
           isAgreed={isAgreed}
-          setIsAgreed = {handlePublishCheckBox}
+          setIsAgreed={handleCheckBox}
           ref={childRef}
+          request={request}
+          validationErrors={validationErrors}
         />
       ),
-    },
-  ]
+    };
+    NavElements[4] = SelectedNavElement;
+    SelecetedNavElementButton = () => {
+      return (
+        <button
+          type="button"
+          className="btn btn-danger ms-auto position-relative bottom-0 end-0"
+          disabled={!isAgreed}
+          onClick={() => {
+            childRef.current.handleShowModal();
+          }}
+        >
+          Publish
+        </button>
+      );
+    };
+  } else {
+    SelectedNavElement = {
+      text: "SAVE",
+      component: (
+        <DynamicForm
+        
+          tournamentObject={tournamentObject}
+          isAgreed={isAgreed}
+          setIsAgreed={handleCheckBox}
+          ref={childRef}
+          request={request}
+          validationErrors={validationErrors}
+        />
+      ),
+    };
+    NavElements[4] = SelectedNavElement;
+    SelecetedNavElementButton = () => {
+      return (
+        <button
+          type="button"
+          className="btn btn-danger ms-auto position-relative bottom-0 end-0"
+          disabled={!isAgreed}
+          onClick={() => {
+            childRef.current.handleShowModal();
+          }}
+        >
+          Save
+        </button>
+      );
+    };
+  }
 
   // a function to display the componenet based in the nav stats (using nav as an index)
   const NavDisplay = () => {
-   
-    return NavElements[nav].component
-  }
+    return NavElements[nav].component;
+  };
 
   //navItems function for re-useablitiy , since we gonna render whole nav components once for large screens , and in collapse toggle button in meduim and small screen cases, styling is different for each case
   const navItems = (border, fontSize) => {
@@ -237,28 +396,28 @@ const {gameName} = useParams() //to get the game name from url (after selecting 
           topActiveNav === index ? border : ""
         }`}
       >
-        <a
+        <Link
           onClick={() => {}}
           className={`nav-link ${
             topActiveNav === index ? "text-white" : "text-muted"
           }`}
-          href={item.link}
+          to="#"
         >
           {item.text}
-        </a>
+        </Link>
       </li>
     ));
+  };
+
+
+  if (loading) {
+    return null;
   }
-  const navigate = useNavigate()
-  if(loading){
-     return null  
-   }
-   if(!_game){
-  return <h1>ERROR 404</h1>
-   }
+  if (!requiredObject) {
+    return <h1>ERROR 404</h1>;
+  }
   return (
     <React.Fragment>
-
       <div className="container pt-5 mt-3 org-cont">
         <div className="card text-white bg-secondary  cont-1">
           <div className="card-header border ">
@@ -319,27 +478,20 @@ const {gameName} = useParams() //to get the game name from url (after selecting 
                   type="button"
                   className="btn btn-danger  position-relative ms-auto "
                   onClick={() => {
-                    nextClickHandler()
+                    nextClickHandler();
                   }}
-        
                   disabled={nextButtonState}
                 >
                   Next
                 </button>
               )}
               {/*PUBLISH BUTTON LOGIC , CONSIDER THE handleShowModal() from the child component <PublishForm/> */}
-              {nav === NavElements.length - 1 && (
-                <button
-                  type="button"
-                  className="btn btn-danger ms-auto position-relative bottom-0 end-0"
-                  disabled={!isAgreed}
-                  onClick={() => {
-                    childRef.current.handleShowModal();
-                  }}
-                >
-                  Publish
-                </button>
-              )}
+              {nav === NavElements.length - 1 &&
+                (SelecetedNavElementButton === null ? (
+                  <></>
+                ) : (
+                  <SelecetedNavElementButton />
+                ))}
             </div>
           </div>
         </div>

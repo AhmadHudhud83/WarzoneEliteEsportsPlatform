@@ -8,23 +8,24 @@ import Footer from "../Footer/Footer";
 import { Link, useParams } from "react-router-dom";
 import { Description } from "./top-navbar-components/Description/Description";
 import axios from "axios";
-export const useTournamentDetails = createContext()
+export const useTournamentDetails = createContext();
 
 export const DetailedTournamentCard = (props) => {
-  const [tournamentDetails, setTournamentDetails] = useState(null)
-  const { id } = useParams()
+  const [loading, setLoading] = useState(true);
+  const [tournamentDetails, setTournamentDetails] = useState(null);
+  const { id } = useParams();
   useEffect(() => {
     axios
       .get(`/api/tournaments/${id}`)
       .then((res) => {
-        
-        setTournamentDetails(res.data)})
-      .catch((e) =>
-        console.error("Error returning back the tournament details", e)
-      );
+        setTournamentDetails(res.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error("Error returning back the tournament details", e);
+        setLoading(false);
+      });
   }, [id]);
-
-
 
   const [activeTopComponent, setActiveTopComponent] = useState(0);
 
@@ -32,52 +33,35 @@ export const DetailedTournamentCard = (props) => {
     setActiveTopComponent(componentNumber);
   };
 
-
   const topNavElements = [
     {
       link: "#",
       element: "OVERVIEW",
-      component: (
-        <Overview
- 
-        />
-      ),
+      component: <Overview />,
     },
     {
       link: "#",
       element: "PARTICIPANTS",
-      component: (
-        <Participants
-    
-        />
-      ),
+      component: <Participants />,
     },
     // {
     //   link: "#",
     //   element: "MATCHES",
     //   component: (
     //     <Matches
-     
+
     //     />
     //   ),
     // },
     {
       link: "#",
       element: "ANNOUNCEMENTS",
-      component: (
-        <Announcements
-         
-        />
-      ),
+      component: <Announcements />,
     },
     {
       link: "#",
       element: "DESCRIPTION",
-      component: (
-        <Description
-     
-        />
-      ),
+      component: <Description />,
     },
   ];
 
@@ -111,64 +95,66 @@ export const DetailedTournamentCard = (props) => {
       );
     });
   };
-
-   if(tournamentDetails===null){
-     return <h1>Error 404 ,Page not found</h1>
+  if (loading) {
+    return null;
+  }
+  if (tournamentDetails === null) {
+    return <h1>Error 404 ,Page not found</h1>;
   }
   return (
-    <React.Fragment > 
-      <useTournamentDetails .Provider value={tournamentDetails}>
-      <div className="container org-cont ">
-        <h2 className="text-start  pb-3">{tournamentDetails.title}</h2>
-        <div className="card  text-white bg-secondary cont-1  ">
-          <div className="card-header border ">
-            <div>
-              <div className="collapse " id="navbarToggleExternalContent">
-                <div className="p-0 d-block d-md-block d-lg-none ">
-                  <ul
-                    style={{ listStyleType: "none" }}
-                    className="card-header-pills   "
-                  >
-                    {topNavDisplay("", "fs-6")}
-                  </ul>
+    <React.Fragment>
+      <useTournamentDetails.Provider value={tournamentDetails}>
+        <div className="container org-cont ">
+          <h2 className="text-start  pb-3">{tournamentDetails.title}</h2>
+          <div className="card  text-white bg-secondary cont-1  ">
+            <div className="card-header border ">
+              <div>
+                <div className="collapse " id="navbarToggleExternalContent">
+                  <div className="p-0 d-block d-md-block d-lg-none ">
+                    <ul
+                      style={{ listStyleType: "none" }}
+                      className="card-header-pills   "
+                    >
+                      {topNavDisplay("", "fs-6")}
+                    </ul>
+                  </div>
                 </div>
+                <nav className="navbar navbar-dark d-block d-md-block d-lg-none">
+                  <div className="container-fluid ">
+                    <button
+                      className="navbar-toggler  bg-danger"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarToggleExternalContent"
+                      aria-controls="navbarToggleExternalContent"
+                      aria-expanded="false"
+                      aria-label="Toggle navigation"
+                    >
+                      <span className="navbar-toggler-icon" />
+                    </button>
+                  </div>
+                </nav>
               </div>
-              <nav className="navbar navbar-dark d-block d-md-block d-lg-none">
-                <div className="container-fluid ">
-                  <button
-                    className="navbar-toggler  bg-danger"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarToggleExternalContent"
-                    aria-controls="navbarToggleExternalContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span className="navbar-toggler-icon" />
-                  </button>
-                </div>
-              </nav>
-            </div>
 
-            <div className="border-bottom d-sm-none d-none d-md-none d-lg-block">
-              <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
-                {topNavDisplay(
-                  "border border-danger border-bottom border-4",
-                  "fs-5"
-                )}
+              <div className="border-bottom d-sm-none d-none d-md-none d-lg-block">
+                <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
+                  {topNavDisplay(
+                    "border border-danger border-bottom border-4",
+                    "fs-5"
+                  )}
 
-                {props.children}
-              </ul>
+                  {props.children}
+                </ul>
+              </div>
+              {topNavElements.map((item, index) => {
+                return activeTopComponent === index && item.component;
+              })}
             </div>
-            {topNavElements.map((item, index) => {
-              return activeTopComponent === index && item.component;
-            })}
           </div>
         </div>
-      </div>
 
-      <Footer></Footer>
-      </useTournamentDetails .Provider>
+        <Footer></Footer>
+      </useTournamentDetails.Provider>
     </React.Fragment>
   );
 };

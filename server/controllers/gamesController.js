@@ -13,7 +13,6 @@ export const getAllGames = async (req, res) => {
     }
 }
 
-
 /**
  * @desc get a game by name
  * @route /api/games/:gameName

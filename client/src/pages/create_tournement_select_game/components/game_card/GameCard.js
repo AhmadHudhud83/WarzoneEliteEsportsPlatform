@@ -3,7 +3,7 @@ import styles from "./GameCard.module.css";
 
 function GameCard({ name, imgUrl,id }) {
 
-  const url = `tournament-setup/${name}`;
+  const url = `select-game/tournament-setup/${name}`;
 
   return (
     <div className={styles.card}>

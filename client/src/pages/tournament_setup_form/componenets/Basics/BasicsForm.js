@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+
 import "../../style.css";
 //consider the probs
 export const BasicsForm = ({
@@ -8,8 +10,9 @@ export const BasicsForm = ({
   setFormData,
   setValidationErrors,
   validationErrors,
+  image,
+  setImage
 }) => {
-
   //init values used for validation logic
   //since the validation object is empty ,which means at the refresh the next button will be enabled since the object is empty ,
   //so we gonna use  useEffect() hook to init. the object with init. values i've mentioned, in order to prevent the enabled next button state
@@ -28,7 +31,7 @@ export const BasicsForm = ({
     if (!inputValue.trim() || inputValue === "") {
       updatedValidationErrors.title = "Title field is required!";
       setValidationErrors(updatedValidationErrors);
-    } else if (inputValue.length < 4 || inputValue.length > 100) {
+    } else if (inputValue.length < 5 || inputValue.length > 100) {
       updatedValidationErrors.title =
         "Title must be between 4 characters minimum and 100 characters maximum";
       setValidationErrors(updatedValidationErrors);
@@ -78,20 +81,68 @@ export const BasicsForm = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
+
+    
   }, []);
   //image file handler , try it (expermental use only)
-  const [file, setFile] = useState();
-  const [image, setImage] = useState();
-
+  const [file, setFile] = useState(null);
   const imageHandleChange = (e) => {
-    console.log(e.target.files);
-    if (e) {
-      setFile(URL.createObjectURL(e.target.files[0]));
-    } else {
-      console.error("nothing selected");
-    }
+    setFile(e.target.files[0]);
+    setFormData({ ...formData, cover_image_url: e.target.files[0] });
+
+    console.log("image =>>>", file);
   };
 
+  //==============CANCELLED (BASE64 METHOD) ====================
+  //cancelled due to poor performance and high payload
+  // const convertToBase64 = (e) => {
+  //   const updatedFormData = { ...formData };
+  //   console.log(e);
+  //   var reader = new FileReader();
+  //   reader.readAsDataURL(e.target.files[0]);
+  //   reader.onload = () => {
+  //     console.log(reader.result);
+
+  //     updatedFormData.cover_image_url = reader.result;
+  //     setFormData(updatedFormData);
+  //     setImage(reader.result);
+  //   };
+  //   reader.onerror = (error) => {
+  //     console.log("Error:", error);
+  //   };
+  // };
+
+  const TimetableInputs = [
+    {
+      name: "start_date",
+      label: "Start Date",
+      type: "date",
+      value: formData.start_date,
+      validationError: validationErrors.start_date,
+      validation: date_valdation_handler,
+    },
+    {
+      name: "start_time",
+      label: "Start Time",
+      type: "time",
+      value: formData.start_time,
+      validationError: validationErrors.start_time,
+      validation: time_valdation_handler,
+    },
+  ];
+
+  const imageHandler = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <React.Fragment>
       {/*whole container start*/}
@@ -119,12 +170,15 @@ export const BasicsForm = ({
                 validationHandler(e);
               }}
               //   onBlur={(e) => validationHandler(e)}
-              onFocus={(e) => validationHandler(e)}
+
+              onBlur={(e) => {
+                validationHandler(e);
+              }}
               type="text"
               className="form-control bg-dark text-white sigma"
               id="gameName"
               placeholder=""
-              // ref={inputRef}
+              ref={inputRef}
             />
             <p className="my-2 text-danger">{validationErrors.title}</p>
           </div>
@@ -135,41 +189,28 @@ export const BasicsForm = ({
         {/*dates container start */}
 
         <div className="form-container row">
-          <div className="col-md-6 col-sm-12 form-group my-3">
-            <label htmlFor="start_date" className="form-label">
-              Start Date
-            </label>
-            <input
-              name="start_date"
-              onChange={(e) => {
-                handleChange(e);
-                date_valdation_handler(e);
-              }}
-              onBlur={(e) => date_valdation_handler(e)}
-              type="date"
-              className="form-control bg-dark text-white"
-              value={formData.start_date}
-            ></input>
-            <p className="my-2 text-danger">{validationErrors.start_date}</p>
-          </div>
-
-          <div className="col-md-6 col-sm-12 form-group my-3">
-            <label htmlFor="start_time" className="form-label">
-              Start Time
-            </label>
-            <input
-              name="start_time"
-              onChange={(e) => {
-                handleChange(e);
-                time_valdation_handler(e);
-              }}
-              onBlur={(e) => time_valdation_handler(e)}
-              type="time"
-              className="form-control bg-dark text-white"
-              value={formData.start_time}
-            ></input>
-            <p className="my-2 text-danger">{validationErrors.start_time}</p>
-          </div>
+          {TimetableInputs.map((item, index) => {
+            return (
+              <div key={index} className="col-md-6 col-sm-12 form-group my-3">
+                <label htmlFor={item.name} className="form-label">
+                  {item.label}
+                </label>
+                <input
+                  name={item.name}
+                  onChange={(e) => {
+                    handleChange(e);
+                    item.validation(e);
+                    console.log(typeof e.target.value);
+                  }}
+                  onBlur={(e) => item.validation(e)}
+                  type={item.type}
+                  className="form-control bg-dark text-white"
+                  value={item.value}
+                ></input>
+                <p className="my-2 text-danger">{item.validationError}</p>
+              </div>
+            );
+          })}
         </div>
         {/*dates container End */}
         <div className="w-75">
@@ -185,23 +226,37 @@ export const BasicsForm = ({
           <p>Upload Game Banner</p>
 
           <div className="input-group">
+            
             <input
+            
               type="file"
-              onMouseOver={(e) => {
-                console.log(e.target);
+              name="cover_image_url"
+              accept="image/*"
+              onChange={(e)=>{
+                
+                imageHandler(e)
+               imageHandleChange(e)
               }}
-              onChange={imageHandleChange}
               className="form-control bg-dark bg-primary text-white"
-              id="inputGroupFile04"
+              id="image"
               aria-describedby="inputGroupFileAddon04"
               aria-label="Upload"
+              style={{display:"none"}}
             />
+         
+           <label htmlFor="image"  style={{cursor:"pointer",}}  id="image_label">
+      
+            <img id="preview_image" className="img-fluid rounded" style={{height:"450px",width:"1300px"}} src={image} alt="selected-banner" />
+      
+          </label>
+      
           </div>
           <div className="d-flex justify-content-center pt-5">
-            <img src="{file}" classname="img-fluid rounded" alt="no image" />
+       
           </div>
         </div>
       </div>
     </React.Fragment>
   );
 };
+export default BasicsForm;

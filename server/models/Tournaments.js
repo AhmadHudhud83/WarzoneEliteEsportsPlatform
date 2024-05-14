@@ -31,7 +31,7 @@ const TournamentSchema  = new mongoose.Schema({
     about:{
         type:String,
         default:"Not Available",
-        optional:true,
+    
        
     },
     contact_details:{
@@ -69,12 +69,12 @@ const TournamentSchema  = new mongoose.Schema({
         type:String,
         
         default:"Not Available"
-       , optional:true,
+       , 
     },
     description:{
         type:String,
         default:"Not Available"
-       , optional:true,
+  
     },
     schedule:{
         type:String,
@@ -109,16 +109,19 @@ const TournamentSchema  = new mongoose.Schema({
     },
     cover_image_url:{
         type:String,
-        default:"https://i.imgur.com/CqiHFdW.png"
+        //required:true
+    // default:"https://i.imgur.com/CqiHFdW.pngcxczc"
     },
     announcements:{
-        type:[String],
-        default:["Welcome to my tournament","Consider Being a nice person !"]
+        type:Array,
+        default:["Welcome to my tournament","Consider Being a nice person !"],
+        
     },
-    sponsors:{
-        type:Object,
-        default:{ brand: "brand.inc", email: "barnd@example.com" }
-    },
+    sponsors: [{
+        _id:false,
+        brand: { type: String, required: true },
+        email: { type: String, required: true },
+      }],
     supervisors:{
        type:[String],
         required:true,
