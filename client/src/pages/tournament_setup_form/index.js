@@ -185,7 +185,7 @@ export const TournamentForm = ({ request }) => {
         setImage(`http://localhost:5000/${requiredObject.cover_image_url}`);
       } else setImage(requiredObject.cover_image_url); //if there wasn't any uploaded image , return default image without localhost path
     } else {
-      setImage("https://i.imgur.com/pnLUOkV.png"); //for the creating request ( for first time)
+      setImage("https://i.imgur.com/R8Ze4GS.png"); //for the creating request ( for first time)
     }
   }, [setImage, request, requiredObject]);
 
