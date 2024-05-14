@@ -4,11 +4,13 @@ import { InfoForm } from "./componenets/Info/InfoForm";
 import { SettingsForm } from "./componenets/Settings/SettingsForm";
 import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import PublishForm from "./componenets/Dynamic/DynamicForm";
+import DynamicForm from "./componenets/Dynamic/DynamicForm";
+import axios from "axios";
 
 //BY AHMAD HUDHUD
 
 export const TournamentForm = ({ request }) => {
+
   const [formData, setFormData] = useState({}); //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
   const params = useParams();
   const [loading, setLoading] = useState(true); //loading screen to fix component flash
@@ -34,7 +36,9 @@ export const TournamentForm = ({ request }) => {
   useEffect(() => {
     request.getFunction(requiredParam, setRequiredObject, setLoading);
   }, [requiredParam, request]);
-
+  useEffect(()=>{
+    setFormData({...formData,cover_image_url:undefined})
+  },[])
   const childRef = useRef(); // to call the function in the child component <BasicForm/>
   const [isAgreed, setIsAgreed] = useState(false); //for the publish/save changes dynamic form handling
   const [nav, setNav] = useState(0); //to keep track of navigation stats
@@ -70,6 +74,9 @@ export const TournamentForm = ({ request }) => {
     validationErrorsHandler(intialValidationValuesBasicForm);
     console.log("CHILDREEN ", request);
   }, []);
+  useEffect(()=>{
+    setFormData({...formData,cover_image_url:undefined})
+  },[])
 
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
@@ -130,12 +137,18 @@ export const TournamentForm = ({ request }) => {
   const handleFileChange = (file) => {
     setFormData({ ...formData, cover_image_url: "" });
   };
+ 
   const [image, setImage] = useState();
   useEffect(() => {
-    if (request.type === "UPDATE_TOURNAMENT" && requiredObject) {
+    if (request.type === "UPDATE_TOURNAMENT" && requiredObject) {//for the updating request
       console.log("image path :", requiredObject.cover_image_url);
-
-      setImage(`http://localhost:5000/${requiredObject.cover_image_url}`);//for the updating request
+      if(requiredObject.cover_image_url.includes('public\\images\\cover_image_url')){ //if it was uploaded image with localhost path    
+        setImage(`http://localhost:5000/${requiredObject.cover_image_url}`);
+      }
+        
+        else  setImage(requiredObject.cover_image_url) //if there wasn't any uploaded image , return default image without localhost path
+         
+  
     } else {
       setImage("https://i.imgur.com/pnLUOkV.png");//for the creating request ( for first time)
     }
@@ -159,7 +172,7 @@ export const TournamentForm = ({ request }) => {
   const handleFormChange = (newFormData) => {
     setFormData(newFormData);
     console.log(newFormData);
-    console.log(requiredObject);
+    //console.log(requiredObject);
   };
   const NavElements = [
     {
@@ -214,6 +227,64 @@ export const TournamentForm = ({ request }) => {
 
     //here pushing the 5th element , might be the publish form or the save form based on the inputs
   ];
+  const undefinedAttributeValidation = (att, tournamentObject, fieldName) => {
+    if ( att !== undefined) {
+      return tournamentObject.append(fieldName, att);
+    }else if(fieldName==="sponsors"){
+      tournamentObject.append(fieldName,"sponsors")
+    }
+  };
+  //assigning optional + required attributes to the tournament object to send to the backend
+// useEffect(()=>{
+//   const newSponsor = JSON.stringify(formData.sponsors)
+//   setFormData({...formData,sponsors:newSponsor})
+// },[])
+  
+  const optionalAttributes = [
+    { fieldName: "about", attribute: formData.about },
+    { fieldName: "rules", attribute: formData.rules },
+    { fieldName: "prize", attribute: formData.prize },
+    { fieldName: "description", attribute: formData.description },
+    { fieldName: "schedule", attribute: formData.schedule },
+    { fieldName: "platform", attribute: formData.platform },
+    {
+      fieldName: "registeration_status",
+      attribute: formData.registeration_status,
+    },
+    { fieldName: "tournament_status", attribute: formData.tournament_status },
+  //  { fieldName: "sponsors", attribute: newSponsor },
+    
+  ];
+  
+  const requiredAttributes = [
+
+    { filedName: "game", attribute: formData.game },
+    { filedName: "title", attribute: formData.title },
+    { filedName: "start_date", attribute: formData.start_date },
+    { filedName: "start_time", attribute: formData.start_time },
+    { filedName: "cover_image_url", attribute: formData.cover_image_url },
+    { filedName: "contact_details", attribute: formData.contact_details },
+    { filedName: "max_participants", attribute: formData.max_participants },
+  ];
+  console.log("sponsors:",formData.sponsors)
+      console.log(typeof(formData.sponsors))
+      const newSponsor = JSON.stringify(formData.sponsors)
+      const tournamentObject = new FormData();
+      requiredAttributes.map((item, index) => {
+        return tournamentObject.append(item.filedName, item.attribute);
+      });
+
+      optionalAttributes.map((item, index) => {
+        return undefinedAttributeValidation(
+          item.attribute,
+          tournamentObject,
+          item.fieldName
+        );
+      });
+
+      tournamentObject.append('sponsors', newSponsor);// newSponsor );
+      //tournamentObject.append("sponsors",formData.sponsors)
+      //const body =JSON.stringify(tournamentObject)
 
   let SelecetedNavElementButton = null;
   let SelectedNavElement = null;
@@ -221,9 +292,8 @@ export const TournamentForm = ({ request }) => {
     SelectedNavElement = {
       text: "PUBLISH",
       component: (
-        <PublishForm
-          formData={formData}
-          setFormData={setFormData}
+        <DynamicForm
+          tournamentObject={tournamentObject}
           isAgreed={isAgreed}
           setIsAgreed={handlePublishCheckBox}
           ref={childRef}
@@ -244,6 +314,35 @@ export const TournamentForm = ({ request }) => {
           }}
         >
           Publish
+        </button>
+      );
+    };
+  }else{
+    SelectedNavElement = {
+      text: "SAVE",
+      component: (
+        <DynamicForm
+          tournamentObject={tournamentObject}
+          isAgreed={isAgreed}
+          setIsAgreed={handlePublishCheckBox}
+          ref={childRef}
+          request={request}
+          validationErrors={validationErrors}
+        />
+      ),
+    };
+    NavElements[4] = SelectedNavElement;
+    SelecetedNavElementButton = () => {
+      return (
+        <button
+          type="button"
+          className="btn btn-danger ms-auto position-relative bottom-0 end-0"
+          disabled={!isAgreed}
+          onClick={() => {
+            childRef.current.handleShowModal();
+          }}
+        >
+          Save 
         </button>
       );
     };
@@ -275,6 +374,16 @@ export const TournamentForm = ({ request }) => {
       </li>
     ));
   };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(tournamentObject)
+    axios
+      .put(`http://localhost:5000/api/tournaments/${requiredParam}`, (tournamentObject))
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
+  };
+
 
   if (loading) {
     return null;
@@ -363,6 +472,10 @@ export const TournamentForm = ({ request }) => {
         </div>
       </div>
       {/* <button onClick= {()=>console.log(errors)}> Delta button</button> */}
+      <form onSubmit={handleSubmit}>
+     <button className="btn btn-primary" type="submit">SAVE</button>
+      </form>
+     
     </React.Fragment>
   );
 };

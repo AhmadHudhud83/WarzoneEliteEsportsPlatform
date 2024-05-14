@@ -14,6 +14,7 @@ import axios from "axios";
 const CreateTournamentRequest = {
   type: "CREATE_TOURNAMENT",
   reqFunction: (currentFormData) => {
+    
     axios
       .post("http://localhost:5000/api/tournaments", currentFormData)
       .then((res) => console.log(res.data))
@@ -50,9 +51,9 @@ const CreateTournamentRequest = {
 
 const UpdateTournamentRequest = {
   type: "UPDATE_TOURNAMENT",
-  reqFunction: (currentFormData) => {
+  reqFunction: (currentFormData,requiredParam) => {
     axios
-      .post("http://localhost:5000/api/tournaments", currentFormData)//
+      .post(`http://localhost:5000/api/tournaments/${requiredParam}`, currentFormData)//
       .then((res) => console.log(res.data))
       .catch((e) => console.error(e));
   },
@@ -72,7 +73,7 @@ const UpdateTournamentRequest = {
   requiredParam:"tournamentId",
   getFunction:(requiredParam,setRequiredObject,setLoading)=>{
     axios.get(`http://localhost:5000/api/tournaments/${requiredParam}`).
-    then((res=>{
+    then((res=>{    
       console.log(res.data)
     setRequiredObject(res.data)
     setLoading(false)
@@ -91,8 +92,12 @@ return(<BrowserRouter>
       <Routes>
         <Route path="/">
           <Route index element={<Temp/>} />
-          <Route path="select-game/" element={<SelectGame />} />
+          <Route path="select-game/" element={<SelectGame />} >
+
+        
+          </Route>
           <Route path="select-game/tournament-setup/:gameName" element={<TournamentForm request={CreateTournamentRequest} />}/>
+
           {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */}
           <Route path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form" element={<TournamentForm request={UpdateTournamentRequest} />}/>
           <Route path="detailed-tournament/:id" element={<DetailedTournamentCard/>}/>

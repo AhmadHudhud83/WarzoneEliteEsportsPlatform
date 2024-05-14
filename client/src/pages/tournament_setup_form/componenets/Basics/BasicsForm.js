@@ -235,7 +235,7 @@ export const BasicsForm = ({
               onChange={(e)=>{
                 
                 imageHandler(e)
-                imageHandleChange(e)
+               imageHandleChange(e)
               }}
               className="form-control bg-dark bg-primary text-white"
               id="image"

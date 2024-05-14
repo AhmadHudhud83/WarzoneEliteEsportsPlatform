@@ -2,92 +2,52 @@ import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { json, useNavigate } from "react-router-dom";
 import { useImperativeHandle, forwardRef } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 //BY islam
 export const DynamicForm = forwardRef(
-  ({ setFormData,formData, isAgreed, setIsAgreed, request }, ref) => {
+  ({  isAgreed, setIsAgreed, request,tournamentObject }, ref) => {
+    const params = useParams()
+    const requiredParam = params[request.requiredParam];
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-
+    const handleSubmit = (e)=>{
+      e.preventDefault();
+      if(request.type==="CREATE_TOURNAMENT"){
+        console.log("THIS IS A CREATING TOURNAMENT REQUEST")
+        axios
+        .post("http://localhost:5000/api/tournaments/", tournamentObject)
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err));
+      }else{
+        console.log("THIS IS AN UPDATING TOURNAMENT REQUEST")
+        if(tournamentObject){
+          axios
+          .put(`http://localhost:5000/api/tournaments/${requiredParam}`, tournamentObject)
+          .then((res) => console.log(res))
+          .catch((err) => console.error(err));
+        }
+       
+      }
+      
+    }
+      
     const handleShowModal = () => {
       setShowModal(true);
     };
-    const handlePublishConfirmation = () => {
-      if (isAgreed) {
-        setShowModal(false);
-        request.reqFunction(formData);
-      } else {
-        alert("Please agree to the terms before publishing.");
-      }
-    };
+    // const handlePublishConfirmation = () => {
+    //   if (isAgreed) {
+    //     setShowModal(false);
+    //     request.reqFunction(formData);
+    //   } else {
+    //     alert("Please agree to the terms before publishing.");
+    //   }
+    // };
     useImperativeHandle(ref, () => ({
       handleShowModal,
     }));
-    const undefinedAttributeValidation = (att, tournamentObject, fieldName) => {
-      if ( att !== undefined) {
-        return tournamentObject.append(fieldName, att);
-      }else if(fieldName==="sponsors"){
-        tournamentObject.append(fieldName,"sponsors")
-      }
-    };
-    //assigning optional + required attributes to the tournament object to send to the backend
-// useEffect(()=>{
-//   const newSponsor = JSON.stringify(formData.sponsors)
-//   setFormData({...formData,sponsors:newSponsor})
-// },[])
-
-    const optionalAttributes = [
-      { fieldName: "about", attribute: formData.about },
-      { fieldName: "rules", attribute: formData.rules },
-      { fieldName: "prize", attribute: formData.prize },
-      { fieldName: "description", attribute: formData.description },
-      { fieldName: "schedule", attribute: formData.schedule },
-      { fieldName: "platform", attribute: formData.platform },
-      {
-        fieldName: "registeration_status",
-        attribute: formData.registeration_status,
-      },
-      { fieldName: "tournament_status", attribute: formData.tournament_status },
-    //  { fieldName: "sponsors", attribute: newSponsor },
-      
-    ];
     
-    const requiredAttributes = [
   
-      { filedName: "game", attribute: formData.game },
-      { filedName: "title", attribute: formData.title },
-      { filedName: "start_date", attribute: formData.start_date },
-      { filedName: "start_time", attribute: formData.start_time },
-      { filedName: "cover_image_url", attribute: formData.cover_image_url },
-      { filedName: "contact_details", attribute: formData.contact_details },
-      { filedName: "max_participants", attribute: formData.max_participants },
-    ];
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log("sponsors:",formData.sponsors)
-      console.log(typeof(formData.sponsors))
-      const newSponsor = JSON.stringify(formData.sponsors)
-      const tournamentObject = new FormData();
-      requiredAttributes.map((item, index) => {
-        return tournamentObject.append(item.filedName, item.attribute);
-      });
-
-      optionalAttributes.map((item, index) => {
-        return undefinedAttributeValidation(
-          item.attribute,
-          tournamentObject,
-          item.fieldName
-        );
-      });
-
-      tournamentObject.append('sponsors', newSponsor);// newSponsor );
-      //tournamentObject.append("sponsors",formData.sponsors)
-      //const body =JSON.stringify(tournamentObject)
-      axios
-        .post("http://localhost:5000/api/tournaments", (tournamentObject))
-        .then((res) => console.log(res))
-        .catch((err) => console.error(err));
-    };
     return (
       <div className="publish-tournament-container    ">
         <div className="publish-content p-5  ">
@@ -102,7 +62,7 @@ export const DynamicForm = forwardRef(
               id="policyAgreement"
               checked={isAgreed}
               onChange={(e) => setIsAgreed(e)}
-              onMouseOver={() => console.log(formData)}
+             // onMouseOver={() => console.log(formData)}
             />
             <label className="mx-4" htmlFor="policyAgreement">
               I agree to website's policy & community standards
@@ -132,6 +92,7 @@ export const DynamicForm = forwardRef(
               <button
                 className="btn btn-secondary  me-3"
                 onClick={() => setShowModal(false)}
+                onMouseOver={()=>console.log(request.requiredParam)}
               >
                 Cancel
               </button>
@@ -147,9 +108,10 @@ export const DynamicForm = forwardRef(
               </button> */}
               <form onSubmit={handleSubmit}>
           <button className="btn btn-primary" type="submit">
-            publish
+        
           </button>
         </form>
+   
             </Modal.Footer>
           </Modal>
         </div>

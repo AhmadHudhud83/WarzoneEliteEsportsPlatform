@@ -35,6 +35,6 @@ tournamentRouter.get("/api/tournaments/:id", getTournamentById);
  *
  */
 
-tournamentRouter.put("/api/tournaments/:id", updateTournament);
+tournamentRouter.put("/api/tournaments/:id",upload.single('cover_image_url'), updateTournament);
 
 export { tournamentRouter };
