@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 //BY islam
 export const DynamicForm = forwardRef(
-  ({ isAgreed, setIsAgreed, request, tournamentObject }, ref) => {
+  ({ isAgreed, setIsAgreed, request, tournamentObject,validationErrors }, ref) => {
     const params = useParams();
     const requiredParamsFunction = () => {//selecting the parameter based on the request
       if (request === "CREATE_TOURNAMENT") return "gameName";
@@ -133,7 +133,7 @@ export const DynamicForm = forwardRef(
                 Confirm
               </button> */}
               <form onSubmit={handleSubmit}>
-                <button className="btn btn-danger" type="submit">
+                <button className="btn btn-danger" type="submit" disabled={Object.keys(validationErrors).length > 0}>
                   {request === "CREATE_TOURNAMENT" ? "PUBLISH" : "SAVE"}
                 </button>
               </form>

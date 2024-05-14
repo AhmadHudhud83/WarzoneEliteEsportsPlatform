@@ -355,6 +355,7 @@ export const TournamentForm = ({ request }) => {
       text: "SAVE",
       component: (
         <DynamicForm
+        
           tournamentObject={tournamentObject}
           isAgreed={isAgreed}
           setIsAgreed={handleCheckBox}
