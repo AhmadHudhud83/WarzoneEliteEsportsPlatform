@@ -11,11 +11,11 @@ function Header() {
     {title:"HOME", link : "#"},
     {title:"BLOG", link : "#"},
     {title:"HELP CENTER", link : "#"},
-    {title:"ABOUT US", link : "#"},
+    {title:"ABOUT US", link : "/aboutUs"},
     {title:"CONTACT", link : "#"}
    ]
   return (
-    
+
     <div className='container2'>
       <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary">
   <div className="container-fluid ">

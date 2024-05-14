@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i axois (in the project directory not the client***)
 import Header from '../../common/Header/Header'
 import Footer from '../../common/Footer/Footer'
+import { Sponsors } from "./components/ourSponsors/sponsors";
 export const Temp = ()=>{
 
     useEffect(() => {
@@ -45,7 +46,8 @@ export const Temp = ()=>{
           )}
         </ul>
         <p>press f12 to see the data from mongoDB database</p>
-        <Footer />
+
+       <Sponsors></Sponsors>
       </React.Fragment>
       <Footer />
       </React.Fragment>)

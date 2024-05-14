@@ -1,0 +1,57 @@
+body{
+    background-color: #151b27;
+
+}
+.card-header{
+    background-color: #151b27;
+    text-align: center;
+    padding-top: 100px;
+    color: #9841ff;
+}
+.card-header h5{
+    font-size: 25px;
+}
+.card-body{
+    background-color: #151b27;
+
+}
+.card{
+    background-color: #151b27;
+    border: none;
+}
+
+.blockquote h5 , h4 , p{
+    color: white;
+    font-size: 15px;
+    text-align: center;
+}
+.blockquote h4{
+    color: #9841ff;
+    font-size: 25px;
+
+
+}
+.card img{
+    align-items: center;
+}
+.card-title{
+    text-align: center;
+    color: white;
+}
+.card-text{
+    text-align: center;
+    color: white;
+    text-decoration-style: solid;
+}
+.card-header h2 , p{
+    color: white;
+}
+.card-body h5 , h2 , p{
+    color: white;
+}
+
+.fs-2 {
+    font-size: calc(1.325rem + .9vw) !important;
+    color: white;
+    text-align: center;
+}
