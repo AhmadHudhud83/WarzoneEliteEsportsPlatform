@@ -6,32 +6,38 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 //BY islam
 export const DynamicForm = forwardRef(
-  ({  isAgreed, setIsAgreed, request,tournamentObject }, ref) => {
-    const params = useParams()
-    const requiredParam = params[request.requiredParam];
+  ({ isAgreed, setIsAgreed, request, tournamentObject }, ref) => {
+    const params = useParams();
+    const requiredParamsFunction = () => {//selecting the parameter based on the request
+      if (request === "CREATE_TOURNAMENT") return "gameName";
+      else if (request === "UPDATE_TOURNAMENT") return "tournamentId";
+    };
+    const _param = requiredParamsFunction();
+    const requiredParam = params[_param];
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-    const handleSubmit = (e)=>{
+    const handleSubmit = (e) => {//based on the request , update or create a new tournament
       e.preventDefault();
-      if(request.type==="CREATE_TOURNAMENT"){
-        console.log("THIS IS A CREATING TOURNAMENT REQUEST")
+      if (request === "CREATE_TOURNAMENT") {
+        console.log("THIS IS A CREATING TOURNAMENT REQUEST");
         axios
-        .post("http://localhost:5000/api/tournaments/", tournamentObject)
-        .then((res) => console.log(res))
-        .catch((err) => console.error(err));
-      }else{
-        console.log("THIS IS AN UPDATING TOURNAMENT REQUEST")
-        if(tournamentObject){
-          axios
-          .put(`http://localhost:5000/api/tournaments/${requiredParam}`, tournamentObject)
+          .post("http://localhost:5000/api/tournaments/", tournamentObject)
           .then((res) => console.log(res))
           .catch((err) => console.error(err));
+      } else if (request === "UPDATE_TOURNAMENT") {
+        console.log("THIS IS AN UPDATING TOURNAMENT REQUEST");
+        if (tournamentObject) {
+          axios
+            .put(
+              `http://localhost:5000/api/tournaments/${requiredParam}`,
+              tournamentObject
+            )
+            .then((res) => console.log(res))
+            .catch((err) => console.error(err));
         }
-       
       }
-      
-    }
-      
+    };
+
     const handleShowModal = () => {
       setShowModal(true);
     };
@@ -46,15 +52,39 @@ export const DynamicForm = forwardRef(
     useImperativeHandle(ref, () => ({
       handleShowModal,
     }));
-    
-  
+    const ModalInfoFunction = () => { //different modal based on the request , update existing tournament or creating a new tournament
+      const modalObject = {};
+      if (request === "CREATE_TOURNAMENT") {
+        modalObject.header = "Publishing Your Tournament";
+        modalObject.bodyParagraph1 =
+          "When you publish a tournament, players will be able to register.";
+        modalObject.bodyParagraph2 =
+          "Are you sure you want to publish the tournament?";
+        modalObject.contentParagraph1 =
+          "Publishing this tournament will enable registration and allow players to join.";
+        modalObject.contentParagraph2 =
+          " By publishing you agree to our website's policy and community standards.";
+      } else if (request === "UPDATE_TOURNAMENT") {
+        modalObject.header = "Updating Your Tournament";
+        modalObject.bodyParagraph1 =
+          "Are you sure you want to save these changes?";
+        modalObject.bodyParagraph2 = "Confirm to proceed with the update.";
+        modalObject.contentParagraph1 =
+          "Saving these changes will update the tournament details.";
+        modalObject.contentParagraph2 =
+          " By saving, you agree to our website's policy and community standards.";
+      }
+      return modalObject;
+    };
+    const modalObject = ModalInfoFunction();
+
     return (
-      <div className="publish-tournament-container    ">
+      <div>
         <div className="publish-content p-5  ">
           <p>
-            {request.content.paragraphOne}
+            {modalObject.contentParagraph1}
             <br />
-            {request.content.paragraphTwo}
+            {modalObject.contentParagraph2}
           </p>
           <div className="checkbox-group">
             <input
@@ -62,7 +92,7 @@ export const DynamicForm = forwardRef(
               id="policyAgreement"
               checked={isAgreed}
               onChange={(e) => setIsAgreed(e)}
-             // onMouseOver={() => console.log(formData)}
+              // onMouseOver={() => console.log(formData)}
             />
             <label className="mx-4" htmlFor="policyAgreement">
               I agree to website's policy & community standards
@@ -70,29 +100,25 @@ export const DynamicForm = forwardRef(
           </div>
           <div className="publish-buttons"></div>
         </div>
-        
+
         {}
-  
-  
-     
-        <div className="modal-container  ">
+
+        <div>
           <Modal show={showModal} onHide={() => setShowModal(false)}>
             <Modal.Header className="bg-dark" closeButton>
               <Modal.Title className="bg-dark">
-                {request.modalInfo.header}
+                {modalObject.header}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body className="bg-dark">
-              <p className="text-white">{request.modalInfo.bodyParagraphOne}</p>
-              <p className="text-danger">
-                {request.modalInfo.bodyParagraphTwo}
-              </p>
+              <p className="text-white">{modalObject.bodyParagraph1}</p>
+              <p className="text-danger">{modalObject.bodyParagraph2}</p>
             </Modal.Body>
             <Modal.Footer className="bg-dark">
               <button
                 className="btn btn-secondary  me-3"
                 onClick={() => setShowModal(false)}
-                onMouseOver={()=>console.log(request.requiredParam)}
+                onMouseOver={() => console.log(requiredParam)}
               >
                 Cancel
               </button>
@@ -107,11 +133,10 @@ export const DynamicForm = forwardRef(
                 Confirm
               </button> */}
               <form onSubmit={handleSubmit}>
-          <button className="btn btn-primary" type="submit">
-        
-          </button>
-        </form>
-   
+                <button className="btn btn-danger" type="submit">
+                  {request === "CREATE_TOURNAMENT" ? "PUBLISH" : "SAVE"}
+                </button>
+              </form>
             </Modal.Footer>
           </Modal>
         </div>

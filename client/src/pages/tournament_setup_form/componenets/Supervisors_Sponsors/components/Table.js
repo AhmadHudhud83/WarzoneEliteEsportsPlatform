@@ -279,12 +279,14 @@ const Table = () => {
                 );
               })
             ) : (
-              <>
-                <h4 className="text-start p-3 px-4">
-                  No Sponsors Available...
-                </h4>
-                <p className="text-danger mx-4">{validationErrors.sponsors}</p>
-              </>
+              <tr>
+    <td colSpan="3">
+      <h4 className="text-start p-3 px-4">
+        No Sponsors Available...
+      </h4>
+      <p className="text-danger mx-4">{validationErrors.sponsors}</p>
+    </td>
+  </tr>
             )}
           </tbody>
         </table>

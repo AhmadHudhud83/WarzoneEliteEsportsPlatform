@@ -243,9 +243,13 @@ export const BasicsForm = ({
               aria-label="Upload"
               style={{display:"none"}}
             />
-           <label htmlFor="image" style={{cursor:"pointer",}}  id="image_label">
-            <img id="preview_image" className="img-fluid rounded" style={{height:"600px",width:"1290px"}} src={image} alt="selected-    banner" />
+         
+           <label htmlFor="image"  style={{cursor:"pointer",}}  id="image_label">
+      
+            <img id="preview_image" className="img-fluid rounded" style={{height:"450px",width:"1300px"}} src={image} alt="selected-banner" />
+      
           </label>
+      
           </div>
           <div className="d-flex justify-content-center pt-5">
        

@@ -10,7 +10,6 @@ import axios from "axios";
 //BY AHMAD HUDHUD
 
 export const TournamentForm = ({ request }) => {
-
   const [formData, setFormData] = useState({}); //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
   const params = useParams();
   const [loading, setLoading] = useState(true); //loading screen to fix component flash
@@ -18,9 +17,16 @@ export const TournamentForm = ({ request }) => {
   //if the request was for editing a tournament , then the tournament object must be retrived
 
   let intialValidationValuesBasicForm = {};
-  let requiredParam = params[request.requiredParam]; //based on the requried object , if it was for creating tournament , then the game name is needed ,
+
+  const requiredParamsFunction = () => {
+    if (request === "CREATE_TOURNAMENT") return "gameName";
+    else if (request === "UPDATE_TOURNAMENT") return "tournamentId";
+  };
+  const _param = requiredParamsFunction();
+  const requiredParam = params[_param];
+  //based on the requried object , if it was for creating tournament , then the game name is needed ,
   //if the required object were the tournament object , then the pramaeter id will be different
-  if (request.type === "CREATE_TOURNAMENT") {
+  if (request === "CREATE_TOURNAMENT") {
     intialValidationValuesBasicForm = {
       //for the intial next button to be disabled at first (when there is no formData yet )
       title: "",
@@ -29,16 +35,43 @@ export const TournamentForm = ({ request }) => {
     };
   } //when updating a tournament ,
   // all tournament values from database will be the deafult values for the inputs , so the next button state must be enabled
-  else if (request.type === "UPDATE_TOURNAMENT") {
+  else if (request === "UPDATE_TOURNAMENT") {
     intialValidationValuesBasicForm = {};
   }
 
-  useEffect(() => {
-    request.getFunction(requiredParam, setRequiredObject, setLoading);
+  useEffect(() => {//based on the request , updating or creating a tournament
+    if (request === "CREATE_TOURNAMENT") {
+      console.log("required param : ", requiredParam);
+      axios
+        .get(`http://localhost:5000/api/games/${requiredParam}`)
+        .then((res) => {
+          console.log(res.data);
+          setRequiredObject(res.data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.error("error , game not found", e);
+
+          setLoading(false);
+        });
+    } else if (request === "UPDATE_TOURNAMENT") {
+      console.log("required param : ", requiredParam);
+      axios
+        .get(`http://localhost:5000/api/tournaments/${requiredParam}`)
+        .then((res) => {
+          console.log(res.data);
+          setRequiredObject(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err, "error, tournament not found");
+        });
+      setLoading(true);
+    }
   }, [requiredParam, request]);
-  useEffect(()=>{
-    setFormData({...formData,cover_image_url:undefined})
-  },[])
+  useEffect(() => {
+    setFormData({ ...formData, cover_image_url: undefined });
+  }, []);
   const childRef = useRef(); // to call the function in the child component <BasicForm/>
   const [isAgreed, setIsAgreed] = useState(false); //for the publish/save changes dynamic form handling
   const [nav, setNav] = useState(0); //to keep track of navigation stats
@@ -47,7 +80,7 @@ export const TournamentForm = ({ request }) => {
   const [validationErrors, setValidationErrors] = useState({}); //to keep track of the global validation errors object , when empty means there are no errors and the next button will get enabled
 
   //the next button handler, using handlers is important to not fall with too  many re-render stats problems
-  const handlePublishCheckBox = (e) => {
+  const handleCheckBox = (e) => {
     setIsAgreed(e.target.checked);
   };
   const nextButtonHandler = (bool) => {
@@ -74,9 +107,9 @@ export const TournamentForm = ({ request }) => {
     validationErrorsHandler(intialValidationValuesBasicForm);
     console.log("CHILDREEN ", request);
   }, []);
-  useEffect(()=>{
-    setFormData({...formData,cover_image_url:undefined})
-  },[])
+  useEffect(() => {
+    setFormData({ ...formData, cover_image_url: undefined });
+  }, []);
 
   //the next click handler , set the stats of next button when clicked , timeout = ms to perform immediately
   const nextClickHandler = () => {
@@ -137,20 +170,22 @@ export const TournamentForm = ({ request }) => {
   const handleFileChange = (file) => {
     setFormData({ ...formData, cover_image_url: "" });
   };
- 
+
   const [image, setImage] = useState();
   useEffect(() => {
-    if (request.type === "UPDATE_TOURNAMENT" && requiredObject) {//for the updating request
+    if (request === "UPDATE_TOURNAMENT" && requiredObject) {
+      //for the updating request
       console.log("image path :", requiredObject.cover_image_url);
-      if(requiredObject.cover_image_url.includes('public\\images\\cover_image_url')){ //if it was uploaded image with localhost path    
+      if (
+        requiredObject.cover_image_url.includes(
+          "public\\images\\cover_image_url"
+        )
+      ) {
+        //if it was uploaded image with localhost path
         setImage(`http://localhost:5000/${requiredObject.cover_image_url}`);
-      }
-        
-        else  setImage(requiredObject.cover_image_url) //if there wasn't any uploaded image , return default image without localhost path
-         
-  
+      } else setImage(requiredObject.cover_image_url); //if there wasn't any uploaded image , return default image without localhost path
     } else {
-      setImage("https://i.imgur.com/pnLUOkV.png");//for the creating request ( for first time)
+      setImage("https://i.imgur.com/pnLUOkV.png"); //for the creating request ( for first time)
     }
   }, [setImage, request, requiredObject]);
 
@@ -228,18 +263,18 @@ export const TournamentForm = ({ request }) => {
     //here pushing the 5th element , might be the publish form or the save form based on the inputs
   ];
   const undefinedAttributeValidation = (att, tournamentObject, fieldName) => {
-    if ( att !== undefined) {
+    if (att !== undefined) {
       return tournamentObject.append(fieldName, att);
-    }else if(fieldName==="sponsors"){
-      tournamentObject.append(fieldName,"sponsors")
+    } else if (fieldName === "sponsors") {
+      tournamentObject.append(fieldName, "sponsors");
     }
   };
   //assigning optional + required attributes to the tournament object to send to the backend
-// useEffect(()=>{
-//   const newSponsor = JSON.stringify(formData.sponsors)
-//   setFormData({...formData,sponsors:newSponsor})
-// },[])
-  
+  // useEffect(()=>{
+  //   const newSponsor = JSON.stringify(formData.sponsors)
+  //   setFormData({...formData,sponsors:newSponsor})
+  // },[])
+
   const optionalAttributes = [
     { fieldName: "about", attribute: formData.about },
     { fieldName: "rules", attribute: formData.rules },
@@ -252,12 +287,10 @@ export const TournamentForm = ({ request }) => {
       attribute: formData.registeration_status,
     },
     { fieldName: "tournament_status", attribute: formData.tournament_status },
-  //  { fieldName: "sponsors", attribute: newSponsor },
-    
+    //  { fieldName: "sponsors", attribute: newSponsor },
   ];
-  
-  const requiredAttributes = [
 
+  const requiredAttributes = [
     { filedName: "game", attribute: formData.game },
     { filedName: "title", attribute: formData.title },
     { filedName: "start_date", attribute: formData.start_date },
@@ -266,36 +299,36 @@ export const TournamentForm = ({ request }) => {
     { filedName: "contact_details", attribute: formData.contact_details },
     { filedName: "max_participants", attribute: formData.max_participants },
   ];
-  console.log("sponsors:",formData.sponsors)
-      console.log(typeof(formData.sponsors))
-      const newSponsor = JSON.stringify(formData.sponsors)
-      const tournamentObject = new FormData();
-      requiredAttributes.map((item, index) => {
-        return tournamentObject.append(item.filedName, item.attribute);
-      });
+  console.log("sponsors:", formData.sponsors);
+  console.log(typeof formData.sponsors);
+  const newSponsor = JSON.stringify(formData.sponsors);
+  const tournamentObject = new FormData();
+  requiredAttributes.map((item, index) => {
+    return tournamentObject.append(item.filedName, item.attribute);
+  });
 
-      optionalAttributes.map((item, index) => {
-        return undefinedAttributeValidation(
-          item.attribute,
-          tournamentObject,
-          item.fieldName
-        );
-      });
+  optionalAttributes.map((item, index) => {
+    return undefinedAttributeValidation(
+      item.attribute,
+      tournamentObject,
+      item.fieldName
+    );
+  });
 
-      tournamentObject.append('sponsors', newSponsor);// newSponsor );
-      //tournamentObject.append("sponsors",formData.sponsors)
-      //const body =JSON.stringify(tournamentObject)
+  tournamentObject.append("sponsors", newSponsor); // newSponsor );
+  //tournamentObject.append("sponsors",formData.sponsors)
+  //const body =JSON.stringify(tournamentObject)
 
   let SelecetedNavElementButton = null;
   let SelectedNavElement = null;
-  if (request.type === "CREATE_TOURNAMENT") {
+  if (request === "CREATE_TOURNAMENT") {
     SelectedNavElement = {
       text: "PUBLISH",
       component: (
         <DynamicForm
           tournamentObject={tournamentObject}
           isAgreed={isAgreed}
-          setIsAgreed={handlePublishCheckBox}
+          setIsAgreed={handleCheckBox}
           ref={childRef}
           request={request}
           validationErrors={validationErrors}
@@ -317,14 +350,14 @@ export const TournamentForm = ({ request }) => {
         </button>
       );
     };
-  }else{
+  } else {
     SelectedNavElement = {
       text: "SAVE",
       component: (
         <DynamicForm
           tournamentObject={tournamentObject}
           isAgreed={isAgreed}
-          setIsAgreed={handlePublishCheckBox}
+          setIsAgreed={handleCheckBox}
           ref={childRef}
           request={request}
           validationErrors={validationErrors}
@@ -342,7 +375,7 @@ export const TournamentForm = ({ request }) => {
             childRef.current.handleShowModal();
           }}
         >
-          Save 
+          Save
         </button>
       );
     };
@@ -373,15 +406,6 @@ export const TournamentForm = ({ request }) => {
         </Link>
       </li>
     ));
-  };
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if(tournamentObject)
-    axios
-      .put(`http://localhost:5000/api/tournaments/${requiredParam}`, (tournamentObject))
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
   };
 
 
@@ -472,10 +496,6 @@ export const TournamentForm = ({ request }) => {
         </div>
       </div>
       {/* <button onClick= {()=>console.log(errors)}> Delta button</button> */}
-      <form onSubmit={handleSubmit}>
-     <button className="btn btn-primary" type="submit">SAVE</button>
-      </form>
-     
     </React.Fragment>
   );
 };

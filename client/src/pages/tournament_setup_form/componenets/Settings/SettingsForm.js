@@ -106,7 +106,7 @@ import "../../style.css";
         </option>
         \
         {platformOptions.map((item, index) => {
-          return <option value={item}>{item}</option>;
+          return <option key={index} value={item}>{item}</option>;
         })}
       </select>
     </div>
@@ -122,9 +122,9 @@ import "../../style.css";
       <div className="container  my-5 row ">
         {SelectedInputs.map((item, index) => {
           return (
-            <React.Fragment>
+            <React.Fragment key={index}>
             <div
-              key={index}
+            
               className=" rounded col-md-12 col-lg-6 col-sm-12 my-4"
             >
               <h5 className="text-white mb-4">{item.label}</h5>
