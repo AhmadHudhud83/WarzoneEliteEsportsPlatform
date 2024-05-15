@@ -10,7 +10,7 @@ function TournamentPage() {
   useEffect(() => {
     // Retrieve the current supervisor id from the session storage
     //const supervisorId = sessionStorage.getItem("supervisorId");
-    const supervisorId = "s1";
+    const supervisorId = "50371B86-1C85-01DE-3EA8-C45CC7CCBAB1";
 
     // Fetch the tournaments which the supervisor is part of its supervisors array
     axios
@@ -20,11 +20,11 @@ function TournamentPage() {
         const tournaments = response.data.filter(
           (tournament) =>
             tournament.supervisors.some(
-              (supervisor) => supervisor.id === supervisorId
-            ) && tournament.status === "in progress"
+              (supervisor) => supervisor._id === supervisorId
+            )
         );
 
-        setTournaments(tournaments);
+        setTournaments(tournaments.reverse());
       })
       .catch((error) => {
         console.error("Error fetching game data:", error);

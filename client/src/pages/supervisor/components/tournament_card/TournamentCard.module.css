@@ -18,3 +18,7 @@
 .card a {
     text-decoration: none;
 }
+
+.finished {
+    opacity: 0.5;
+}

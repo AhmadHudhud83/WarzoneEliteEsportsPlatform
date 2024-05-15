@@ -83,11 +83,11 @@ const TournamentSchema = new Schema({
   },
   status: {
     type: String,
-    default: "Opened"
+    default: "opened"
   },
   registeration_status: {
     type: String,
-    default: "Opened"
+    default: "closed"
   },
   max_participants: {
     type: Number,
@@ -108,7 +108,7 @@ const TournamentSchema = new Schema({
     default: { brand: "brand.inc", email: "barnd@example.com" }
   },
   supervisors: {
-    type: [String],
+    type: Array,
     required: true,
   },
   participants: {
@@ -132,4 +132,4 @@ const TournamentSchema = new Schema({
   timestamps: true //for the creation date
 });
 
-export const TournamentModel = mongoose.model("Tournament", TournamentSchema);
+export const TournamentModel = mongoose.model("tournaments", TournamentSchema);

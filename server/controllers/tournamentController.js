@@ -1,15 +1,14 @@
-import TournamentModel from "../models/Tournament.js";
+import { TournamentModel } from "../models/Tournament.js";
 
 // This function structures the matches array by creating the matches array with proper structure
 const structureMatches = (matches, currentRound, numberOfParticipants, numberOfRounds, init) => {
-  console.log(numberOfParticipants);
 
-  let i = currentRound,
-    j = Math.ceil(numberOfParticipants / 2), // number of matches in a round
-    p = numberOfParticipants; // number of participants in a round
+  let i = currentRound, // traverse through the rounds
+    j = Math.floor(numberOfParticipants / 2) + (numberOfParticipants % 2), // number of matches in a round
+    p = numberOfParticipants, // number of participants in a round
+    numRounds = numberOfRounds;
 
-  while (i < numberOfRounds) {
-    console.log("round", i, "matches", j, "participants", p, "number of rounds", numberOfRounds);
+  do {
     matches[i] = Array(j).fill(null); // create an array of matches for each round
     for (let k = 0; k < j; k++) {
       // initialize each match
@@ -24,10 +23,12 @@ const structureMatches = (matches, currentRound, numberOfParticipants, numberOfR
     i++;
     j = Math.ceil(j / 2);
     p = Math.ceil(p / 2);
-  }
+    numRounds--;
+  } while (numRounds > 0);
 
   // remove the extra rounds after the last round
   matches.splice(currentRound + numberOfRounds - init);
+
 };
 
 
@@ -87,6 +88,7 @@ export const initializeMatches = async (tournamentId) => {
   // Update the tournament document
   tournament.currentRound = 0;
   tournament.status = "in progress";
+  tournament.registeration_status = "closed";
   await tournament.save();
 };
 
@@ -139,6 +141,7 @@ export const setUpRound = async (tournament) => {
   if (participants.length === 1) {
     // Set the winner of the tournament
     tournament.winner = participants[0];
+    tournament.status = "finished";
     return;
   }
 
