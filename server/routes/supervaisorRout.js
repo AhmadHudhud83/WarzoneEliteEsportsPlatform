@@ -2,10 +2,14 @@ import  express  from "express";
 import { body,query} from "express-validator";
 import{validate} from"../Utils/validator.js";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { AllSupervaisor, DeleteSupervaisor, LoginSupervaisor, SignUpSupervaisor, UpdateSupervaisor } from "../controllers/SupervaisorController.js";
+import { AllSupervaisor, DeleteSupervaisor, GetSupervaisor, LoginSupervaisor, SignUpSupervaisor, UpdateSupervaisor } from "../controllers/SupervaisorController.js";
 
 export const SupervaisorRoute = express.Router();
 
+SupervaisorRoute.get('/supervisor/get',async(req,res)=>{
+        GetSupervaisor(req,res);
+    }
+);
 
 SupervaisorRoute.get('/supervisor/allsupervisor' ,async(req,res)=>{
         AllSupervaisor(req,res);
@@ -38,7 +42,7 @@ SupervaisorRoute.post('/supervisor/add',
     }
 );
 
-SupervaisorRoute.post('/supervisor/signin' ,async(req,res)=>{
+SupervaisorRoute.post('/supervisor/login' ,async(req,res)=>{
         LoginSupervaisor(req,res);
     }
 );

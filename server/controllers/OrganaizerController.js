@@ -4,24 +4,29 @@ import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
 import { Organizer } from "../models/organizer.js";
 
 export const LoginOrganaizer = async(req,res)=>{
-    const {name , password}=req.body;
-    try{ 
-        const user = await Organizer.findOne({name : name});
-        if(user){
-            const CorrectPassword = await bcrypt.compare(password , user.password);
-            if(CorrectPassword){
-                return res.status(StatusCode.Ok).send("Welecom to home page");
-            }
-            else{
-                return res.status(StatusCode.BadRequst).send("incorrect password");
-            }
+    const { name, password } = req.body;
+
+    try {
+        if (req.session && req.session.admin_id) {
+            return res.status(StatusCode.Ok).send('Already logged in');
         }
-        else{
-            return res.status(StatusCode.NotFound).send("user not found");
+
+        const user = await Organizer.findOne({ name });
+        if (!user) {
+            return res.status(StatusCode.NotFound).send('User not found');
         }
-    }
-    catch(e){
-        res.status(StatusCode.ServerError).send("server busy try again latter");
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(StatusCode.NotFound).send('Incorrect password');
+        }
+
+        req.session.admin_id = user.name;
+
+        return res.status(StatusCode.Ok).send('Welcome to the home page');
+    } catch (error) {
+        console.error('Login error:', error);
+        return res.status(StatusCode.ServerError).send('Server busy, try again later');
     }
 };
 

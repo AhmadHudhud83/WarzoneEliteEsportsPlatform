@@ -4,6 +4,25 @@ import bcrypt from "bcrypt";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
 import { Player } from "../models/player.js";
 
+export const GetPlayer = async(req,res)=>{
+    const {id} = req.query;
+    try{
+        const player = await Player.findOne({_id:id});
+        if(player){
+            res.status(StatusCode.Ok).send(player);
+        }
+
+        else{
+            res.status(StatusCode.NotFound).send("Player not found");
+        }
+
+    }
+    catch(e){
+        res.status(StatusCode.ServerError).send("Server busy try again later");
+    }
+}
+
+
 export const AllPlayer = async(req,res)=>{
     try{
         const players = await Player.find({});
@@ -15,25 +34,30 @@ export const AllPlayer = async(req,res)=>{
 }
 
 export const LoginPlayer = async(req,res)=>{
-    const {name , password}=req.body;
-        try{ 
-            const user = await Player.findOne({name : name});
-            if(user){
-                const CorrectPassword = await bcrypt.compare(password , user.password);
-                if(CorrectPassword){
-                    return res.status(StatusCode.Ok).send("Welecom to home page");
-                }
-                else{
-                    return res.status(StatusCode.Unauthorized).send("incorrect password");
-                }
-            }
-            else{
-                return res.status(StatusCode.NotFound).send("user not found");
-            }
+    const { name, password } = req.body;
+
+    try {
+        if (req.session && req.session.user_id) {
+            return res.status(StatusCode.Ok).send('Already logged in');
         }
-        catch(e){
-            res.status(StatusCode.ServerError).send("server busy try again latter");
+
+        const user = await Player.findOne({ name });
+        if (!user) {
+            return res.status(StatusCode.NotFound).send('User not found');
         }
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(StatusCode.NotFound).send('Incorrect password');
+        }
+
+        req.session.user_id = user.name;
+
+        return res.status(StatusCode.Ok).send('Welcome to the home page');
+    } catch (error) {
+        console.error('Login error:', error);
+        return res.status(StatusCode.ServerError).send('Server busy, try again later');
+    }
 }
 
 
@@ -98,7 +122,7 @@ export const DeletePlayer = async(req,res)=>{
         const DeletePlayer = await Player.deleteOne({_id:id});
 
         if(DeletePlayer.deletedCount != 0){
-            return res.status(StatusCode.Ok).send("true");
+            return res.status(StatusCode.Ok).send("updated successfuly");
         }
         else{
             return res.status(StatusCode.NotFound).send("user not found");

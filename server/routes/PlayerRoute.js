@@ -2,12 +2,17 @@
 import  express  from "express";
 import { body,query} from "express-validator";
 import{validate} from"../Utils/validator.js";
-import { AllPlayer, DeletePlayer, LoginPlayer, SignUpPlayer, UpdatePlayer } from "../controllers/PlayerController.js";
+import { AllPlayer, DeletePlayer, GetPlayer, LoginPlayer, SignUpPlayer, UpdatePlayer } from "../controllers/PlayerController.js";
 
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
 
 export const PlayerRoute = express.Router();
 
+
+PlayerRoute.get('/player/get' ,async(req,res)=>{
+        GetPlayer(req,res);
+    }
+);
 
 PlayerRoute.get('/player/allplayer',async(req,res)=>{
         AllPlayer(req,res);
