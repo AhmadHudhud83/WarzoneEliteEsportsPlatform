@@ -6,12 +6,21 @@ import { routerGame } from "./routes/gameRoutes.js";
 import { PlayerRoute } from "./routes/PlayerRoute.js";
 import { OrganizerRoute } from "./routes/OrganaizerRoute.js";
 import { SupervaisorRoute } from "./routes/supervaisorRout.js";
+import session from "express-session";
 
 const app = express();
-const jsonParser = bodyParser.json();
-app.use(jsonParser);
-app.use(express.json());
+
+app.use(bodyParser.json());
 app.use(cors());
+
+const sessionCookieLifeTime = 1000 * 60 * 15;
+app.use(session({
+    secret: "Muy8fuSOYHDsR6WOCwNS6K6sy2QmhSEp",
+    saveUninitialized:true,
+    cookie: { maxAge: sessionCookieLifeTime },
+    resave: false
+}));
+app.use(express.json());
 app.use(routerGame);
 app.use(PlayerRoute);
 app.use(OrganizerRoute);

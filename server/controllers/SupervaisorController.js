@@ -5,6 +5,25 @@ import { Supervaisor } from "../models/supervaisor.js";
 
 
 
+
+export const GetSupervaisor = async(req,res)=>{
+    const {id}=req.query;
+    try{
+        const supervaisor = await Supervaisor.findOne({_id:id});
+        if(supervaisor){
+            res.status(StatusCode.Ok).send(supervaisor);
+        }
+
+        else{
+            res.status(StatusCode.NotFound).send("user not found");
+        }
+    }
+    catch(e){
+        res.status(StatusCode.ServerError).send("Server busy try again later");
+    }
+}
+
+
 export const AllSupervaisor = async(req,res)=>{
     try{
         const supervaisors = await Supervaisor.find({});
@@ -17,25 +36,31 @@ export const AllSupervaisor = async(req,res)=>{
 
 
 export const LoginSupervaisor = async(req,res)=>{
-    const {name , password}=req.body;
-        try{ 
-            const user = await Supervaisor.findOne({name : name});
-            if(user){
-                const CorrectPassword = await bcrypt.compare(password , user.password);
-                if(CorrectPassword){
-                    return res.status(StatusCode.Ok).send("Welecom to home page");
-                }
-                else{
-                    return res.status(StatusCode.Unauthorized).send("incorrect password");
-                }
-            }
-            else{
-                return res.status(StatusCode.NotFound).send("user not found");
-            }
+    
+    const { name, password } = req.body;
+
+    try {
+        if (req.session && req.session.supervaisor_id) {
+            return res.status(StatusCode.Ok).send('Already logged in');
         }
-        catch(e){
-            res.status(StatusCode.ServerError).send("server busy try again latter");
+
+        const user = await Supervaisor.findOne({ name });
+        if (!user) {
+            return res.status(StatusCode.NotFound).send('User not found');
         }
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(StatusCode.NotFound).send('Incorrect password');
+        }
+
+        req.session.supervaisor_id = user.name;
+
+        return res.status(StatusCode.Ok).send('Welcome to the home page');
+    } catch (error) {
+        console.error('Login error:', error);
+        return res.status(StatusCode.ServerError).send('Server busy, try again later');
+    }
 }
 
 
@@ -74,10 +99,10 @@ export const UpdateSupervaisor = async(req,res)=>{
                 
             );
             if(UpdateSupervaisor.modifiedCount !=0){
-                res.status(StatusCode.Ok).send("True");
+                res.status(StatusCode.Ok).send("Updated Successfuly");
             }
             else{
-                res.status(StatusCode.NotFound).send("false");
+                res.status(StatusCode.NotFound).send("error updating");
             }
         }
         else{
