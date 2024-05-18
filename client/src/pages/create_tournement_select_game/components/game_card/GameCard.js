@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import styles from "./GameCard.module.css";
 
-function GameCard({ name, imgUrl }) {
-  const url = `/create-tournement/${name.toLowerCase()}`;
+function GameCard({ name, imgUrl,id }) {
+
+  const url = `select-game/tournament-setup/${name}`;
 
   return (
     <div className={styles.card}>

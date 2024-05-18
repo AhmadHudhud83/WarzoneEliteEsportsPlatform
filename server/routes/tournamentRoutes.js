@@ -1,11 +1,14 @@
 import express from "express";
+import upload from "../middlewares/uploadImage.js";
 import {
   initializeMatches,
   setWinner,
   getTournaments,
   addTournament,
-  getTournament,
   setUpRound,
+  createTournament,
+  updateTournament,
+  getTournamentById
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -52,18 +55,6 @@ tournamentRouter.get("/", async (req, res) => {
   }
 });
 
-// Get a tournament by id
-tournamentRouter.get("/:tournamentId", async (req, res) => {
-  try {
-    const tournamentId = req.params.tournamentId;
-    const tournament = await getTournament(tournamentId);
-    res.json(tournament);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err.message);
-  }
-});
-
 // Add a new tournament
 tournamentRouter.post("/", async (req, res) => {
   try {
@@ -86,5 +77,37 @@ tournamentRouter.patch("/:tournamentId/setup-round", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
+
+
+
+/**
+ * @desc Create a new tournament
+ * @route /api/tournaments
+ * @method POST
+ * @access private
+ *
+ */
+
+tournamentRouter.use(express.static('public'))
+tournamentRouter.post("/api/tournaments", upload.single('cover_image_url'), createTournament)
+
+/**
+ * @desc get a tournament by id for the user
+ * @route /api/tournaments/:id
+ * @method GET
+ * @access public
+ *
+ */
+tournamentRouter.get("/api/tournaments/:id", getTournamentById);
+
+/**
+ * @desc update a tournament
+ * @route /api/tournaments/:id
+ * @method PUT
+ * @access private
+ *
+ */
+
+tournamentRouter.put("/api/tournaments/:id", upload.single('cover_image_url'), updateTournament);
 
 export { tournamentRouter };

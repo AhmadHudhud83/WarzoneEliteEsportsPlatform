@@ -33,9 +33,8 @@ function SelectGame() {
 
   // Fetch the game data from the server
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/Games")
-      .then((response) => {
+    axios.get('http://localhost:5000/api/games')
+      .then(response => {
         setSearchResults(response.data);
         setData(response.data);
       })
@@ -77,7 +76,7 @@ function SelectGame() {
           // If the search input is not empty, show the search results
           <div id={styles["games-container"]}>
             {searchResults.map((game) => (
-              <GameCard name={game.name} imgUrl={game.imgUrl} />
+              <GameCard name={game.name} imgUrl={game.imgUrl} id={game._id} />
             ))}
             <div id={styles.contact}>
               <p>can't find the game? please reach us</p>

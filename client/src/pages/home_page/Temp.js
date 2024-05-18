@@ -65,7 +65,7 @@ export const Temp = ()=>{
 
 <div className="row row-cols-1 row-cols-md-3 g-4 m-4  ">
 
-        <TournamentCard props ={tournaments} ></TournamentCard>
+        <TournamentCard props ={tournaments}/ >
         </div>
         </div>
         <Footer />

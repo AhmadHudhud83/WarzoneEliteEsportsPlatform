@@ -8,29 +8,42 @@ import { TournamentDashboard } from "../../pages/tournaments_dashboard";
 import { ManagementButton } from "../../common/Detailed-Tornament-Card/managementButton/ManagementButton";
 import Tournaments from "../../pages/supervisor/tournaments/Tournaments";
 import Matches from "../../pages/supervisor/matches/Matches";
+import { TournamentForm } from "../../pages/tournament_setup_form/index";
+import DynamicForm from "../../pages/tournament_setup_form/componenets/Dynamic/DynamicForm";
+import axios from "axios";
+
+const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
+const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
 
 export const RoutesManger = () => {
+  //<Link to="/management"> <button style={{color:"red"}}  type="button" className="ms-5 border btn btn-dark">Manage</button></Link>
   return (
     <BrowserRouter>
       <React.Fragment>
         <Routes>
           <Route path="/">
             <Route index element={<Temp />} />
-            <Route path="create-tournament" element={<SelectGame />} />
+            <Route path="select-game/" element={<SelectGame />}></Route>
+            <Route
+              path="select-game/tournament-setup/:gameName"
+              element={<TournamentForm request={createTournamentRequest} />}
+            />
+
+            {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */}
+            <Route
+              path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
+              element={<TournamentForm request={updateTournamentRequest} />}
+            />
             <Route
               path="detailed-tournament/:id"
-              element={
-                <DetailedTournamentCard>
-                  <ManagementButton url="management" />
-                </DetailedTournamentCard>
-              }
+              element={<DetailedTournamentCard />}
             />
             <Route
               path="detailed-tournament/:id/management"
-              element={<TournamentManagementPage></TournamentManagementPage>}
+              element={<TournamentManagementPage />}
             />
             <Route
-              path="tournamentDashboard"
+              path="organaizer/dashboard"
               element={<TournamentDashboard></TournamentDashboard>}
             />
             <Route
@@ -52,9 +65,9 @@ export const RoutesManger = () => {
                 </>
               }
             />
-          </Route>
-        </Routes>
-      </React.Fragment>
-    </BrowserRouter>
+          </Route >
+        </Routes >
+      </React.Fragment >
+    </BrowserRouter >
   );
 };
