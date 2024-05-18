@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 //Routes
 app.use(routerGame);
-app.use(tournamentRouter)
+app.use("/api/tournaments", tournamentRouter);
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
 

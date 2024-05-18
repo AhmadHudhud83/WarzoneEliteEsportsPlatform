@@ -4,11 +4,11 @@ import {
   initializeMatches,
   setWinner,
   getTournaments,
-  addTournament,
   setUpRound,
   createTournament,
   updateTournament,
-  getTournamentById
+  getTournamentById,
+  resetTournament,
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -28,7 +28,7 @@ tournamentRouter.patch(
   }
 );
 
-// set the winner of a match
+// Set the winner of a match
 tournamentRouter.patch(
   "/:tournamentId/matches/:matchId/set-winner",
   async (req, res) => {
@@ -44,22 +44,24 @@ tournamentRouter.patch(
   }
 );
 
-// Get the tournaments
-tournamentRouter.get("/", async (req, res) => {
+// Reset the tournament
+tournamentRouter.patch("/:tournamentId/reset", async (req, res) => {
   try {
-    const tournaments = await getTournaments();
-    res.json(tournaments);
+    const tournamentId = req.params.tournamentId;
+    await resetTournament(tournamentId);
+    res.json("Tournament reset successfully");
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
   }
 });
 
-// Add a new tournament
-tournamentRouter.post("/", async (req, res) => {
+
+// Get the tournaments
+tournamentRouter.get("/", async (req, res) => {
   try {
-    addTournament(req.body);
-    res.json({ message: "Tournament added successfully" });
+    const tournaments = await getTournaments();
+    res.json(tournaments);
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
@@ -89,7 +91,7 @@ tournamentRouter.patch("/:tournamentId/setup-round", async (req, res) => {
  */
 
 tournamentRouter.use(express.static('public'))
-tournamentRouter.post("/api/tournaments", upload.single('cover_image_url'), createTournament)
+tournamentRouter.post("/", upload.single('cover_image_url'), createTournament)
 
 /**
  * @desc get a tournament by id for the user
@@ -98,7 +100,7 @@ tournamentRouter.post("/api/tournaments", upload.single('cover_image_url'), crea
  * @access public
  *
  */
-tournamentRouter.get("/api/tournaments/:id", getTournamentById);
+tournamentRouter.get("/:id", getTournamentById);
 
 /**
  * @desc update a tournament
@@ -108,6 +110,6 @@ tournamentRouter.get("/api/tournaments/:id", getTournamentById);
  *
  */
 
-tournamentRouter.put("/api/tournaments/:id", upload.single('cover_image_url'), updateTournament);
+tournamentRouter.put("/:id", upload.single('cover_image_url'), updateTournament);
 
 export { tournamentRouter };

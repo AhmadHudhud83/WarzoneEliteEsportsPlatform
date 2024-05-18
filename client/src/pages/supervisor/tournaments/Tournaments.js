@@ -10,11 +10,11 @@ function TournamentPage() {
   useEffect(() => {
     // Retrieve the current supervisor id from the session storage
     //const supervisorId = sessionStorage.getItem("supervisorId");
-    const supervisorId = "50371B86-1C85-01DE-3EA8-C45CC7CCBAB1";
+    const supervisorId = "s1";
 
     // Fetch the tournaments which the supervisor is part of its supervisors array
     axios
-      .get("/tournaments")
+      .get("/api/tournaments")
       .then((response) => {
         // Filter the tournaments where the supervisor is part of its supervisors array and the tournament is in progress
         const tournaments = response.data.filter(

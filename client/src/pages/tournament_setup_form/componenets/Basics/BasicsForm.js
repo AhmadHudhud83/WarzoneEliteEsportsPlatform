@@ -1,7 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import axios from "axios";
 
 import "../../style.css";
 //consider the probs
@@ -82,7 +79,7 @@ export const BasicsForm = ({
       inputRef.current.focus();
     }
 
-    
+
   }, []);
   //image file handler , try it (expermental use only)
   const [file, setFile] = useState(null);
@@ -226,33 +223,33 @@ export const BasicsForm = ({
           <p>Upload Game Banner</p>
 
           <div className="input-group">
-            
+
             <input
-            
+
               type="file"
               name="cover_image_url"
               accept="image/*"
-              onChange={(e)=>{
-                
+              onChange={(e) => {
+
                 imageHandler(e)
-               imageHandleChange(e)
+                imageHandleChange(e)
               }}
               className="form-control bg-dark bg-primary text-white"
               id="image"
               aria-describedby="inputGroupFileAddon04"
               aria-label="Upload"
-              style={{display:"none"}}
+              style={{ display: "none" }}
             />
-         
-           <label htmlFor="image"  style={{cursor:"pointer",}}  id="image_label">
-      
-            <img id="preview_image" className="img-fluid rounded" style={{height:"450px",width:"1300px"}} src={image} alt="selected-banner" />
-      
-          </label>
-      
+
+            <label htmlFor="image" style={{ cursor: "pointer", }} id="image_label">
+
+              <img id="preview_image" className="img-fluid rounded" style={{ height: "450px", width: "1300px" }} src={image} alt="selected-banner" />
+
+            </label>
+
           </div>
           <div className="d-flex justify-content-center pt-5">
-       
+
           </div>
         </div>
       </div>

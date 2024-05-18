@@ -15,6 +15,8 @@ const TournamentSchema = new Schema({
   game: {
     type: String,
     trim: true,
+    //type:Schema.Types.ObjectId,
+    // ref:"games",
     required: true,
   },
   start_date: {
@@ -30,7 +32,6 @@ const TournamentSchema = new Schema({
   about: {
     type: String,
     default: "Not Available",
-    optional: true,
   },
   contact_details: {
     type: String,
@@ -81,13 +82,13 @@ const TournamentSchema = new Schema({
     type: String,
     default: "Combined"
   },
-  status: {
+  tournament_status: {
     type: String,
-    default: "opened"
+    default: "Opened"
   },
   registeration_status: {
     type: String,
-    default: "closed"
+    default: "Closed"
   },
   max_participants: {
     type: Number,
@@ -97,16 +98,18 @@ const TournamentSchema = new Schema({
   },
   cover_image_url: {
     type: String,
-    default: "https://i.imgur.com/CqiHFdW.png"
+    //required:true
+    // default:"https://i.imgur.com/CqiHFdW.pngcxczc"
   },
   announcements: {
     type: [String],
     default: ["Welcome to my tournament", "Consider Being a nice person !"]
   },
-  sponsors: {
-    type: Object,
-    default: { brand: "brand.inc", email: "barnd@example.com" }
-  },
+  sponsors: [{
+    _id: false,
+    brand: { type: String, required: true },
+    email: { type: String, required: true },
+  }],
   supervisors: {
     type: Array,
     required: true,

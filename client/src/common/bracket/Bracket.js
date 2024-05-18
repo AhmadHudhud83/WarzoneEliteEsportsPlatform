@@ -17,10 +17,10 @@ const Bracket = ({ user, tournamentId }) => {
         if (user === "supervisor") {
             // Retrieve the current supervisor id from the session storage
             //const supervisorId = sessionStorage.getItem("supervisorId");
-            const supervisorId = "50371B86-1C85-01DE-3EA8-C45CC7CCBAB1";
+            const supervisorId = "s1";
             setSupervisorId(supervisorId);
         }
-        axios.get(`/tournaments/${tournamentId}`)
+        axios.get(`http://localhost:5000/api/tournaments/${tournamentId}`)
             .then((response) => {
                 const tournament = response.data;
                 setMatches(tournament.matches);
@@ -32,7 +32,7 @@ const Bracket = ({ user, tournamentId }) => {
     }, []);
 
     const handleOutcome = (matchId, outcome) => {
-        axios.patch(`/tournaments/${tournamentId}/matches/${matchId}/set-winner`, { player: outcome })
+        axios.patch(`http://localhost:5000/api/tournaments/${tournamentId}/matches/${matchId}/set-winner`, { player: outcome })
             .then((response) => {
                 const newMatches = [...matches];
                 newMatches[currentRound][matchId].winner = outcome;
