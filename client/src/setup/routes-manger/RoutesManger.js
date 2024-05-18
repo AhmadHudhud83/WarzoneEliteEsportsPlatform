@@ -44,8 +44,17 @@ export const RoutesManger = () => {
           <Route path="tournamentDashboard" element={<TournamentDashboard>
             <Route path="select-game/" element={<SelectGame />}></Route>
             <Route path="select-game/tournament-setup/:gameName" element={<TournamentForm request={createTournamentRequest} />} />
-
-
+            <Route
+              path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
+              element={<TournamentForm request={updateTournamentRequest} />}
+            />
+            <Route path="supervisor/">
+              <Route index element={<h1>Login</h1>} />
+              <Route path="tournaments">
+                <Route index element={<Tournaments />} />
+                <Route path=":id" element={<Matches />} />
+              </Route>
+            </Route>
 
           </TournamentDashboard>} />
           <Route path="tournament-overview/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}></Route>
@@ -55,55 +64,9 @@ export const RoutesManger = () => {
             <h1>Error 404</h1>
 
           </>} />
-        </Route>
-      </Routes>
-    </React.Fragment>
-  </BrowserRouter>
-  )
-
-
-
-
-
-  {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */ }
-            <Route
-              path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
-              element={<TournamentForm request={updateTournamentRequest} />}
-            />
-            <Route
-              path="detailed-tournament/:id"
-              element={<DetailedTournamentCard />}
-            />
-            <Route
-              path="detailed-tournament/:id/management"
-              element={<TournamentManagementPage />}
-            />
-            <Route
-              path="organaizer/dashboard"
-              element={<TournamentDashboard></TournamentDashboard>}
-            />
-            <Route
-              path="tournament-overview/:id"
-              element={<DetailedTournamentCard></DetailedTournamentCard>}
-            ></Route>
-            <Route path="supervisor/">
-              <Route index element={<h1>Login</h1>} />
-              <Route path="tournaments">
-                <Route index element={<Tournaments />} />
-                <Route path=":id" element={<Matches />} />
-              </Route>
-            </Route>
-            <Route
-              path="*"
-              element={
-                <>
-                  <h1>Error 404</h1>
-                </>
-              }
-            />
-          </Route >
-        </Routes >
-      </React.Fragment >
-    </BrowserRouter >
+        </Route >
+      </Routes >
+    </React.Fragment >
+  </BrowserRouter >
   );
 };
