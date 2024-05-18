@@ -61,4 +61,5 @@ tournamentRouter.put("/api/tournaments/:id",upload.single('cover_image_url'), up
  */
 tournamentRouter.delete("/api/tournaments/:id",deleteTournament)
 
+
 export { tournamentRouter };
