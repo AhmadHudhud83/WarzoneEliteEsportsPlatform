@@ -196,7 +196,22 @@ export const resetTournament = async (tournamentId) => {
  *
  */
 export const createTournament = async (req, res) => {
-  //custom empty or undefined data validation function
+  //get games from mongoDB request
+  const getCoverImageUrl = async (gameName) => {
+    let defaultImage = "https://i.imgur.com/KHneQTJ.png";
+    try {
+      const respones = await axios.get("http://localhost:5000/api/Games");
+      const games = respones.data;
+      const game = games.find((g) => g.name === gameName);
+      if (game) {
+        return game.imgUrl;
+      }
+      // console.log("gameResponse DATA is : ", response.data);
+    } catch (err) {
+      console.error("ERROR", err);
+    }
+    return defaultImage;
+  };
 
   console.log("body: ", req.body);
   console.log("file: ", req.file);
@@ -454,6 +469,7 @@ export const updateTournament = async (req, res) => {
 
   }
 
+
   //================================================================
   try {
     const tournament = await TouranmentModel.findByIdAndUpdate(
@@ -475,6 +491,7 @@ export const updateTournament = async (req, res) => {
           tournament_status: req.body.tournament_status,
           registeration_status: req.body.registeration_status,
           cover_image_url: req.file ? req.file.path : req.body.cover_image_url,
+          cover_image_url: req.file ? req.file.path : req.body.cover_image_url,
           announcements: req.body.announcements,
           sponsors: req.body.sponsors,
           supervisors: req.body.supervisors,
@@ -482,7 +499,7 @@ export const updateTournament = async (req, res) => {
       },
       { new: true }
     );
-    console.log(req.body.cover_image_url)
+    console.log(req.body.cover_image_url);
     res.status(200).json(tournament);
   } catch (error) {
     console.error(error);

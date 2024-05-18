@@ -7,27 +7,65 @@ import { TournamentManagementPage } from "../../pages/tournament-management-page
 import { TournamentDashboard } from "../../pages/tournaments_dashboard";
 import Tournaments from "../../pages/supervisor/tournaments/Tournaments";
 import Matches from "../../pages/supervisor/matches/Matches";
+import SupervisorList from "../../pages/Organaizer_Pages/Supweviosrs/SupervisorsList";
+import AddSupervisor from "../../pages/Organaizer_Pages/Supweviosrs/addSupervisor";
+import EditeSupervisor from "../../pages/Organaizer_Pages/Supweviosrs/editeSupervisor";
+import PlayerList from "../../pages/Organaizer_Pages/Players/PlayerList";
+import AddPlayer from "../../pages/Organaizer_Pages/Players/addPlayer";
+import EditePlayer from "../../pages/Organaizer_Pages/Players/editePlayer";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
-
-
+import { ManagementButton } from "../../common/Detailed-Tornament-Card/managementButton/ManagementButton";
+import DynamicForm from "../../pages/tournament_setup_form/componenets/Dynamic/DynamicForm";
+import { ManagementButton } from "../../common/Detailed-Tornament-Card/managementButton/ManagementButton";
+import axios from "axios";
+//tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
 
 export const RoutesManger = () => {
-  //<Link to="/management"> <button style={{color:"red"}}  type="button" className="ms-5 border btn btn-dark">Manage</button></Link>
-  return (
-    <BrowserRouter>
-      <React.Fragment>
-        <Routes>
-          <Route path="/">
-            <Route index element={<Temp />} />
-            <Route path="select-game/" element={<SelectGame />}></Route>
-            <Route
-              path="select-game/tournament-setup/:gameName"
-              element={<TournamentForm request={createTournamentRequest} />}
-            />
 
-            {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */}
+
+  return (<BrowserRouter>
+    <React.Fragment>
+      <Routes>
+        <Route path="/">
+          <Route index element={<Temp />} />
+          <Route path="create-tournament" element={<SelectGame />} />
+          <Route path="organizer/supervisor/list" element={<SupervisorList />} />
+          <Route path="organizer/supervisor/add" element={<AddSupervisor />} />
+          <Route path="organizer/supervisor/edit/:supervisorId" element={<EditeSupervisor />} />
+
+          <Route path="organizer/player/list" element={<PlayerList />} />
+          <Route path="organizer/player/add" element={<AddPlayer />} />
+          <Route path="organizer/player/edit/:playerId" element={<EditePlayer />} />
+
+          <Route path="detailed-tournament/:id" element={<DetailedTournamentCard><ManagementButton url="management" /></DetailedTournamentCard>} />
+          <Route path="detailed-tournament/:id/management" element={<TournamentManagementPage></TournamentManagementPage>} />
+          <Route path="tournamentDashboard" element={<TournamentDashboard>
+            <Route path="select-game/" element={<SelectGame />}></Route>
+            <Route path="select-game/tournament-setup/:gameName" element={<TournamentForm request={createTournamentRequest} />} />
+
+
+
+          </TournamentDashboard>} />
+          <Route path="tournament-overview/:id" element={<DetailedTournamentCard></DetailedTournamentCard>}></Route>
+
+          <Route path="*" element={<>
+
+            <h1>Error 404</h1>
+
+          </>} />
+        </Route>
+      </Routes>
+    </React.Fragment>
+  </BrowserRouter>
+  )
+
+
+
+
+
+  {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */ }
             <Route
               path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
               element={<TournamentForm request={updateTournamentRequest} />}
