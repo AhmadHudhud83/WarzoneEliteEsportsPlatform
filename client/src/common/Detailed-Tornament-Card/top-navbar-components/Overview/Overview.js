@@ -9,14 +9,14 @@ import { Contact } from "../../bottom-navbar-components/Contact/Contact";
 import { useTournamentDetails } from "../..";
 
 export const Overview = () => {
-  const tournamentDetails = useContext(useTournamentDetails)
+  
+  const tournamentDetails = useContext(useTournamentDetails);
   const bottomNavElements = [
-    { link: "#", element: "DETAILS", component: <Details/> },
-    { link: "#", element: "RULES", component: <Rules/> },
-    { link: "#", element: "PRIZES", component: <Prizes/> },
-    { link: "#", element: "SCHEDULE", component: <Schedule/> },
-    { link: "#", element: "CONTACT", component: <Contact/> },
-
+    { element: "CONTACT", component: <Contact /> },
+    { element: "DETAILS", component: <Details /> },
+    { element: "RULES", component: <Rules /> },
+    { element: "PRIZES", component: <Prizes /> },
+    { element: "SCHEDULE", component: <Schedule /> },
   ];
 
   const [activeBottomComponent, setActiveBottomComponent] = useState(0);
@@ -31,29 +31,28 @@ export const Overview = () => {
 
   return (
     <React.Fragment>
-      
-      <div className="my-4 py-2 d-flex justify-content-center">
-      
+      <div className="my-3  d-flex justify-content-around rounded ">
         <img
-          style={{ height: "30%", width: "70%" }}
+          height={600}
+          width={300}
           src={tournamentDetails.cover_image_url}
           className="card-img-top"
           alt="..."
         />{" "}
       </div>
       <div className="card-header   ">
-      <div className="border-bottom border-start border-top border-end p-5">
-    <h4>ABOUT</h4>
-    <hr/>
+        <div className=" p-5">
+          <h4>ABOUT</h4>
+          <hr />
 
-    <p className="text-muted mt-3">{tournamentDetails.about}</p> 
+          <p className="text-muted mt-3">{tournamentDetails.about}</p>
+        </div>
 
-     </div>
-        <ul className="nav nav-pills card-header-pills my-3 d-flex justify-content-center ">
-          
+        <ul className="nav nav-pills card-header-pills my-3 d-flex justify-content-center  ">
           {bottomNavElements.map((item, index) => {
             return (
               <li
+                style={{ cursor: "pointer" }}
                 key={index}
                 className={`nav-item  ${
                   activeBottomNav === index
@@ -61,18 +60,19 @@ export const Overview = () => {
                     : ""
                 }`}
               >
-                <a
+                <p
                   onClick={() => {
                     handleBottomComponent(index);
                     handleActiveBottomNav(index);
                   }}
                   className={`nav-link ${
-                    activeBottomNav === index ? "fs-5 text-white" : " fs-5 text-muted"
+                    activeBottomNav === index
+                      ? "fs-5 text-white"
+                      : " fs-5 text-muted"
                   }`}
-                  href={item.link}
                 >
                   {item.element}
-                </a>
+                </p>
               </li>
             );
           })}
@@ -82,6 +82,7 @@ export const Overview = () => {
           (item, index) => activeBottomComponent === index && item.component
         )}
       </div>
+  
     </React.Fragment>
   );
 };

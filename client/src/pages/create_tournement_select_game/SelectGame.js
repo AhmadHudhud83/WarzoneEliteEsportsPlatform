@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import GameCard from "./components/game_card/GameCard";
-import axios from 'axios';
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //////
 
@@ -15,10 +15,12 @@ function SelectGame() {
   const [numGamesToShow, setNumGamesToShow] = useState(4);
   const [searchResults, setSearchResults] = useState([]);
   const [allSearchResults, setAllSearchResults] = useState([]);
+  const navigate = useNavigate();
 
+  const backHandler = () => {
+    navigate(-1);
+  };
 
-
-    
   const handleIconClick = () => {
     searchInput.current.focus();
   };
@@ -31,22 +33,22 @@ function SelectGame() {
 
     if (e.target.value === "") {
       setSearchResults(allSearchResults);
-      return
+      return;
     }
     setSearchResults(res);
   };
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/games')
-      .then(response => {
+    axios
+      .get("http://localhost:5000/api/games")
+      .then((response) => {
         setSearchResults(response.data);
-        setAllSearchResults(response.data)
-       
+        setAllSearchResults(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching game data:', error);
+      .catch((error) => {
+        console.error("Error fetching game data:", error);
       });
-  
+
     const handleResize = () => {
       if (window.innerWidth >= 1800) {
         setNumGamesToShow(20);
@@ -60,7 +62,6 @@ function SelectGame() {
     window.addEventListener("resize", handleResize);
     handleResize();
 
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -68,12 +69,14 @@ function SelectGame() {
     <div id={styles.container}>
       <div className="container-xlg">
         <h1>SELECT A GAME</h1>
+
         <div id={styles["search-container"]}>
           <FontAwesomeIcon
             id={styles["search-icon"]}
             icon={faSearch}
             onClick={handleIconClick}
           />
+
           <input
             ref={searchInput}
             id={styles.search}
@@ -84,6 +87,7 @@ function SelectGame() {
             onChange={handleSearchChange}
           />
         </div>
+
         {searchValue === "" ? (
           <>
             <h2>Most Popular Games</h2>
@@ -92,7 +96,11 @@ function SelectGame() {
                 .sort((a, b) => b.popularity - a.popularity)
                 .slice(0, numGamesToShow)
                 .map((game) => (
-                  <GameCard name={game.name} imgUrl={game.imgUrl} id={game._id} />
+                  <GameCard
+                    name={game.name}
+                    imgUrl={game.imgUrl}
+                    id={game._id}
+                  />
                 ))}
             </div>
           </>
@@ -105,6 +113,9 @@ function SelectGame() {
               <p>can't find the game? please reach us</p>
               <a href="contact">here</a>
             </div>
+            <button onClick={backHandler} className="btn btn-danger">
+              Back
+            </button>
           </div>
         )}
       </div>

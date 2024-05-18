@@ -4,7 +4,7 @@ import SelectGame from "../../pages/create_tournement_select_game/SelectGame";
 import { Temp } from "../../pages/home_page/Temp";
 import { DetailedTournamentCard } from "../../common/Detailed-Tornament-Card";
 import { TournamentManagementPage } from "../../pages/tournament-management-page";
-import { TournamentDashboard } from "../../pages/tournaments_dashboard";
+import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import DynamicForm from "../../pages/tournament_setup_form/componenets/Dynamic/DynamicForm";
 import axios from "axios";
@@ -20,15 +20,15 @@ export const RoutesManger = () => {
         <Routes>
           <Route path="/">
             <Route index element={<Temp />} />
-            <Route path="select-game/" element={<SelectGame />}></Route>
+            <Route path="organizer/dashboard/select-game" element={<SelectGame />}></Route>
             <Route
-              path="select-game/tournament-setup/:gameName"
+              path="organizer/dashboard/select-game/tournament-setup/:gameName"
               element={<TournamentForm request={createTournamentRequest} />}
             />
 
             {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */}
             <Route
-              path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
+              path="organizer/dashboard/management/:tournamentId"
               element={<TournamentForm request={updateTournamentRequest} />}
             />
             <Route
@@ -36,12 +36,12 @@ export const RoutesManger = () => {
               element={<DetailedTournamentCard />}
             />
             <Route
-              path="detailed-tournament/:id/management"
+              path=":id/management"
               element={<TournamentManagementPage />}
             />
             <Route
-              path="organaizer/dashboard"
-              element={<TournamentDashboard></TournamentDashboard>}
+              path="organizer/dashboard"
+              element={<OrganizerDashboard />}
             />
             <Route
               path="tournament-overview/:id"

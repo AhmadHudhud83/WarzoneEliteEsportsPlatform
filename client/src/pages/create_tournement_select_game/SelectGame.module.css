@@ -5,10 +5,12 @@
 }
 #container{
     background-color:#151b27 ;
-    height: 100%;
+    height:50vh;
     font-family: 'Kardust Condensed';
     min-height: 100vh;
-}
+
+    overflow-y: auto;
+}   
 
 #search-container{
     display: flex;

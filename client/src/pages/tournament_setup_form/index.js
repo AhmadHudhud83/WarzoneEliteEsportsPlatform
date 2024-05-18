@@ -39,7 +39,8 @@ export const TournamentForm = ({ request }) => {
     intialValidationValuesBasicForm = {};
   }
 
-  useEffect(() => {//based on the request , updating or creating a tournament
+  useEffect(() => {
+    //based on the request , updating or creating a tournament
     if (request === "CREATE_TOURNAMENT") {
       console.log("required param : ", requiredParam);
       axios
@@ -149,10 +150,10 @@ export const TournamentForm = ({ request }) => {
     description: undefined,
     schedule: undefined,
     //3rd page validation
-    format: undefined,
-    platform: undefined,
-    tournament_status: undefined,
-    registeration_status: undefined,
+    format: "Teams",
+    platform: "Combained",
+    tournament_status: "Opened",
+    registeration_status: "Opened",
     max_participants: 0,
     //4th page validation
     sponsors: [{ brand: "", email: "" }],
@@ -171,21 +172,17 @@ export const TournamentForm = ({ request }) => {
     setFormData({ ...formData, cover_image_url: "" });
   };
 
-  const [image, setImage] = useState();
+  const [image, setImage] = useState("https://i.imgur.com/R8Ze4GS.png");
   useEffect(() => {
     if (request === "UPDATE_TOURNAMENT" && requiredObject) {
       //for the updating request
       console.log("image path :", requiredObject.cover_image_url);
-      if (
-        requiredObject.cover_image_url.includes(
-          "public\\images\\cover_image_url"
-        )
-      ) {
-        //if it was uploaded image with localhost path
-        setImage(`http://localhost:5000/${requiredObject.cover_image_url}`);
-      } else setImage(requiredObject.cover_image_url); //if there wasn't any uploaded image , return default image without localhost path
-    } else {
-      setImage("https://i.imgur.com/R8Ze4GS.png"); //for the creating request ( for first time)
+      if(requiredObject.cover_image_url.includes("public\\images\\")){
+        setImage(`http://localhost:3000/${requiredObject.cover_image_url}`)
+      }else{
+        setImage(requiredObject.cover_image_url);
+      }
+      
     }
   }, [setImage, request, requiredObject]);
 
@@ -355,7 +352,6 @@ export const TournamentForm = ({ request }) => {
       text: "SAVE",
       component: (
         <DynamicForm
-        
           tournamentObject={tournamentObject}
           isAgreed={isAgreed}
           setIsAgreed={handleCheckBox}
@@ -409,6 +405,11 @@ export const TournamentForm = ({ request }) => {
     ));
   };
 
+  const navigate = useNavigate();
+
+  const backHandler = () => {
+    navigate(-1);
+  };
 
   if (loading) {
     return null;
@@ -418,80 +419,89 @@ export const TournamentForm = ({ request }) => {
   }
   return (
     <React.Fragment>
-      <div className="container pt-5 mt-3 org-cont">
-        <div className="card text-white bg-secondary  cont-1">
-          <div className="card-header border ">
-            <div className="border-bottom d-sm-none d-none d-md-none d-lg-block ">
-              <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
-                {navItems(
-                  "active border-bottom border-4 border-danger",
-                  "fs-5"
-                )}
-              </ul>
-            </div>
-            <div>
-              <div className="collapse " id="navbarToggleExternalContent">
-                <div className="p-0 d-block d-md-block d-lg-none">
-                  <ul
-                    style={{ listStyleType: "none" }}
-                    className="card-header-pills    "
-                  >
-                    {navItems("", "fs-6")}
-                  </ul>
-                </div>
+      <div className=" tournament-form-container">
+        <div className=" container  nested-tournament-form-container ">
+          <div className="card text-white bg-secondary  cont-1">
+            <div className="card-header border ">
+              <div className="border-bottom d-sm-none d-none d-md-none d-lg-block ">
+                <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
+                  {navItems(
+                    "active border-bottom border-4 border-danger",
+                    "fs-5"
+                  )}
+                </ul>
               </div>
-              <nav className="navbar navbar-dark d-block d-md-block d-lg-none">
-                <div className="container-fluid ">
-                  <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarToggleExternalContent"
-                    aria-controls="navbarToggleExternalContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span className="navbar-toggler-icon" />
-                  </button>
+              <div>
+                <div className="collapse " id="navbarToggleExternalContent">
+                  <div className="p-0 d-block d-md-block d-lg-none">
+                    <ul
+                      style={{ listStyleType: "none" }}
+                      className="card-header-pills    "
+                    >
+                      {navItems("", "fs-6")}
+                    </ul>
+                  </div>
                 </div>
-              </nav>
-            </div>
-            {/* <BasicsForm formData={formData} setFormData={handleFormChange} /> */}
-            {NavDisplay()}
+                <nav className="navbar navbar-dark d-block d-md-block d-lg-none">
+                  <div className="container-fluid ">
+                    <button
+                      className="navbar-toggler"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#navbarToggleExternalContent"
+                      aria-controls="navbarToggleExternalContent"
+                      aria-expanded="false"
+                      aria-label="Toggle navigation"
+                    >
+                      <span className="navbar-toggler-icon" />
+                    </button>
+                  </div>
+                </nav>
+              </div>
+              {/* <BasicsForm formData={formData} setFormData={handleFormChange} /> */}
+              {NavDisplay()}
 
-            <div className="d-flex ">
-              {/* THE BUTTON STATS LOGIC */}
-              {nav !== 0 && (
-                <button
-                  type="button"
-                  className="btn btn-danger me-auto "
-                  onClick={() => {
-                    prevClickHandler();
-                  }}
-                  disabled={nav === 0}
-                >
-                  Previous
-                </button>
-              )}
-              {nav < NavElements.length - 1 && (
-                <button
-                  type="button"
-                  className="btn btn-danger  position-relative ms-auto "
-                  onClick={() => {
-                    nextClickHandler();
-                  }}
-                  disabled={nextButtonState}
-                >
-                  Next
-                </button>
-              )}
-              {/*PUBLISH BUTTON LOGIC , CONSIDER THE handleShowModal() from the child component <PublishForm/> */}
-              {nav === NavElements.length - 1 &&
-                (SelecetedNavElementButton === null ? (
-                  <></>
-                ) : (
-                  <SelecetedNavElementButton />
-                ))}
+              <div className="d-flex ">
+                {/* THE BUTTON STATS LOGIC */}
+                {nav === 0 ?<button
+                    type="button"
+                    className="btn btn-danger me-auto "
+                    onClick={backHandler}
+                    disabled={nav !== 0}
+                  >
+                    Back
+                  </button> : (
+                  <button
+                    type="button"
+                    className="btn btn-danger me-auto "
+                    onClick={() => {
+                      prevClickHandler();
+                    }}
+                    disabled={nav === 0}
+                  >
+                    Previous
+                  </button>
+                )}
+                {nav < NavElements.length - 1 && (
+                  <button
+                    type="button"
+                    className="btn btn-danger  position-relative ms-auto "
+                    onClick={() => {
+                      nextClickHandler();
+                    }}
+                    disabled={nextButtonState}
+                  >
+                    Next
+                  </button>
+                )}
+                {/*PUBLISH BUTTON LOGIC , CONSIDER THE handleShowModal() from the child component <PublishForm/> */}
+                {nav === NavElements.length - 1 &&
+                  (SelecetedNavElementButton === null ? (
+                    <></>
+                  ) : (
+                    <SelecetedNavElementButton />
+                  ))}
+              </div>
             </div>
           </div>
         </div>

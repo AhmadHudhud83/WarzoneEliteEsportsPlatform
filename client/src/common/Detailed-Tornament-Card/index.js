@@ -5,12 +5,18 @@ import { Participants } from "./top-navbar-components/Participants/Participants"
 import { Matches } from "./top-navbar-components/Matches/Matches";
 import { Announcements } from "./top-navbar-components/Announcements/Announcements";
 import Footer from "../Footer/Footer";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Description } from "./top-navbar-components/Description/Description";
 import axios from "axios";
+import Sponsors from "./top-navbar-components/Sponsors/Sponsors";
 export const useTournamentDetails = createContext();
 
 export const DetailedTournamentCard = (props) => {
+  const navigate = useNavigate();
+
+  const backHandler = () => {
+    navigate(-1);
+  };
   const [loading, setLoading] = useState(true);
   const [tournamentDetails, setTournamentDetails] = useState(null);
   const { id } = useParams();
@@ -63,6 +69,11 @@ export const DetailedTournamentCard = (props) => {
       element: "DESCRIPTION",
       component: <Description />,
     },
+    {
+      link: "#",
+      element: "SPONSORS",
+      component: <Sponsors />,
+    },
   ];
 
   const [activeTopNav, setActiveTopNav] = useState(0);
@@ -104,7 +115,8 @@ export const DetailedTournamentCard = (props) => {
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentDetails}>
-        <div className="container org-cont ">
+       
+        <div className="container org-cont " >
           <h2 className="text-start  pb-3">{tournamentDetails.title}</h2>
           <div className="card  text-white bg-secondary cont-1  ">
             <div className="card-header border ">
@@ -151,8 +163,11 @@ export const DetailedTournamentCard = (props) => {
               })}
             </div>
           </div>
+          <button onClick={backHandler} className="btn btn-lg btn-danger mt-5">
+          Back
+        </button>
         </div>
-
+      
         <Footer></Footer>
       </useTournamentDetails.Provider>
     </React.Fragment>

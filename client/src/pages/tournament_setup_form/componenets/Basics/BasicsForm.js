@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import axios from "axios";
 
 import "../../style.css";
@@ -81,7 +80,7 @@ export const BasicsForm = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
-
+  
     
   }, []);
   //image file handler , try it (expermental use only)
