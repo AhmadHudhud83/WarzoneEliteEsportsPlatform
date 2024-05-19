@@ -6,73 +6,76 @@ import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i a
 import Header from '../../common/Header/Header';
 import Footer from '../../common/Footer/Footer';
 import Carousel from './components/carousel_component/Carousel'
-export const Temp = ()=>{
+import { useTranslation } from 'react-i18next';
+
+export const Temp = () => {
+  const { t } = useTranslation();
   const filtersArr = [
-    {index:"By Game",icon:"#",options:["CSGO","Valorant"]},
-    {index:"By Format",icon:"#",options:["1v1","Teams"]},
-    
+    { index: "By Game", icon: "#", options: ["CSGO", "Valorant"] },
+    { index: "By Format", icon: "#", options: ["1v1", "Teams"] },
+
   ]
-    useEffect(() => {
-        axios
-          .get("http://localhost:5000/users")
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }, []);
-    
-      const [backendData, setBackendData] = useState([{}]);
-    
-      //FETCH THE BACKEND API
-      useEffect(() => {
-        fetch("/api")
-          .then((response) => response.json())
-          .then((data) => {
-            setBackendData(data);
-          });
-      }, []);
-    
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/users")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
-      return(<React.Fragment>
+  const [backendData, setBackendData] = useState([{}]);
+
+  //FETCH THE BACKEND API
+  useEffect(() => {
+    fetch("/api")
+      .then((response) => response.json())
+      .then((data) => {
+        setBackendData(data);
+      });
+  }, []);
 
 
-<React.Fragment>
+  return (<React.Fragment>
 
-      <Header/>
+
+    <React.Fragment>
+
+      <Header />
       <div className="container">
         <Carousel></Carousel>
-        
-        
-      <h2 className="text-start py-4" >Find tournaments</h2>
-    <div className="d-flex justify-content-end">
-
-      {filtersArr.map((i,e)=><><select className={`form-select mx-3 bg-dark border text-white ` } aria-label="Default select example" style={{width:"15%"}}>
-    <option selected>{i.index}</option>
-    {i.options.map((_option,_index)=>{
 
 
-      return(<option value={_index}>{_option}</option>)
+        <h2 className="text-start py-4" >{t("Find tournaments")}</h2>
+        <div className="d-flex justify-content-end">
 
-    })}
-  </select></>)}
+          {filtersArr.map((i, e) => <><select className={`form-select mx-3 bg-dark border text-white `} aria-label="Default select example" style={{ width: "15%" }}>
+            <option selected>{i.index}</option>
+            {i.options.map((_option, _index) => {
 
-  
-      
- 
-  </div>
 
-<div className="row row-cols-1 row-cols-md-3 g-4 m-4  ">
+              return (<option value={_index}>{_option}</option>)
 
-        <TournamentCard props ={tournaments}/ >
+            })}
+          </select></>)}
+
+
+
+
         </div>
+
+        <div className="row row-cols-1 row-cols-md-3 g-4 m-4  ">
+
+          <TournamentCard props={tournaments} />
         </div>
-        <Footer />
-      </React.Fragment>
+      </div>
       <Footer />
+    </React.Fragment>
+    <Footer />
 
-      </React.Fragment>)
-    
-    
+  </React.Fragment>)
+
+
 }
