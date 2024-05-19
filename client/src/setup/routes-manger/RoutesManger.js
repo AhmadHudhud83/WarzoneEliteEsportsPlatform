@@ -61,38 +61,38 @@ return(<BrowserRouter>
 
 
             {/* <Route path="organaizer/dashboard/:tournament" element={<TournamentSetupForm request={CreateTournamentRequest} />}/> */}
-            <Route
-              path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
-              element={<TournamentForm request={updateTournamentRequest} />}
-            />
-            <Route
-              path="detailed-tournament/:id"
-              element={<DetailedTournamentCard />}
-            />
-            <Route
-              path="detailed-tournament/:id/management"
-              element={<TournamentManagementPage />}
-            />
-            <Route
-              path="organaizer/dashboard"
-              element={<TournamentDashboard></TournamentDashboard>}
-            />
-            <Route
-              path="tournament-overview/:id"
-              element={<DetailedTournamentCard />}
-            ></Route>
+  //           <Route
+  //             path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
+  //             element={<TournamentForm request={updateTournamentRequest} />}
+  //           />
+  //           <Route
+  //             path="detailed-tournament/:id"
+  //             element={<DetailedTournamentCard />}
+  //           />
+  //           <Route
+  //             path="detailed-tournament/:id/management"
+  //             element={<TournamentManagementPage />}
+  //           />
+  //           <Route
+  //             path="organaizer/dashboard"
+  //             element={<TournamentDashboard></TournamentDashboard>}
+  //           />
+  //           <Route
+  //             path="tournament-overview/:id"
+  //             element={<DetailedTournamentCard />}
+  //           ></Route>
 
-            <Route
-              path="*"
-              element={
-                <>
-                  <h1>Error 404</h1>
-                </>
-              }
-            />
-          </Route>
-        </Routes>
-      </React.Fragment>
-    </BrowserRouter>
-  );
+  //           <Route
+  //             path="*"
+  //             element={
+  //               <>
+  //                 <h1>Error 404</h1>
+  //               </>
+  //             }
+  //           />
+  //         </Route>
+  //       </Routes>
+  //     </React.Fragment>
+  //   </BrowserRouter>
+  // );
 };
