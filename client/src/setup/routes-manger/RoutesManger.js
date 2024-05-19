@@ -15,9 +15,6 @@ import AddPlayer from "../../pages/Organaizer_Pages/Players/addPlayer";
 import EditePlayer from "../../pages/Organaizer_Pages/Players/editePlayer";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import { ManagementButton } from "../../common/Detailed-Tornament-Card/managementButton/ManagementButton";
-import DynamicForm from "../../pages/tournament_setup_form/componenets/Dynamic/DynamicForm";
-import { ManagementButton } from "../../common/Detailed-Tornament-Card/managementButton/ManagementButton";
-import axios from "axios";
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
