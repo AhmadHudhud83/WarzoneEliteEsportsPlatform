@@ -2,7 +2,7 @@ import  express  from "express";
 import { body,query} from "express-validator";
 import{validate} from"../Utils/validator.js";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { LoginOrganaizer, SignUpOrganaizer } from "../controllers/OrganaizerController.js";
+import { LoginOrganaizer, SignUpOrganaizer } from "../controllers/organizerController.js";
 
 export const OrganizerRoute = express.Router();
 

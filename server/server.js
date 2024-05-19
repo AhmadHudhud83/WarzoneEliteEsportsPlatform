@@ -4,9 +4,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import { routerGame } from "./routes/gameRoutes.js";
-import { PlayerRoute } from "./routes/PlayerRoute.js";
-import { OrganizerRoute } from "./routes/OrganaizerRoute.js";
-import { SupervaisorRoute } from "./routes/supervaisorRout.js";
+import { PlayerRoute } from "./routes/playerRoutes.js";
+import { OrganizerRoute } from "./routes/organizerRoutes.js";
+import { SupervaisorRoute } from "./routes/supervisorRoutes.js";
 import session from "express-session";
 
 import { tournamentRouter } from "./routes/tournamentRoutes.js"

@@ -1,7 +1,7 @@
 import { body,query} from "express-validator";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { Organizer } from "../models/organizer.js";
+import { Organizer } from "../models/Organizer.js";
 
 export const LoginOrganaizer = async(req,res)=>{
     const { name, password } = req.body;

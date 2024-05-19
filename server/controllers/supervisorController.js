@@ -1,7 +1,7 @@
 import { body,query} from "express-validator";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { Supervaisor } from "../models/supervaisor.js";
+import { Supervaisor } from "../models/Supervisor.js";
 
 
 

@@ -2,7 +2,7 @@ import  express  from "express";
 import { body,query} from "express-validator";
 import{validate} from"../Utils/validator.js";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { AllSupervaisor, DeleteSupervaisor, GetSupervaisor, LoginSupervaisor, SignUpSupervaisor, UpdateSupervaisor } from "../controllers/SupervaisorController.js";
+import { AllSupervaisor, DeleteSupervaisor, GetSupervaisor, LoginSupervaisor, SignUpSupervaisor, UpdateSupervaisor } from "../controllers/supervisorController.js";
 
 export const SupervaisorRoute = express.Router();
 

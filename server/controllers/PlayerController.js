@@ -1,8 +1,8 @@
 import { body,query} from "express-validator";
 
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { Player } from "../models/player.js";
+import { Player } from "../models/Player.js";
 
 export const GetPlayer = async(req,res)=>{
     const {id} = req.query;
