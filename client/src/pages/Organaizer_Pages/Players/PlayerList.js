@@ -20,7 +20,7 @@ function PlayerList(){
             console.error('Error display players:', error);
           });
 
-    }, [players]);
+    }, []);
 
 
 

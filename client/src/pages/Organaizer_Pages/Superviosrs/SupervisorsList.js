@@ -20,7 +20,7 @@ function SupervisorList(){
             console.error('Error display Supervisors:', error);
           });
 
-    }, [supervisors]);
+    }, []);
 
 
 
