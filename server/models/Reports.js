@@ -2,7 +2,7 @@
 
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
-
+import Joi from 'joi';
 const ReportsSchema = new mongoose.Schema({
 
     report_type:{
@@ -42,5 +42,11 @@ const ReportsSchema = new mongoose.Schema({
     tournamentId: { type: mongoose.Schema.Types.ObjectId, ref: 'tournaments', required: true }
 
 
+});
+export const reportSchema = Joi.object({
+    title: Joi.string().min(3).max(100).required(),
+    description: Joi.string().min(10).max(1000).required(),
+    status: Joi.string().valid('open', 'closed', 'in-progress').required(),
+    
 });
 export const ReportsModel=mongoose.model("reports", ReportsSchema);

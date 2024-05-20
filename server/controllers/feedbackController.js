@@ -1,15 +1,9 @@
-import { FeedbackModel } from "../models/Feedback.js";
+import { FeedbackModel , feedbackSchema } from "../models/Feedback.js";
+
 import Joi from 'joi';
 
 
-const feedbackSchema = Joi.object({
-    user_name: Joi.string().min(3).max(100).required(),
-    feedback_content: Joi.string().min(10).max(1000).required(),
-    rating: Joi.number().min(1).max(5).required(),
-    date: Joi.date().optional(),
-    userId:Joi.string().required()
-    
-});
+
 
 export const getAllFeedback = async (req, res) => {
     try {
