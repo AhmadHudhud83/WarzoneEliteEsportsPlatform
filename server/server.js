@@ -7,7 +7,7 @@ import { tournamentRouter } from "./routes/tournamentRoutes.js"
  import path from "path";
  import { fileURLToPath } from 'url';
 import { reportsRouter } from "./routes/reportRoutes.js";
-
+import { feedbackRouter } from './routes/feedbackRoutes.js';
 const __filename = fileURLToPath(import.meta.url);
  const __dirname = path.dirname(__filename);
 const app = express();
@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(routerGame);
 app.use(reportsRouter);
 app.use(tournamentRouter)
+app.use(feedbackRouter);
 //app.use(reportsRouter)
 app.use('/public', express.static(path.join(__dirname, 'public')))
 

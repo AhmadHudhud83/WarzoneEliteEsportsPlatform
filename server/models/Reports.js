@@ -38,7 +38,8 @@ const ReportsSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: ['open', 'closed', 'in-progress']
-    }
+    } ,
+    tournamentId: { type: mongoose.Schema.Types.ObjectId, ref: 'tournaments', required: true }
 
 
 });
