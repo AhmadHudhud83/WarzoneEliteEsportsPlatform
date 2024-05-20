@@ -18,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 //Routes
 app.use(routerGame);
+app.use(reportsRouter);
 app.use(tournamentRouter)
 //app.use(reportsRouter)
 app.use('/public', express.static(path.join(__dirname, 'public')))
