@@ -64,7 +64,7 @@ export const createReport = async (req, res) => {
         }
         const newReport = new ReportsModel(value);
         const savedReport = await newReport.save();
-        res.status(200).json(savedReport);
+        res.status(201).json(savedReport);
     } catch (error) {
         console.error("Error creating report:", error);
         res.status(500).json({ message: "failed to create report" });
