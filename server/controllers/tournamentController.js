@@ -1,7 +1,9 @@
-import { TournamentModel, tournamentValidation } from "../models/Tournament.js";
+import {
+  TournamentModel,
+  tournamentValidation,
+} from "../models/Tournaments.js";
 import fs from "fs";
 import axios from "axios";
-//ahmad's hudhud code
 /**
  * @desc Create a new tournament
  * @route /api/tournaments
@@ -50,7 +52,7 @@ export const createTournament = async (req, res) => {
     "type of sponsors attribute from client is : ",
     typeof parsedSponsors
   );
-
+  //==================JOI VALIDATION (EXPRESS LEVEL VALIDAITON)=====================
   //parse the sponsors array of objects
   req.body.sponsors = parsedSponsors;
   //setting the cover_image_url
@@ -93,13 +95,13 @@ export const createTournament = async (req, res) => {
 
 //========================================================================
 /**
- * @desc get all tournaments
+ * @desc get all tournaments paginated
  * @route /api/tournaments
  * @method GET
  * @access public
  *
  */
-export const getAllTournaments = async (req, res) => {
+export const getAllTournamentsPaginated = async (req, res) => {
   const { page, pageSize } = req.query;
   const totalTournaments = await TournamentModel.countDocuments();
   try {
@@ -236,8 +238,7 @@ const deleteTournamentCoverImage = async (req, res) => {
     const oldTournament = await TournamentModel.findById(req.params.id);
     if (!oldTournament) {
       res.status(404).json({ message: "old tournament not found" });
-    } else if (oldTournament.cover_image_url.includes("public\\images\\")) {
-      //if its uploaded one then delete, if its a default one ,then don't do anything
+    } else if (oldTournament.cover_image_url.includes("public\\images\\")) {//if its uploaded one then delete, if its a default one ,then don't do anything
       fs.unlinkSync(oldTournament.cover_image_url);
     } else {
       return;
@@ -249,6 +250,7 @@ const deleteTournamentCoverImage = async (req, res) => {
       .json({ message: "something went wrong with deleting cover image" });
   }
 };
+
 //=================================================
 
 // Osama's code
@@ -440,3 +442,5 @@ export const resetTournament = async (tournamentId) => {
   tournament.markModified("matches"); // Mark the matches array as modified
   await tournament.save(); // Save the updated tournament document
 };
+
+

@@ -3,8 +3,6 @@ import React from "react";
 import SelectGame from "../../pages/create_tournement_select_game/SelectGame";
 import { Temp } from "../../pages/home_page/Temp";
 import { DetailedTournamentCard } from "../../common/Detailed-Tornament-Card";
-import { TournamentManagementPage } from "../../pages/tournament-management-page";
-import { TournamentDashboard } from "../../pages/tournaments_dashboard";
 import Tournaments from "../../pages/supervisor/tournaments/Tournaments";
 import Matches from "../../pages/supervisor/matches/Matches";
 import SupervisorList from "../../pages/Organaizer_Pages/Supervisors/SupervisorsList";
@@ -13,6 +11,7 @@ import EditeSupervisor from "../../pages/Organaizer_Pages/Supervisors/editeSuper
 import PlayerList from "../../pages/Organaizer_Pages/Players/PlayerList";
 import AddPlayer from "../../pages/Organaizer_Pages/Players/addPlayer";
 import EditePlayer from "../../pages/Organaizer_Pages/Players/editePlayer";
+import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 
 //tournament form flag
@@ -51,22 +50,22 @@ export const RoutesManger = () => {
               path="detailed-tournament/:id"
               element={<DetailedTournamentCard></DetailedTournamentCard>}
             />
-            <Route
-              path="detailed-tournament/:id/management"
-              element={<TournamentManagementPage></TournamentManagementPage>}
-            />
+        
             <Route path="select-game/" element={<SelectGame />}></Route>
+            <Route path="organizer/dashboard/select-game" element={<SelectGame />}></Route>
             <Route
-              path="select-game/tournament-setup/:gameName"
+              path="organizer/dashboard/select-game/tournament-setup/:gameName"
               element={<TournamentForm request={createTournamentRequest} />}
             />
             <Route
-              path="organaizer/dashboard/detailed-tournament/:tournamentId/management/updating-form"
+              path="organizer/dashboard/management/:tournamentId"
               element={<TournamentForm request={updateTournamentRequest} />}
             />
+         
+          
             <Route
-              path="tournamentDashboard"
-              element={<TournamentDashboard></TournamentDashboard>}
+              path="organizer/dashboard"
+              element={<OrganizerDashboard />}
             />
 
             <Route path="supervisor/">

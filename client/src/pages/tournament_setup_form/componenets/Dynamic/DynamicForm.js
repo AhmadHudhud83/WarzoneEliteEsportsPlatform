@@ -105,7 +105,7 @@ export const DynamicForm = forwardRef(
 
         <div>
           <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header className="bg-dark" closeButton>
+            <Modal.Header className="bg-dark "  closeButton>
               <Modal.Title className="bg-dark">
                 {modalObject.header}
               </Modal.Title>

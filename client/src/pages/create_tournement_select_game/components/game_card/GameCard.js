@@ -3,14 +3,14 @@ import styles from "./GameCard.module.css";
 
 function GameCard({ name, imgUrl,id }) {
 
-  const url = `select-game/tournament-setup/${name}`;
+  const url = `/organizer/dashboard/select-game/tournament-setup/${name}`;
 
   return (
     <div className={styles.card}>
-      <a href={url}>
+      <Link to={url}>
         <img src={imgUrl} alt={name} />
         <h3>{name}</h3>
-      </a>
+      </Link>
       
     </div>
   );

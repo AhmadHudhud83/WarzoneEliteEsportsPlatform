@@ -2,6 +2,7 @@ import { GameModel } from "../models/Games.js";
 
 
 
+
 export const getAllGames = async (req, res) => {
     try {
         const games = await GameModel.find();

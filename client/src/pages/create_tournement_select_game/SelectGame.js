@@ -4,6 +4,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import GameCard from "./components/game_card/GameCard";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 function SelectGame() {
   const searchInput = useRef(null); // Reference to the search input element
@@ -12,7 +14,18 @@ function SelectGame() {
   const [data, setData] = useState([]); // The data fetched from the server
   const numGamesToShow = 20; // The number of games to show initially
 
-  // Focus the search input when the search icon is clicked
+
+
+
+//////
+
+
+  const navigate = useNavigate();
+
+  const backHandler = () => {
+    navigate(-1);
+  };
+
   const handleIconClick = () => {
     searchInput.current.focus();
   };
@@ -33,8 +46,9 @@ function SelectGame() {
 
   // Fetch the game data from the server
   useEffect(() => {
-    axios.get('http://localhost:5000/api/games')
-      .then(response => {
+    axios
+      .get("http://localhost:5000/api/games")
+      .then((response) => {
         setSearchResults(response.data);
         setData(response.data);
       })
@@ -47,12 +61,14 @@ function SelectGame() {
     <div id={styles.container}>
       <div className="container-xlg">
         <h1>SELECT A GAME</h1>
+
         <div id={styles["search-container"]}>
           <FontAwesomeIcon
             id={styles["search-icon"]}
             icon={faSearch}
             onClick={handleIconClick}
           />
+
           <input
             ref={searchInput}
             id={styles.search}
@@ -82,6 +98,9 @@ function SelectGame() {
               <p>can't find the game? please reach us</p>
               <a href="contact">here</a>
             </div>
+            <button onClick={backHandler} className="btn btn-danger">
+              Back
+            </button>
           </div>
         )}
       </div>

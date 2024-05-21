@@ -1,3 +1,4 @@
+
 import express from "express";
 import upload from "../middlewares/uploadImage.js";
 import {
@@ -9,6 +10,8 @@ import {
   updateTournament,
   getTournamentById,
   resetTournament,
+  getAllTournamentsPaginated,
+  deleteTournament
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -81,6 +84,15 @@ tournamentRouter.patch("/:tournamentId/setup-round", async (req, res) => {
 });
 
 
+/**
+ * @desc get all tournaments (with pagination)
+ * @route /api/tournaments
+ * @method GET
+ * @access public
+ *
+ */ 
+tournamentRouter.get("/paginated",getAllTournamentsPaginated)//with pagination
+
 
 /**
  * @desc Create a new tournament
@@ -101,7 +113,6 @@ tournamentRouter.post("/", upload.single('cover_image_url'), createTournament)
  *
  */
 tournamentRouter.get("/:id", getTournamentById);
-
 /**
  * @desc update a tournament
  * @route /api/tournaments/:id
@@ -111,5 +122,15 @@ tournamentRouter.get("/:id", getTournamentById);
  */
 
 tournamentRouter.put("/:id", upload.single('cover_image_url'), updateTournament);
+/**
+ * @desc Delete a tournament
+ * @route /api/tournaments/:id
+ * @method DELETE
+ * @access private
+ *
+ */
+tournamentRouter.delete("/:id",deleteTournament)
 
 export { tournamentRouter };
+
+

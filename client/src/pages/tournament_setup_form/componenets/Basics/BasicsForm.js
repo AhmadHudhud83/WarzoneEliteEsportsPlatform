@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import axios from "axios";
 
 import "../../style.css";
 //consider the probs
@@ -80,6 +82,8 @@ export const BasicsForm = ({
     }
 
 
+  
+    
   }, []);
   //image file handler , try it (expermental use only)
   const [file, setFile] = useState(null);

@@ -21,3 +21,12 @@ input[type="file"]::file-selector-button {
   display:none
 }
 
+.tournament-form-container{
+  height: 100vh;
+  overflow-y: auto;
+ 
+  
+}
+.nested-tournament-form-container{
+  transform: scale(.85);
+}
