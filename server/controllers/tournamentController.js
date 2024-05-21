@@ -1,7 +1,7 @@
 import {
   TournamentModel,
   tournamentValidation,
-} from "../models/Tournaments.js";
+} from "../models/Tournament.js";
 import fs from "fs";
 import axios from "axios";
 /**
