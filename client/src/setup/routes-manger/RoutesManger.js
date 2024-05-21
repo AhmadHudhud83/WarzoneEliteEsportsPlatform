@@ -3,14 +3,14 @@ import React from "react";
 import SelectGame from "../../pages/create_tournement_select_game/SelectGame";
 import { Temp } from "../../pages/home_page/Temp";
 import { DetailedTournamentCard } from "../../common/Detailed-Tornament-Card";
-import Tournaments from "../../pages/supervisor/tournaments/Tournaments";
-import Matches from "../../pages/supervisor/matches/Matches";
-import SupervisorList from "../../pages/Organaizer_Pages/Supervisors/SupervisorsList";
-import AddSupervisor from "../../pages/Organaizer_Pages/Supervisors/addSupervisor";
-import EditeSupervisor from "../../pages/Organaizer_Pages/Supervisors/editeSupervisor";
-import PlayerList from "../../pages/Organaizer_Pages/Players/PlayerList";
-import AddPlayer from "../../pages/Organaizer_Pages/Players/addPlayer";
-import EditePlayer from "../../pages/Organaizer_Pages/Players/editePlayer";
+import Tournaments from "../../pages/supervisor_dashboard/tournaments/Tournaments";
+import Matches from "../../pages/supervisor_dashboard/matches/Matches";
+import SupervisorList from "../../pages/organizer_dashboard/components/Supervisors/SupervisorsList";
+import AddSupervisor from "../../pages/organizer_dashboard/components/Supervisors/addSupervisor";
+import EditeSupervisor from "../../pages/organizer_dashboard/components/Supervisors/editeSupervisor";
+import PlayerList from "../../pages/organizer_dashboard/components/Players/PlayerList"
+import AddPlayer from "../../pages/organizer_dashboard/components/Players/addPlayer";
+import EditePlayer from "../../pages/organizer_dashboard/components/Players/editePlayer";
 import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 
@@ -27,22 +27,22 @@ export const RoutesManger = () => {
             <Route index element={<Temp />} />
             <Route path="create-tournament" element={<SelectGame />} />
             <Route
-              path="organizer/supervisor/list"
+              path="organizer/dashboard/supervisor/list"
               element={<SupervisorList />}
             />
             <Route
-              path="organizer/supervisor/add"
+              path="organizer/dashboard/supervisor/add"
               element={<AddSupervisor />}
             />
             <Route
-              path="organizer/supervisor/edit/:supervisorId"
+              path="organizer/dashboard/supervisor/edit/:supervisorId"
               element={<EditeSupervisor />}
             />
 
-            <Route path="organizer/player/list" element={<PlayerList />} />
-            <Route path="organizer/player/add" element={<AddPlayer />} />
+            <Route path="organizer/dashboard/player/list" element={<PlayerList />} />
+            <Route path="organizer/dashboard/player/add" element={<AddPlayer />} />
             <Route
-              path="organizer/player/edit/:playerId"
+              path="organizer/dashboard/player/edit/:playerId"
               element={<EditePlayer />}
             />
 
@@ -51,7 +51,6 @@ export const RoutesManger = () => {
               element={<DetailedTournamentCard></DetailedTournamentCard>}
             />
         
-            <Route path="select-game/" element={<SelectGame />}></Route>
             <Route path="organizer/dashboard/select-game" element={<SelectGame />}></Route>
             <Route
               path="organizer/dashboard/select-game/tournament-setup/:gameName"
