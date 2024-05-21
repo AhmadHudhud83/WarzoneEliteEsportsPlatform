@@ -356,8 +356,8 @@ export const initializeMatches = async (tournamentId) => {
 
   // Update the tournament document
   tournament.currentRound = 0;
-  tournament.tournament_status = "in progress";
-  tournament.registeration_status = "closed";
+  tournament.tournament_status = "Ongoing";
+  tournament.registeration_status = "Closed";
   await tournament.save();
 };
 
