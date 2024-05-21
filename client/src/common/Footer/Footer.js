@@ -43,7 +43,7 @@ const Footer = () => {
                     <img
                        className='logo'
                        style={{width:"150px",height:"auto"}}
-                        src="https://i.imgur.com/rCPCVg6.png"
+                        src="/images/logo.png"
                    
                         alt="logo"
                     />

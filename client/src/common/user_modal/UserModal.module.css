@@ -1,0 +1,11 @@
+#open {
+    display: block;
+}
+
+#close {
+    display: none;
+}
+
+#modal {
+    background-color: #22004a !important;
+}

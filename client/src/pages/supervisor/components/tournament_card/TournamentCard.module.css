@@ -1,0 +1,24 @@
+.card {
+    border-radius: 10px;
+    width: 250px;
+    background-color: #1c222b;
+    text-align: center;
+    margin: 15px;
+}
+
+.card div {
+    padding: 10px;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.card a {
+    text-decoration: none;
+}
+
+.finished {
+    opacity: 0.5;
+}

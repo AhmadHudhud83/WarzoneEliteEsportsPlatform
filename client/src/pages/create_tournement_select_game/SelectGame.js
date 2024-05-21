@@ -3,65 +3,44 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import GameCard from "./components/game_card/GameCard";
-import axios from 'axios';
+import axios from "axios";
 
-
-//////
-
-/////
 function SelectGame() {
-  const searchInput = useRef(null);
-  const [searchValue, setSearchValue] = useState("");
-  const [numGamesToShow, setNumGamesToShow] = useState(4);
-  const [searchResults, setSearchResults] = useState([]);
-  const [allSearchResults, setAllSearchResults] = useState([]);
+  const searchInput = useRef(null); // Reference to the search input element
+  const [searchValue, setSearchValue] = useState(""); // The value of the search input
+  const [searchResults, setSearchResults] = useState([]); // The search results
+  const [data, setData] = useState([]); // The data fetched from the server
+  const numGamesToShow = 20; // The number of games to show initially
 
-
-
-    
+  // Focus the search input when the search icon is clicked
   const handleIconClick = () => {
     searchInput.current.focus();
   };
 
+  // Handle the search input change
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
-    const res = searchResults.filter((game) =>
+    const res = data.filter((game) =>
       game.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
 
     if (e.target.value === "") {
-      setSearchResults(allSearchResults);
-      return
+      setSearchResults(data);
+      return;
     }
     setSearchResults(res);
   };
 
+  // Fetch the game data from the server
   useEffect(() => {
     axios.get('http://localhost:5000/api/games')
       .then(response => {
         setSearchResults(response.data);
-        setAllSearchResults(response.data)
-       
+        setData(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching game data:', error);
+      .catch((error) => {
+        console.error("Error fetching game data:", error);
       });
-  
-    const handleResize = () => {
-      if (window.innerWidth >= 1800) {
-        setNumGamesToShow(20);
-      } else if (window.innerWidth >= 1400) {
-        setNumGamesToShow(20);
-      } else {
-        setNumGamesToShow(20);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -84,19 +63,17 @@ function SelectGame() {
             onChange={handleSearchChange}
           />
         </div>
-        {searchValue === "" ? (
+        {searchValue === "" ? ( // If the search input is empty, show the number of games specified in numGamesToShow
           <>
             <h2>Most Popular Games</h2>
             <div id={styles["games-container"]}>
-              {searchResults
-                .sort((a, b) => b.popularity - a.popularity)
-                .slice(0, numGamesToShow)
-                .map((game) => (
-                  <GameCard name={game.name} imgUrl={game.imgUrl} id={game._id} />
-                ))}
+              {searchResults.slice(0, numGamesToShow).map((game) => (
+                <GameCard name={game.name} imgUrl={game.imgUrl} />
+              ))}
             </div>
           </>
         ) : (
+          // If the search input is not empty, show the search results
           <div id={styles["games-container"]}>
             {searchResults.map((game) => (
               <GameCard name={game.name} imgUrl={game.imgUrl} id={game._id} />
