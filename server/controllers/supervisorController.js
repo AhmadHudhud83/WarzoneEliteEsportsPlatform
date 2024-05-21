@@ -1,7 +1,7 @@
 import { body,query} from "express-validator";
 import bcrypt from "bcrypt";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
-import { Supervaisor } from "../models/Supervisor.js";
+import { SupervisorModel } from "../models/Supervisor.js";
 
 
 
@@ -9,7 +9,7 @@ import { Supervaisor } from "../models/Supervisor.js";
 export const GetSupervaisor = async(req,res)=>{
     const {id}=req.query;
     try{
-        const supervaisor = await Supervaisor.findOne({_id:id});
+        const supervaisor = await SupervisorModel.findOne({_id:id});
         if(supervaisor){
             res.status(StatusCode.Ok).send(supervaisor);
         }
@@ -26,7 +26,7 @@ export const GetSupervaisor = async(req,res)=>{
 
 export const AllSupervaisor = async(req,res)=>{
     try{
-        const supervaisors = await Supervaisor.find({});
+        const supervaisors = await SupervisorModel.find({});
         res.status(StatusCode.Ok).send(supervaisors);
     }
     catch(e){
@@ -44,7 +44,7 @@ export const LoginSupervaisor = async(req,res)=>{
             return res.status(StatusCode.Ok).send('Already logged in');
         }
 
-        const user = await Supervaisor.findOne({ name });
+        const user = await SupervisorModel.findOne({ name });
         if (!user) {
             return res.status(StatusCode.NotFound).send('User not found');
         }
@@ -69,7 +69,7 @@ export const SignUpSupervaisor = async(req,res)=>{
     const saltRounds = 10;
     const hash = await bcrypt.hash(password , saltRounds);
     try{
-        const NewSupervaisor = new Supervaisor({
+        const NewSupervaisor = new SupervisorModel({
             name,
             email,
             password:hash
@@ -89,7 +89,7 @@ export const UpdateSupervaisor = async(req,res)=>{
     try{
         const checkName = await Supervaisor.findOne({name:name});
         if(checkName===null){
-            const UpdateSupervaisor = await Supervaisor.updateOne(
+            const UpdateSupervaisor = await SupervisorModel.updateOne(
                 {_id:id},
                 {
                     name:name,
@@ -121,7 +121,7 @@ export const UpdateSupervaisor = async(req,res)=>{
 export const DeleteSupervaisor = async(req,res)=>{
     const {id} = req.query;
     try{
-        const DeleteSupervaisor = await Supervaisor.deleteOne({_id:id});
+        const DeleteSupervaisor = await SupervisorModel.deleteOne({_id:id});
 
         if(DeleteSupervaisor.deletedCount != 0){
             return res.status(StatusCode.Ok).send("true");

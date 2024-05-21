@@ -4,19 +4,19 @@ import{validate} from"../Utils/validator.js";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
 import { AllSupervaisor, DeleteSupervaisor, GetSupervaisor, LoginSupervaisor, SignUpSupervaisor, UpdateSupervaisor } from "../controllers/supervisorController.js";
 
-export const SupervaisorRoute = express.Router();
+export const SupervisorRoute = express.Router();
 
-SupervaisorRoute.get('/supervisor/get',async(req,res)=>{
+SupervisorRoute.get('/supervisor/get',async(req,res)=>{
         GetSupervaisor(req,res);
     }
 );
 
-SupervaisorRoute.get('/supervisor/allsupervisor' ,async(req,res)=>{
+SupervisorRoute.get('/supervisor/allsupervisor' ,async(req,res)=>{
         AllSupervaisor(req,res);
     }
 );
 
-SupervaisorRoute.post('/supervisor/add',
+SupervisorRoute.post('/supervisor/add',
     body("name")
         .notEmpty().withMessage("Name is required")
         .bail()
@@ -42,13 +42,13 @@ SupervaisorRoute.post('/supervisor/add',
     }
 );
 
-SupervaisorRoute.post('/supervisor/login' ,async(req,res)=>{
+SupervisorRoute.post('/supervisor/login' ,async(req,res)=>{
         LoginSupervaisor(req,res);
     }
 );
 
 
-SupervaisorRoute.put('/supervisor/update',
+SupervisorRoute.put('/supervisor/update',
      body("name")
         .notEmpty().withMessage("Name is required")
         .bail()
@@ -76,7 +76,7 @@ SupervaisorRoute.put('/supervisor/update',
     }
 );
 
-SupervaisorRoute.delete('/supervisor/delete' ,
+SupervisorRoute.delete('/supervisor/delete' ,
     query("id").isMongoId().withMessage("pleace enter the id for object in mongodb"),
     (req, res, next) => validate(req, res, next, StatusCode.BadRequst),
     

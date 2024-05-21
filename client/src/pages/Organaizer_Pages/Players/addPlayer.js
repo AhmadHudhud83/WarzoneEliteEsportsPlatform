@@ -47,6 +47,7 @@ function AddPlayer(){
         try {
             const response = await axios.post('http://localhost:5000/player/signup', formData);
             alert(response.data);
+            
 
         } catch (error) {
             console.error('Error adding user:', error);

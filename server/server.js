@@ -5,7 +5,7 @@ import cors from "cors";
 import { routerGame } from "./routes/gameRoutes.js";
 import { PlayerRoute } from "./routes/playerRoutes.js";
 import { OrganizerRoute } from "./routes/organizerRoutes.js";
-import { SupervaisorRoute } from "./routes/supervisorRoutes.js";
+import {SupervisorRoute} from './routes/supervisorRoutes.js'
 import session from "express-session";
 import { tournamentRouter } from "./routes/tournamentRoutes.js";
 import path from "path";
@@ -31,7 +31,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(routerGame);
 app.use(PlayerRoute);
 app.use(OrganizerRoute);
-app.use(SupervaisorRoute);
+app.use(SupervisorRoute);
 app.use(tournamentRouter);
 
 //Database config
