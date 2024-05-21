@@ -1,7 +1,4 @@
-import {
-  TournamentModel,
-  tournamentValidation,
-} from "../models/Tournament.js";
+import { TournamentModel, tournamentValidation } from "../models/Tournament.js";
 import fs from "fs";
 import axios from "axios";
 /**
@@ -16,6 +13,17 @@ export const createTournament = async (req, res) => {
   const getCoverImageUrl = async (gameName) => {
     let defaultImage = "https://i.imgur.com/KHneQTJ.png";
     try {
+      if (
+        req.body.participants &&
+        req.body.participants.length >= req.body.max_participants
+      ) {
+        return res
+          .status(400)
+          .json({
+            message:
+              "Error , participant length cannot be more than max_participants !",
+          });
+      }
       const respones = await axios.get("http://localhost:5000/api/Games");
       const games = respones.data;
       const game = games.find((g) => g.name === gameName);
@@ -238,7 +246,8 @@ const deleteTournamentCoverImage = async (req, res) => {
     const oldTournament = await TournamentModel.findById(req.params.id);
     if (!oldTournament) {
       res.status(404).json({ message: "old tournament not found" });
-    } else if (oldTournament.cover_image_url.includes("public\\images\\")) {//if its uploaded one then delete, if its a default one ,then don't do anything
+    } else if (oldTournament.cover_image_url.includes("public\\images\\")) {
+      //if its uploaded one then delete, if its a default one ,then don't do anything
       fs.unlinkSync(oldTournament.cover_image_url);
     } else {
       return;
@@ -442,5 +451,3 @@ export const resetTournament = async (tournamentId) => {
   tournament.markModified("matches"); // Mark the matches array as modified
   await tournament.save(); // Save the updated tournament document
 };
-
-

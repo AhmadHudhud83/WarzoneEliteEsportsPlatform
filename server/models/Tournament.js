@@ -73,18 +73,22 @@ const TournamentSchema = new Schema({
   },
   format: {
     type: String,
+    enum: ['Teams', '1v1'] ,
     default: "Teams"
   },
   platform: {
     type: String,
+    enum: ['Console', 'Mobile','PC','Combined'] ,
     default: "Combined"
   },
   tournament_status: {
     type: String,
-    default: "Opened"
+  enum:['Uninitialized', 'Finished','Ongoing'],
+    default: "Uninitialized"
   },
   registeration_status: {
     type: String,
+    enum:['Opened', 'Closed'],
     default: "Closed"
   },
   max_participants: {
@@ -167,10 +171,10 @@ const tournamentJoiSchema = Joi.object({
   rules: Joi.string().default("Not Available"),
   prize: Joi.string().default("Not Available"),
   schedule: Joi.string().default("Not Available"),
-  format: Joi.string().default("Teams"),
-  platform: Joi.string().default("Combained"),
+  format: Joi.string().valid('Teams', '1v1').default("Teams"),
+  platform: Joi.string().valid('PC', 'Mobile','Console','Combained').default("Combained"),
   description: Joi.string().default("Not Available"),
-  tournament_status: Joi.string().valid('Opened', 'Closed').default("Opened"),
+  tournament_status: Joi.string().valid('Uninitialized', 'Finished','Ongoing').default("Uninitialized"),
   registeration_status: Joi.string().valid('Opened', 'Closed').default("Opened"),
   cover_image_url: Joi.string().default("hello world"), /////////////////////
 
