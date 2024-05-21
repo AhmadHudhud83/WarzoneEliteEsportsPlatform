@@ -8,7 +8,7 @@ const RegistrationCard = () => {
     <React.Fragment>
       <div
         className="card bg-dark mt-5 ms-5 g "
-        style={{ width: "40 rem", height: "25rem" }}
+        style={{ width: "40rem", height: "25rem" }}
       >
         <div className="card-body">
           <h2 className="card-title my-5  ">
