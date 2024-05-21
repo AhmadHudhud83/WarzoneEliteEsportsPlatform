@@ -50,7 +50,7 @@ function PlayerList(){
             </div>
                     
             <div className="table-responsive">
-                <table class="table table-dark table-striped">
+                <table className="table table-dark table-striped">
                     <thead>
                         <tr>
                         <th className="text-center">Name</th>
