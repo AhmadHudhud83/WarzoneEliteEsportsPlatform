@@ -2,41 +2,53 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const TournamentCard = ({ tournament }) => {
-
-  //source 
+  //source
   return (
     <React.Fragment>
-      <div className="col-lg-4 col-md-6 col-sm-12 " style={{transform:"scale(.89)"}}>
+      <div
+        className="col-lg-4 col-md-6 col-sm-12 "
+        style={{ transform: "scale(.89)" }}
+      >
         <div className="card  bg-dark border ">
           <img
-          
-             src={tournament.cover_image_url}
+            src={tournament.cover_image_url}
             className="card-img-top bg-dark  "
             alt="..."
             height={300}
             width={300}
           />
           <div className="card-body pb-0  ">
-            <h5 className="card-title  my-4 fs-3" > {tournament.title}</h5>
-      
-         
+            <div className="d-flex ">
+            <h5 className="card-title  my-4 fs-3"> {tournament.title}</h5>
+            <h5 className="card-title  my-4 fs-6 ms-auto  rounded-pill p-3  bg-primary" >  {tournament.tournament_status}</h5>
+            </div>
+          
+
             <div className="d-flex justify-content-between fs-5 ">
               <div className="d-flex align-items-center mt-3">
                 <p className="card-text pe-3">{tournament.start_date}</p>
-                <i className="fa-solid fa-calendar-days mb-4"></i>
+                <i className="fa-solid fa-calendar-days mb-3"></i>
               </div>
+             
               <div className="d-flex align-items-center mt-3 fs-5">
                 <i className="fa-regular fa-clock mb-3"></i>
-                <p className="cart-text px-3  "> {tournament.start_time}</p>
-                
+                <p className="px-3  "> {tournament.start_time}</p>
               </div>
+              
             </div>
-            
           </div>
-          <hr/>
+          <hr />
+        
           {/* <p className="cart-text px-3 fs-4"> {tournament.about}</p> */}
           <div className="card-footer bg-dark">
-            <Link to={`tournament-overview/${tournament._id}`}className="btn text-white rounded fs-5 mb-4 custom-btn" style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}}>
+            <Link
+              to={`tournament-overview/${tournament._id}`}
+              className="btn text-white rounded-3 fs-5 mb-4 custom-btn"
+              style={{
+                background:
+                  "linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)",
+              }}
+            >
               Go to tournament
             </Link>
             <div className="d-flex align-items-center">

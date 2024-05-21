@@ -3,14 +3,15 @@ import styles from './Matches.module.css';
 import Bracket from '../../../common/bracket/Bracket';
 import Header from '../components/header/Header';
 
-const Matches = () => {
+const Matches = ({userType}) => {
     const { id } = useParams();
 
     return (
         <div id={styles.container}>
-            <Header />
+            
+           {userType!=="user"?<Header />:<></>} 
             <h1 id={styles.title}>Matches</h1>
-            <Bracket user="supervisor" tournamentId={id} />
+            <Bracket user={userType} tournamentId={id} />
         </div>
     );
 }

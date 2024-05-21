@@ -83,16 +83,16 @@ function SelectGame() {
           <>
             <h2>Most Popular Games</h2>
             <div id={styles["games-container"]}>
-              {searchResults.slice(0, numGamesToShow).map((game) => (
-                <GameCard name={game.name} imgUrl={game.imgUrl} />
+              {searchResults.slice(0, numGamesToShow).map((game,index) => (
+                <GameCard key={index} name={game.name} imgUrl={game.imgUrl} />
               ))}
             </div>
           </>
         ) : (
           // If the search input is not empty, show the search results
           <div id={styles["games-container"]}>
-            {searchResults.map((game) => (
-              <GameCard name={game.name} imgUrl={game.imgUrl} id={game._id} />
+            {searchResults.map((game,index) => (
+              <GameCard  key={index} name={game.name} imgUrl={game.imgUrl} id={game._id} />
             ))}
             <div id={styles.contact}>
               <p>can't find the game? please reach us</p>

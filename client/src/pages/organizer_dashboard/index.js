@@ -5,6 +5,7 @@ import { useState, useEffect, createContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import TournamentsTable from "./components/TournamentsTable/TournamentsTable";
 import axios from "axios";
+import SideBar from "../../common/SideBar/SideBar";
 export const useTournamentDetails = createContext();
 export const OrganizerDashboard = () => {
   const location = useLocation(); //keep track of path
@@ -21,19 +22,53 @@ export const OrganizerDashboard = () => {
   // );
 
   const dashboardElements = [
-    { label: "New Tournament", link: "select-game" },
-    { label: "Reports", link: "reports" },
-    { label: "Contact Requests", link: "contact-requests" },
-    { label: "Supervisors List", link: "supervisors" },
-    { label: "Players List", link: "players" },
+    {
+      label: "New Tournament",
+      link: "select-game",
+      icon: <i className="fa-solid fa-plus" />,
+    },
+    {
+      label: "Add Game",
+      link: "add-game",
+      icon: <i className="fa-solid fa-plus" />,
+    },
+
+    {
+      label: "Supervisors List",
+      link: "supervisors",
+      icon: <i className="fa-solid fa-people-arrows" />,
+    },
+    {
+      label: "Players List",
+      link: "players",
+      icon: <i className="fa-solid fa-person" />,
+    },
+    {
+      label: "Reports",
+      link: "reports",
+      icon: <i className="fa-solid fa-flag" />,
+    },
+    {
+      label: "Contact Requests",
+      link: "contact-requests",
+      icon: <i className="fa-solid fa-address-book" />,
+    },
+    {
+      label: "Logout",
+      link: "/logout",
+      icon: <i className="fa-solid fa-right-from-bracket fa-rotate-180 me-3" />,
+    },
   ];
 
   const fetchTournaments = async (page, pageSize) => {
     //refresh button handler  (refresh table only)
     try {
-      const res = await axios.get("http://localhost:5000/api/tournaments/paginated", {
-        params: { page, pageSize },
-      });
+      const res = await axios.get(
+        "http://localhost:5000/api/tournaments/paginated",
+        {
+          params: { page, pageSize },
+        }
+      );
       console.log("Tournaments Data : ", res.data);
 
       setTournamentsData(res.data.tournaments);
@@ -70,64 +105,22 @@ export const OrganizerDashboard = () => {
         `http://localhost:5000/api/tournaments/${tournamentId}`
       );
       console.log(res.status);
-      setRecords(records.filter(tournament=>tournament._id!==tournamentId))
+      setRecords(
+        records.filter((tournament) => tournament._id !== tournamentId)
+      );
     } catch (error) {
       console.error("Error deleting tournament", error);
     }
     //reset the table
-   // setRecords((records));
+    // setRecords((records));
     //fetchTournaments(currentPage, pageSize);
   };
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentsData}>
         <div className="container organizer-dashboard">
-          <div
-            className="offcanvas offcanvas-start bg-dark"
-            tabIndex={-1}
-            id="offcanvasExample"
-            aria-labelledby="offcanvasExampleLabel"
-          >
-            <div className="offcanvas-header">
-              <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-                Organaizer Dashboard
-              </h5>
-              <button
-                type="button"
-                className="btn-close bg-secondary"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              />
-            </div>
-            <div className="offcanvas-body">
-              <div className="w-50 h-25">
-                {dashboardElements.map((item, index) => {
-                  return (
-                    <Link
-                      key={index}
-                      to={item.link}
-                      className="btn btn-md btn-danger mb-4 custom-btn mt-5 d-block "
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+          <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
 
-          <nav className="navbar navbar-dark my-3">
-            <button
-              className="btn border"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-          </nav>
           <h1 className="text-white mb-4">Tournaments</h1>
           <div className="d-flex align-items-center">
             <div className="mb-3 d-flex w-50 ">

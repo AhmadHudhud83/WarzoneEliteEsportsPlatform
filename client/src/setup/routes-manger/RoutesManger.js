@@ -57,6 +57,7 @@ export const RoutesManger = () => {
                   path="management/:tournamentId"
                   element={<TournamentForm request={updateTournamentRequest} />}
                 />
+                   <Route path="matches/:id" element={<Matches userType="organizer" />} />
               </Route>
             </Route>
 
@@ -64,7 +65,7 @@ export const RoutesManger = () => {
               <Route index element={<h1>Login</h1>} />
               <Route path="tournaments">
                 <Route index element={<Tournaments />} />
-                <Route path=":id" element={<Matches />} />
+                <Route path=":id" element={<Matches userType="supervisor" />} />
               </Route>
             </Route>
 

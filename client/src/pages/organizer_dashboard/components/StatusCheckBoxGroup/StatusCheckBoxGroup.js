@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 const StatusCheckBoxGroup = ({
   groupName,
   id1,
   id2,
+  id3,
   _status,
   fieldName,
   thisTournament,
 }) => {
-
-
+  //if the flag is tournament status , then set values accroding it , 
+  // else if they were for registeration , then assign it's default values
+  const setLabels = () => {
+    if (fieldName === "tournament_status") {
+      return ["Uninitialized", "Finished", "Ongoing"];
+    } else {
+      return ["Opened", "Closed"];
+    }
+  };
+  const labels = setLabels();
   const [statusData, setStatusData] = useState({
     fieldName: thisTournament[fieldName],
   });
@@ -53,9 +62,9 @@ const StatusCheckBoxGroup = ({
           name={groupName}
           id={`btnradio${id1}`}
           autoComplete="off"
-          defaultChecked={_status === "Opened"}
+          defaultChecked={_status === labels[0]}
           onChange={(e) => {
-            statusHandler("Opened");
+            statusHandler(labels[0]);
           }}
           // onMouseOver={() => console.log("HEREBOY", statusData)}
         />
@@ -63,7 +72,7 @@ const StatusCheckBoxGroup = ({
           className="btn btn-sm btn-outline-secondary"
           htmlFor={`btnradio${id1}`}
         >
-          Opened
+          {labels[0]}
         </label>
         <input
           type="radio"
@@ -71,9 +80,9 @@ const StatusCheckBoxGroup = ({
           name={groupName}
           id={`btnradio${id2}`}
           autoComplete="off"
-          defaultChecked={_status === "Closed"}
+          defaultChecked={_status === labels[1]}
           onChange={(e) => {
-            statusHandler("Closed");
+            statusHandler(labels[1]);
           }}
           // onMouseOver={() => console.log("HEREBOY", statusData)}
         />
@@ -81,8 +90,30 @@ const StatusCheckBoxGroup = ({
           className="btn btn-sm btn-outline-secondary"
           htmlFor={`btnradio${id2}`}
         >
-          Closed
+          {labels[1]}
         </label>
+        {fieldName === "tournament_status" && id3 && (
+          <>
+            <input
+              type="radio"
+              className="btn-check"
+              name={groupName}
+              id={`btnradio${id3}`}
+              autoComplete="off"
+              defaultChecked={_status === labels[2]}
+              onChange={(e) => {
+                statusHandler(labels[2]);
+              }}
+              // onMouseOver={() => console.log("HEREBOY", statusData)}
+            />
+            <label
+              className="btn btn-sm btn-outline-secondary"
+              htmlFor={`btnradio${id3}`}
+            >
+              {labels[2]}
+            </label>
+          </>
+        )}
       </div>
     </React.Fragment>
   );

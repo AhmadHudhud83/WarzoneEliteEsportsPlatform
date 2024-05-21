@@ -4,7 +4,7 @@ export const Rules = ()=>{
     const tournamentDetails =useContext(useTournamentDetails)
     return(<React.Fragment>
 
-        <div className=" p-5">
+        <div className=" py-5">
        <h4>Rules</h4>
        <hr></hr>
        <p className="text-muted mt-3">{tournamentDetails.rules}</p> 
