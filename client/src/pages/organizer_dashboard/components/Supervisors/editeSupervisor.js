@@ -91,7 +91,7 @@ function EditeSupervisor() {
     };
 
     fetchSupervisor();
-  }, [supervisorId]);
+  }, []);
 
   return (
     <div className="container">
