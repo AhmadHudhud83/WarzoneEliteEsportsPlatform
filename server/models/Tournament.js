@@ -1,11 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import Joi from "joi";
 const TournamentSchema = new Schema({
-  // _id: {
-  //   type: Schema.Types.ObjectId,
-  //   required: false,
-    
-  // },
   title: {
     type: String,
     required: true,
@@ -16,7 +11,7 @@ const TournamentSchema = new Schema({
   game: {
     type: String,
     trim: true,
-    minlength:3,
+    minlength: 3,
     //type:Schema.Types.ObjectId,
     // ref:"games",
     required: true,
@@ -140,12 +135,12 @@ const TournamentSchema = new Schema({
 const contact_details_url_validation = (value, helpers) => {
   const pattern = new RegExp(
     "^(https?:\\/\\/)?" +
-      "(?:www\\.)?" +
-      "[a-zA-Z0-9.-]+" +
-      "\\.[a-zA-Z]{2,}" +
-      "(\\/[\\w-]+)*" +
-      "(\\?[\\s\\S]*)?" +
-      "(\\#[\\s\\S]*)?$",
+    "(?:www\\.)?" +
+    "[a-zA-Z0-9.-]+" +
+    "\\.[a-zA-Z]{2,}" +
+    "(\\/[\\w-]+)*" +
+    "(\\?[\\s\\S]*)?" +
+    "(\\#[\\s\\S]*)?$",
     "i"
   );
   if (pattern.test(value)) {
@@ -155,7 +150,7 @@ const contact_details_url_validation = (value, helpers) => {
   }
 };
 
-  //==================JOI VALIDATION (EXPRESS LEVEL VALIDAITON)=====================
+//==================JOI VALIDATION (EXPRESS LEVEL VALIDAITON)=====================
 //validation of creating tournament schema
 
 const tournamentJoiSchema = Joi.object({
