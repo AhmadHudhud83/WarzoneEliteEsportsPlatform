@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Table from "./components/Table";
 import { createContext } from "react";
 export const useSupervisorsAndSponsorsDetails = createContext();
-export const SupervisorsAndSponsors = ({ setValidationErrors,setFormData,formData,validationErrors }) => {
+export const SupervisorsAndSponsors = ({ setValidationErrors,setFormData,formData,validationErrors,role }) => {
   
   const SponsorsfiledNames = ["Brand", "Email"]; //array of sponsors table header labels
   // const sponsorsArrInit = [
@@ -17,7 +17,7 @@ export const SupervisorsAndSponsors = ({ setValidationErrors,setFormData,formDat
  
 //=========================END OF DEFINING TABLE CONTETNS======================================
   return (
-    <useSupervisorsAndSponsorsDetails .Provider value={{formData,setFormData,SponsorsfiledNames,setValidationErrors,validationErrors}} >
+    <useSupervisorsAndSponsorsDetails .Provider value={{formData,setFormData,SponsorsfiledNames,setValidationErrors,validationErrors,role}} >
     <React.Fragment>
       <div className="container">
         <Table

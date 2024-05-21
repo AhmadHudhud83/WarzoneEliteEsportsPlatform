@@ -1,10 +1,9 @@
 import {useState} from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
-
-
+import { useNavigate } from "react-router-dom";
 function AddPlayer(){
-
+    const navigate = useNavigate();
     const [nameError, setNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [formData, setFormData] = useState({
@@ -47,6 +46,7 @@ function AddPlayer(){
         try {
             const response = await axios.post('http://localhost:5000/player/signup', formData);
             alert(response.data);
+            navigate('/organizer/dashboard/players')
             
 
         } catch (error) {
@@ -77,7 +77,7 @@ function AddPlayer(){
                     </div>
                     <div className="d-flex justify-content-end ">
                         <div className="p-2">
-                            <Link to="/organizer/player/list" className="btn btn-outline-light btn-secondary">Back</Link>
+                            <Link to="/organizer/dashboard/players" className="btn btn-outline-light btn-secondary">Back</Link>
                         </div>
                         <div className="p-2">
                             <button type="submit" className="btn  btn-outline-light btn-primary mr-2">Add</button>

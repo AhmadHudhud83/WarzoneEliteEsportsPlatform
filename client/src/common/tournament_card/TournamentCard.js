@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const TournamentCard = ({ tournament }) => {
+
+  //source 
   return (
     <React.Fragment>
       <div className="col-lg-4 col-md-6 col-sm-12 " style={{transform:"scale(.89)"}}>
@@ -14,37 +16,37 @@ export const TournamentCard = ({ tournament }) => {
             height={300}
             width={300}
           />
-          <div className="card-body pb-0 ">
-            <h5 className="card-title">{tournament.title}</h5>
+          <div className="card-body pb-0  ">
+            <h5 className="card-title  my-4 fs-3" > {tournament.title}</h5>
       
          
-            <div className="d-flex justify-content-between">
-              <div className="d-flex align-items-center">
+            <div className="d-flex justify-content-between fs-5 ">
+              <div className="d-flex align-items-center mt-3">
                 <p className="card-text pe-3">{tournament.start_date}</p>
-                <i className="fa-solid fa-calendar-days mb-2"></i>
+                <i className="fa-solid fa-calendar-days mb-4"></i>
               </div>
-              <div className="d-flex align-items-center">
-                <i className="fa-regular fa-clock mb-2"></i>
-                <p className="cart-text px-3 "> {tournament.start_time}</p>
+              <div className="d-flex align-items-center mt-3 fs-5">
+                <i className="fa-regular fa-clock mb-3"></i>
+                <p className="cart-text px-3  "> {tournament.start_time}</p>
                 
               </div>
             </div>
             
           </div>
           <hr/>
-          <p className="cart-text px-3 "> {tournament.about}</p>
+          {/* <p className="cart-text px-3 fs-4"> {tournament.about}</p> */}
           <div className="card-footer bg-dark">
-            <Link to={`tournament-overview/${tournament._id}`}className="btn btn-secondary mb-4 custom-btn">
+            <Link to={`tournament-overview/${tournament._id}`}className="btn text-white rounded fs-5 mb-4 custom-btn" style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}}>
               Go to tournament
             </Link>
             <div className="d-flex align-items-center">
-              <img
+              {/* <img
                 src="https://img.freepik.com/free-vector/detailed-ninja-logo-template_23-2149008973.jpg?w=740&t=st=1714322709~exp=1714323309~hmac=c0a0929caa4a47b55c9fa2de445a8040e53231a1baf94dedfe903c2bc7a236f7 "
                 className="rounded-circle me-4"
                 style={{ width: 50 }}
                 alt="Avatar"
-              />
-              <h5 className="text-muted">Ahmad hudhud</h5>
+              /> */}
+              {/* <h5 className="text-muted">Ahmad hudhud</h5> */}
             </div>
           </div>
         </div>

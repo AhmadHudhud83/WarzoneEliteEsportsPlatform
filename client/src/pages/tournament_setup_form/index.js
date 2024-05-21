@@ -253,6 +253,7 @@ export const TournamentForm = ({ request }) => {
           setFormData={handleFormChange}
           setValidationErrors={validationErrorsHandler}
           validationErrors={validationErrors}
+          role="admin"
         />
       ),
     },

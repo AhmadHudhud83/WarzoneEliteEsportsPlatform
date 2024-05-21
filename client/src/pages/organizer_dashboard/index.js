@@ -24,6 +24,8 @@ export const OrganizerDashboard = () => {
     { label: "New Tournament", link: "select-game" },
     { label: "Reports", link: "reports" },
     { label: "Contact Requests", link: "contact-requests" },
+    { label: "Supervisors List", link: "supervisors" },
+    { label: "Players List", link: "players" },
   ];
 
   const fetchTournaments = async (page, pageSize) => {
@@ -68,12 +70,13 @@ export const OrganizerDashboard = () => {
         `http://localhost:5000/api/tournaments/${tournamentId}`
       );
       console.log(res.status);
+      setRecords(records.filter(tournament=>tournament._id!==tournamentId))
     } catch (error) {
       console.error("Error deleting tournament", error);
     }
     //reset the table
-    setRecords([]);
-    fetchTournaments(currentPage, pageSize);
+   // setRecords((records));
+    //fetchTournaments(currentPage, pageSize);
   };
   return (
     <React.Fragment>

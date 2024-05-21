@@ -54,7 +54,7 @@ export const Overview = () => {
         />{" "}
       </div>
       <div className="card-header   ">
-        <div className=" p-5">
+        <div className="p-4 pb-5 mb-5">
           <h4>ABOUT</h4>
           <hr />
 

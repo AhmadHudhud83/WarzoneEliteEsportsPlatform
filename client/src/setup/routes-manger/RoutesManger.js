@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
 import SelectGame from "../../pages/create_tournement_select_game/SelectGame";
-import { Temp } from "../../pages/home_page/Temp";
+import { HomePage } from "../../pages/home_page/HomePage";
 import { DetailedTournamentCard } from "../../common/Detailed-Tornament-Card";
 import Tournaments from "../../pages/supervisor_dashboard/tournaments/Tournaments";
 import Matches from "../../pages/supervisor_dashboard/matches/Matches";
@@ -25,7 +25,7 @@ export const RoutesManger = () => {
       <React.Fragment>
         <Routes>
           <Route path="/">
-            <Route index element={<Temp />} />
+            <Route index element={<HomePage />} />
 
             <Route path="organizer/">
               <Route index element={<OrganizerLogin />} />

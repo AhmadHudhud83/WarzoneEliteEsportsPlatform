@@ -13,19 +13,21 @@ function PlayerList(){
 
     useEffect(() => {
         axios.get('http://localhost:5000/player/allplayer')
-          .then(response => {
-            SetAllPlayers(response.data);
-          })
-          .catch(error => {
-            console.error('Error display players:', error);
-          });
+        .then(response => {
+          SetAllPlayers(response.data);
+        })
+        .catch(error => {
+          console.error('Error display players:', error);
+        });
 
     }, []);
 
 
 
     const handleDeletePlayers=(id)=>{
-        axios.delete(`http://localhost:5000/player/delete?id=${id}`)
+        axios.delete(`http://localhost:5000/player/delete?id=${id}`).then(()=>{
+            SetAllPlayers(players.filter(player => player._id !== id));
+        })
           .catch(error => {
             console.error('Error display players:', error);
           });
@@ -43,7 +45,7 @@ function PlayerList(){
                         <label className="fs-4">Players</label>
                     </div>
                     <div className="d-flex">
-                        <Link to="/organizer/player/add" className="btn btn-outline-light btn-primary">
+                        <Link to="/organizer/dashboard/players/add" className="btn btn-outline-light btn-primary">
                             + Add Players</Link>
                     </div>
                 </div>
@@ -83,7 +85,12 @@ function PlayerList(){
                             </td>
                             <td>
                                 <div className="d-flex justify-content-center">
-                                    <button className="btn btn-outline-light btn-danger" onClick={()=>handleDeletePlayers(player._id)}>Delete</button>
+                                    <button className="btn btn-outline-light btn-danger" onClick={()=>{handleDeletePlayers(player._id) 
+                                       
+                                        
+                                    }}
+                                    
+                                    >Delete</button>
                                 </div>
                             </td>
                         </tr>
@@ -92,7 +99,9 @@ function PlayerList(){
                     
                 </table>
             </div>
+            <Link to="/organizer/dashboard" className="btn btn-outline-light btn-secondary">Back</Link>
         </div>
+        
     );
 }
 

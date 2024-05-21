@@ -9,6 +9,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { Description } from "./top-navbar-components/Description/Description";
 import axios from "axios";
 import Sponsors from "./top-navbar-components/Sponsors/Sponsors";
+
 export const useTournamentDetails = createContext();
 
 export const DetailedTournamentCard = (props) => {
@@ -25,6 +26,7 @@ export const DetailedTournamentCard = (props) => {
       .get(`/api/tournaments/${id}`)
       .then((res) => {
         setTournamentDetails(res.data);
+        console.log(tournamentDetails)
         setLoading(false);
       })
       .catch((e) => {
@@ -115,8 +117,7 @@ export const DetailedTournamentCard = (props) => {
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentDetails}>
-       
-        <div className="container org-cont " >
+        <div className="container org-cont fs-4 ">
           <h2 className="text-start  pb-3">{tournamentDetails.title}</h2>
           <div className="card  text-white bg-secondary cont-1  ">
             <div className="card-header border ">
@@ -159,15 +160,19 @@ export const DetailedTournamentCard = (props) => {
                 </ul>
               </div>
               {topNavElements.map((item, index) => {
-                return  <React.Fragment key={index}>{activeTopComponent === index && item.component}</React.Fragment>
+                return (
+                  <React.Fragment key={index}>
+                    {activeTopComponent === index && item.component}
+                  </React.Fragment>
+                );
               })}
             </div>
           </div>
           <button onClick={backHandler} className="btn btn-lg btn-danger mt-5">
-          Back
-        </button>
+            Back
+          </button>
         </div>
-      
+
         <Footer></Footer>
       </useTournamentDetails.Provider>
     </React.Fragment>
