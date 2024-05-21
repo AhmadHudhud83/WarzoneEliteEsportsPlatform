@@ -61,7 +61,7 @@ tournamentRouter.patch("/:tournamentId/reset", async (req, res) => {
 
 
 // Get the tournaments
-tournamentRouter.get("/", async (req, res) => {
+tournamentRouter.get("/allTournaments", async (req, res) => {
   try {
     const tournaments = await getTournaments();
     res.json(tournaments);

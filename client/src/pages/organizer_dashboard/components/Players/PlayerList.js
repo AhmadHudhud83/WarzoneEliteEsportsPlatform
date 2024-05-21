@@ -78,7 +78,7 @@ function PlayerList(){
                             
                             <td>
                                 <div className="d-flex justify-content-center">
-                                <Link to={`/organizer/player/edit/${player._id}` } className="btn btn-outline-light btn-primary">Edit</Link>                                </div>
+                                <Link to={`/organizer/dashboard/players/edit/${player._id}` } className="btn btn-outline-light btn-primary">Edit</Link>                                </div>
                                 
                             </td>
                             <td>

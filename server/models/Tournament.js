@@ -1,10 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 import Joi from "joi";
 const TournamentSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-    required: false,
-  },
+  // _id: {
+  //   type: Schema.Types.ObjectId,
+  //   required: false,
+    
+  // },
   title: {
     type: String,
     required: true,

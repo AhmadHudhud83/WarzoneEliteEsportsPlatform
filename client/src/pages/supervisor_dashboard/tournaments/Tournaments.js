@@ -14,7 +14,7 @@ function TournamentPage() {
 
     // Fetch the tournaments which the supervisor is part of its supervisors array
     axios
-      .get("/api/tournaments")
+      .get("/api/tournaments/allTournaments")
       .then((response) => {
         // Filter the tournaments where the supervisor is part of its supervisors array and the tournament is in progress
         const tournaments = response.data.filter(

@@ -50,7 +50,7 @@ function SupervisorList(){
             </div>
                     
             <div className="table-responsive">
-                <table class="table table-dark table-striped">
+                <table className="table table-dark table-striped">
                     <thead>
                         <tr>
                         <th className="text-center">Name</th>
@@ -78,7 +78,7 @@ function SupervisorList(){
                             
                             <td>
                                 <div className="d-flex justify-content-center">
-                                <Link to={`/organizer/supervisor/edit/${supervisor._id}` } className="btn btn-outline-light btn-primary">Edit</Link>                                </div>
+                                <Link to={`/organizer/dashboard/supervisors/edit/${supervisor._id}` } className="btn btn-outline-light btn-primary">Edit</Link>                                </div>
                                 
                             </td>
                             <td>
