@@ -152,7 +152,7 @@ export const TournamentForm = ({ request }) => {
     //3rd page validation
     format: "Teams",
     platform: "Combained",
-    tournament_status: "Opened",
+    tournament_status: "Uninitialized",
     registeration_status: "Opened",
     max_participants: 0,
     //4th page validation

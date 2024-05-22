@@ -23,7 +23,9 @@ export const RoutesManger = () => {
   return (
     <BrowserRouter>
       <React.Fragment>
+  
         <Routes>
+      
           <Route path="/">
             <Route index element={<HomePage />} />
 

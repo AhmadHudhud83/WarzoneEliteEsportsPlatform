@@ -1,7 +1,14 @@
+@font-face {
+    font-family: Kardust Condensed;
+  src: url('../public/assets/fonts/Kardust\ Condensed\ Bold.otf');
+}
+
 body{
     background-color: #151b27;
-    
+    font-family:Kardust Condensed ;
+ 
 }
 * {
-    color: white
+ 
+    color: white;
 }

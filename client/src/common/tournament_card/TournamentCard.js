@@ -7,7 +7,7 @@ export const TournamentCard = ({ tournament }) => {
     <React.Fragment>
       <div
         className="col-lg-4 col-md-6 col-sm-12 "
-        style={{ transform: "scale(.89)" }}
+        style={{ transform: "scale(.8)" }}
       >
         <div className="card  bg-dark border ">
           <img
@@ -22,7 +22,7 @@ export const TournamentCard = ({ tournament }) => {
             <h5 className="card-title  my-4 fs-3"> {tournament.title}</h5>
             <h5 className="card-title  my-4 fs-6 ms-auto  rounded-pill p-3  bg-primary" >  {tournament.tournament_status}</h5>
             </div>
-          
+            <h5 className="text-warning">{tournament.format}</h5>
 
             <div className="d-flex justify-content-between fs-5 ">
               <div className="d-flex align-items-center mt-3">
@@ -37,13 +37,15 @@ export const TournamentCard = ({ tournament }) => {
               
             </div>
           </div>
+          
           <hr />
         
           {/* <p className="cart-text px-3 fs-4"> {tournament.about}</p> */}
           <div className="card-footer bg-dark">
+            
             <Link
               to={`tournament-overview/${tournament._id}`}
-              className="btn text-white rounded-3 fs-5 mb-4 custom-btn"
+              className="btn btn-outline-light text-white rounded-3 fs-5 mb-4 custom-btn"
               style={{
                 background:
                   "linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)",
@@ -58,10 +60,11 @@ export const TournamentCard = ({ tournament }) => {
                 style={{ width: 50 }}
                 alt="Avatar"
               /> */}
-              {/* <h5 className="text-muted">Ahmad hudhud</h5> */}
+             
             </div>
           </div>
         </div>
+        
       </div>
     </React.Fragment>
   );

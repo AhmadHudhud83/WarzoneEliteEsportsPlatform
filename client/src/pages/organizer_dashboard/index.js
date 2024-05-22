@@ -8,6 +8,7 @@ import axios from "axios";
 import SideBar from "../../common/SideBar/SideBar";
 export const useTournamentDetails = createContext();
 export const OrganizerDashboard = () => {
+  
   const location = useLocation(); //keep track of path
   const navigate = useNavigate(); //for navigation
   const [tournamentsData, setTournamentsData] = useState([]); //tournament data state
@@ -118,7 +119,9 @@ export const OrganizerDashboard = () => {
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentsData}>
-        <div className="container organizer-dashboard">
+
+        <div className="organizer-dashboard">
+        <div className="container " >
           <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
 
           <h1 className="text-white mb-4">Tournaments</h1>
@@ -158,6 +161,7 @@ export const OrganizerDashboard = () => {
             totalTournaments={totalTournaments}
             deleteTournamentHandler={deleteTournamentHandler}
           />
+        </div>
         </div>
       </useTournamentDetails.Provider>
     </React.Fragment>
