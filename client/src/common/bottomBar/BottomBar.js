@@ -16,7 +16,8 @@ const BottomBar = ({ gamesData, selectedGame, setSelectedGame }) => {
           Select your game
         </button>
         <div
-          className="offcanvas offcanvas-top  bg-dark h-50"
+          className="offcanvas offcanvas-top  rounded border bg-dark h-50"
+          style={{backgroundImage:"url(https://i.imgur.com/DZMaZjP.jpeg"}}
           tabIndex={-1}
           id="offcanvasTop"
           aria-labelledby="offcanvasTopLabel"
