@@ -100,9 +100,9 @@ const TournamentsTable = ({
                             handleInitialize(item._id);
                             
                           }}
-                          className={`btn btn-sm ${item.tournament_status==="Uninitialized"?"btn-warning":"btn-danger"} `}
+                          className={`btn btn-sm btn-warning`}
                         >
-                        {item.tournament_status==="Uninitialized"?"Initialize":"Reset"}
+                        {"Initialize"}
                         </Link>
                         <Link
                           to={`/organizer/dashboard/matches/${item._id}`}
