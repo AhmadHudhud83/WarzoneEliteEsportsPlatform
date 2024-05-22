@@ -4,12 +4,13 @@ const SideBar = ({elementsList,sideBarTitle}) => {
   return (
     <React.Fragment>
       <div
-        className="offcanvas offcanvas-start bg-dark"
+      style={{backgroundImage:"url(https://i.imgur.com/5OFllrX.jpeg)"}}
+        className="offcanvas offcanvas-start side-bar "
         tabIndex={-1}
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
       >
-        <div className="offcanvas-header mt-2">
+        <div className="offcanvas-header mt-2" >
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
            {sideBarTitle}
           </h5>
@@ -21,7 +22,7 @@ const SideBar = ({elementsList,sideBarTitle}) => {
             aria-label="Close"
           />
         </div>
-        <div className="offcanvas-body">
+        <div className="offcanvas-body ">
           <hr />
           <div className="w-50 h-25">
             {elementsList.map((item, index) => {
