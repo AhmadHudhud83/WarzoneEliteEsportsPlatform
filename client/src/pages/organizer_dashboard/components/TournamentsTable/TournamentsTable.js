@@ -34,6 +34,7 @@ const TournamentsTable = ({
       console.error("error initializing the tournament matches...", error);
     }
   };
+  
   return (
     <React.Fragment>
       <div className="table-responsive mt-2">
@@ -97,10 +98,11 @@ const TournamentsTable = ({
                         <Link
                           onClick={() => {
                             handleInitialize(item._id);
+                            
                           }}
-                          className="btn btn-sm btn-warning "
+                          className={`btn btn-sm ${item.tournament_status==="Uninitialized"?"btn-warning":"btn-danger"} `}
                         >
-                          Initialize
+                        {item.tournament_status==="Uninitialized"?"Initialize":"Reset"}
                         </Link>
                         <Link
                           to={`/organizer/dashboard/matches/${item._id}`}
