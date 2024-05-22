@@ -80,14 +80,14 @@ const DeleteGame = async (req, res) => {
     return res.status(500).send("System error Deleting", e);
   }
 };
-const getGamesByName = async (req, res) => {
+const getGamesByNameAndImageUrl = async (req, res) => {
     try {
-      const games = await GameModel.find().select('name -_id');
-      const gameNames = games.map(game => game.name);
-      res.json(gameNames);
+      const games = await GameModel.find().select('name imgUrl -_id');
+      
+      res.json(games);
     } catch (error) {
       console.error("Error fetching games:", error);
       res.status(500).json({ error: "Failed to retrieve games" });
     }
   };
-export { getAllGames, AddGame, UpdateGame, DeleteGame, getGameById,getGamesByName};
+export { getAllGames, AddGame, UpdateGame, DeleteGame, getGameById,getGamesByNameAndImageUrl};

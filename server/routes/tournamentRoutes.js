@@ -11,7 +11,8 @@ import {
   getTournamentById,
   resetTournament,
   getAllTournamentsPaginated,
-  deleteTournament
+  deleteTournament,
+  getAllTournamentsPaginatedByGame
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -93,6 +94,16 @@ tournamentRouter.patch("/:tournamentId/setup-round", async (req, res) => {
  */ 
 tournamentRouter.get("/paginated",getAllTournamentsPaginated)//with pagination
 
+
+/**
+ * @desc get all tournaments paginated by game name
+ * @route /api/tournaments
+ * @method GET
+ * @access public
+ *
+ */
+
+tournamentRouter.get('/paginated-by-game',getAllTournamentsPaginatedByGame);
 
 /**
  * @desc Create a new tournament

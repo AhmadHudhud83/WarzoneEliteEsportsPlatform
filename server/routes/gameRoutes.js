@@ -1,5 +1,5 @@
 import  express  from "express";
-import { getGameById,getAllGames,DeleteGame,UpdateGame,AddGame,getGamesByName } from "../controllers/gamesController.js";
+import { getGameById,getAllGames,DeleteGame,UpdateGame,AddGame,getGamesByNameAndImageUrl } from "../controllers/gamesController.js";
 
 const routerGame = express.Router();
 
@@ -8,9 +8,9 @@ routerGame.get("/api/games", (req, res) => {
 });
 
 
-//get list of game names only 
-routerGame.get("/api/games/names",(req,res)=>{
-    getGamesByName(req,res)
+//get list of game names and imagesUrls only 
+routerGame.get("/api/games/names-urls",(req,res)=>{
+    getGamesByNameAndImageUrl(req,res)
 })
 
 //create a new game

@@ -110,16 +110,40 @@ export const createTournament = async (req, res) => {
  *
  */
 export const getAllTournamentsPaginated = async (req, res) => {
-  const { page, pageSize } = req.query;
-  const totalTournaments = await TournamentModel.countDocuments();
+  const { page=1, pageSize=10 } = req.query;
+ 
   try {
-    const tournaments = await TournamentModel.find()
+    const totalTournaments = await TournamentModel.countDocuments();
+    const tournaments = await TournamentModel.find().sort({ createdAt: -1 })
       .skip((page - 1) * pageSize)
       .limit(pageSize);
     res.json({ tournaments, totalTournaments });
   } catch (error) {
-    console.error("Error fetching Tournaments:", error);
-    res.status(500).json({ error: "Failed to retrieve tournaments" });
+    console.error("Error fetching paginated Tournaments:", error);
+    res.status(500).json({ error: "Failed to retrieve paginated tournaments" });
+  }
+};
+
+/**
+ * @desc get all  tournaments paginated based in the game name
+ * @route /api/tournaments
+ * @method GET
+ * @access public
+ *
+ */
+export const getAllTournamentsPaginatedByGame = async (req, res) => {
+  const { page=1,gameName } = req.query;
+ 
+  try {
+    const gameNameAttribute = gameName ? { game: gameName } : {};
+    const totalTournaments = await TournamentModel.countDocuments(gameNameAttribute);
+    const tournaments = await TournamentModel.find(gameNameAttribute)
+      .skip((page - 1) * 6)
+      .limit(6);
+    res.json({ tournaments, totalTournaments });
+  } catch (error) {
+    console.error("Error fetching Tournaments paginated by game:", error);
+    res.status(500).json({ error: "Failed to retrieve tournaments paginated by game" });
   }
 };
 
