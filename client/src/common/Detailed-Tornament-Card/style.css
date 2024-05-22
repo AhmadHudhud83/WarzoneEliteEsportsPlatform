@@ -1,11 +1,24 @@
-.cont-1{
-   background-color: #1c222b !important;
-    
+.cont-1 {
+    background-color: #1c222b !important;
+
 }
-.org-cont{
+
+.org-cont {
     background-color: #151b27;
     transform: scale(0.85);
-    transform-origin:top center;
+    transform-origin: top center;
     overflow-y: auto;
-  
+
+}
+
+#participated {
+    background-color: #151b27;
+    transform: scale(0.85);
+    transform-origin: top center;
+    overflow-y: auto;
+}
+
+#closed {
+    cursor: none;
+    width: 300px;
 }

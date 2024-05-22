@@ -11,7 +11,9 @@ import {
   getTournamentById,
   resetTournament,
   getAllTournamentsPaginated,
-  deleteTournament
+  deleteTournament,
+  addPlayer,
+  removePlayer
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -83,6 +85,30 @@ tournamentRouter.patch("/:tournamentId/setup-round", async (req, res) => {
   }
 });
 
+// Add a player to a tournament
+tournamentRouter.post("/:tournamentId/participation", async (req, res) => {
+  try {
+    const { tournamentId } = req.params;
+    const { player } = req.body;
+    await addPlayer(tournamentId, player);
+    res.json("Player added successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+});
+
+// Remove a player from a tournament
+tournamentRouter.delete("/:tournamentId/participation/:playerId", async (req, res) => {
+  try {
+    const { tournamentId, playerId } = req.params;
+    await removePlayer(tournamentId, playerId);
+    res.json("Player removed successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+});
 
 /**
  * @desc get all tournaments (with pagination)
@@ -90,8 +116,8 @@ tournamentRouter.patch("/:tournamentId/setup-round", async (req, res) => {
  * @method GET
  * @access public
  *
- */ 
-tournamentRouter.get("/paginated",getAllTournamentsPaginated)//with pagination
+ */
+tournamentRouter.get("/paginated", getAllTournamentsPaginated)//with pagination
 
 
 /**
@@ -129,7 +155,7 @@ tournamentRouter.put("/:id", upload.single('cover_image_url'), updateTournament)
  * @access private
  *
  */
-tournamentRouter.delete("/:id",deleteTournament)
+tournamentRouter.delete("/:id", deleteTournament)
 
 export { tournamentRouter };
 

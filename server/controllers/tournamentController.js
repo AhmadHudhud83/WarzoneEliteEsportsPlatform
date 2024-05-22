@@ -347,8 +347,8 @@ export const initializeMatches = async (tournamentId) => {
 
   // Update the tournament document
   tournament.currentRound = 0;
-  tournament.tournament_status = "in progress";
-  tournament.registeration_status = "closed";
+  tournament.tournament_status = "Ongoing";
+  tournament.registeration_status = "Closed";
   await tournament.save();
 };
 
@@ -437,10 +437,46 @@ export const resetTournament = async (tournamentId) => {
   tournament.currentRound = -1;
   tournament.winner = null;
   tournament.tournament_status = "Uninitialized";
+  tournament.registeration_status = "Open";
   tournament.matches = [];
 
   tournament.markModified("matches"); // Mark the matches array as modified
   await tournament.save(); // Save the updated tournament document
+};
+
+// Add a player to a tournament
+export const addPlayer = async (tournamentId, player) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+
+  tournament.participants.push(player);
+
+  // Save the updated tournament document
+  tournament.markModified("participants"); // Mark the participants array as modified
+  await tournament.save();
+};
+
+// Remove a player from a tournament
+export const removePlayer = async (tournamentId, playerId) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+
+  // Remove the player from the participants array
+  tournament.participants = tournament.participants.filter(
+    (player) => player._id !== playerId
+  );
+  console.log(playerId);
+  console.log(tournament.participants);
+
+  // Save the updated tournament document
+  tournament.markModified("participants"); // Mark the participants array as modified
+  await tournament.save();
 };
 
 

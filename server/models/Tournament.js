@@ -81,7 +81,7 @@ const TournamentSchema = new Schema({
   },
   tournament_status: {
     type: String,
-    default: "Opened"
+    default: "Uninitilized"
   },
   registeration_status: {
     type: String,

@@ -1,0 +1,60 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.show {
+    display: flex;
+}
+
+.modalContent {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.cancel {
+    margin-right: 20px;
+    background-color: gray;
+    color: #fff;
+    border: none;
+    padding: 10px;
+}
+
+.confirm {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+input {
+    padding: 5px;
+}
+
+.modalContent input {
+    color: black;
+}

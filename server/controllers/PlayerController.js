@@ -1,39 +1,39 @@
-import { body,query} from "express-validator";
+import { body, query } from "express-validator";
 
 import bcrypt from "bcrypt";
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
 import { Player } from "../models/Player.js";
 
-export const GetPlayer = async(req,res)=>{
-    const {id} = req.query;
-    try{
-        const player = await Player.findOne({_id:id});
-        if(player){
+export const GetPlayer = async (req, res) => {
+    const { id } = req.query;
+    try {
+        const player = await Player.findOne({ _id: id });
+        if (player) {
             res.status(StatusCode.Ok).send(player);
         }
 
-        else{
+        else {
             res.status(StatusCode.NotFound).send("Player not found");
         }
 
     }
-    catch(e){
+    catch (e) {
         res.status(StatusCode.ServerError).send("Server busy try again later");
     }
 }
 
 
-export const AllPlayer = async(req,res)=>{
-    try{
+export const AllPlayer = async (req, res) => {
+    try {
         const players = await Player.find({});
         res.status(StatusCode.Ok).send(players);
     }
-    catch(e){
+    catch (e) {
         res.status(StatusCode.ServerError).send("Server busy try again later");
     }
 }
 
-export const LoginPlayer = async(req,res)=>{
+export const LoginPlayer = async (req, res) => {
     const { name, password } = req.body;
 
     try {
@@ -61,75 +61,75 @@ export const LoginPlayer = async(req,res)=>{
 }
 
 
-export const SignUpPlayer = async(req,res)=>{
-    try{
-        const{name , email , password} = req.body;
+export const SignUpPlayer = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
         const saltRounds = 10;
-        const hash = await bcrypt.hash(password , saltRounds);
+        const hash = await bcrypt.hash(password, saltRounds);
         const NewPlayer = new Player({
             name,
             email,
-            password:hash
+            password: hash
         });
         await NewPlayer.save();
         res.status(StatusCode.Ok).send("Created successfully");
     }
-    catch(e){
-        return res.status(StatusCode.BadRequst).send({message:"the name is exist for anothor account"} );
+    catch (e) {
+        return res.status(StatusCode.BadRequst).send({ message: "the name is exist for anothor account" });
     }
 }
 
-export const UpdatePlayer = async(req,res)=>{
-    const {id,name ,email,password} =req.body;
+export const UpdatePlayer = async (req, res) => {
+    const { id, name, email, password } = req.body;
     const saltRounds = 10;
-    const hash = await bcrypt.hash(password , saltRounds);
-    try{
-        const checkName = await Player.findOne({name:name});
-        if(checkName===null){
+    const hash = await bcrypt.hash(password, saltRounds);
+    try {
+        const checkName = await Player.findOne({ name: name });
+        if (checkName === null) {
             const UpdatePlayer = await Player.updateOne(
-                {_id:id},
+                { _id: id },
                 {
-                    name:name,
-                    email:email,
-                    password:hash
+                    name: name,
+                    email: email,
+                    password: hash
                 }
-                
+
             );
-            if(UpdatePlayer.modifiedCount !=0){
+            if (UpdatePlayer.modifiedCount != 0) {
                 res.status(StatusCode.Ok).send("True");
             }
-            else{
+            else {
                 res.status(StatusCode.NotFound).send("false");
             }
         }
 
-        else{
+        else {
             res.status(StatusCode.BadRequst).send("name exist for anothor account");
         }
-        
+
 
     }
-    catch(e){
-        return res.status(StatusCode.ServerError).send("System error Updating" , e);
+    catch (e) {
+        return res.status(StatusCode.ServerError).send("System error Updating", e);
     }
 
 }
 
 
-export const DeletePlayer = async(req,res)=>{
-    const {id} = req.query;
-    try{
-        const DeletePlayer = await Player.deleteOne({_id:id});
+export const DeletePlayer = async (req, res) => {
+    const { id } = req.query;
+    try {
+        const DeletePlayer = await Player.deleteOne({ _id: id });
 
-        if(DeletePlayer.deletedCount != 0){
+        if (DeletePlayer.deletedCount != 0) {
             return res.status(StatusCode.Ok).send("updated successfuly");
         }
-        else{
+        else {
             return res.status(StatusCode.NotFound).send("user not found");
         }
 
     }
-    catch(e){
-        return res.status(StatusCode.ServerError).send("System error Deleting" , e);
+    catch (e) {
+        return res.status(StatusCode.ServerError).send("System error Deleting", e);
     }
 }
