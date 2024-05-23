@@ -64,7 +64,10 @@ export const SettingsForm = ({
   const checkBoxesChangeHandler = (e, optionValue) => {
     const name = e.target.name;
     const updatedFormData = { ...formData, [name]: optionValue };
+
     setFormData(updatedFormData);
+    console.log("UPDATED FORM DATA: ",updatedFormData)
+
     //console.log(`validation error of ${e.target.name} is :  `,validationErrors[e.target.name])
     if (validationErrors[e.target.name]) {
       delete validationErrors[e.target.name];

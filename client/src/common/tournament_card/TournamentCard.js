@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const TournamentCard = ({ tournament }) => {
-  //source
+
+
   return (
     <React.Fragment>
       <div
@@ -17,10 +18,10 @@ export const TournamentCard = ({ tournament }) => {
             height={300}
             width={300}
           />
-          <div className="card-body pb-0  ">
-            <div className="d-flex ">
-            <h5 className="card-title  my-4 fs-3"> {tournament.title}</h5>
-            <h5 className="card-title  my-4 fs-6 ms-auto  rounded-pill p-3  bg-primary" >  {tournament.tournament_status}</h5>
+          <div className="card-body pb-0    ">
+            <div className="d-flex   ">
+            <h5 className="card-title  text-wrap my-4 fs-3"> {tournament.title}</h5>
+            <h5 className="card-text  my-4 fs-6 ms-auto mw-50 rounded-pill p-3  bg-primary" >  {tournament.tournament_status}</h5>
             </div>
             <h5 className="text-warning">{tournament.format}</h5>
 

@@ -136,12 +136,12 @@ const TournamentsTable = ({
                                 Delete
                               </Link>
                               <li>
-                                <Link
+                                <button
                                   className=" btn btn-sm btn-primary"
-                                  href=""
+                                 // href=""
                                 >
                                   Cancel
-                                </Link>
+                                </button>
                               </li>
                             </div>
                           </ul>

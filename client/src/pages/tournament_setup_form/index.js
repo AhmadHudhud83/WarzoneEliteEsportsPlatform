@@ -285,11 +285,13 @@ export const TournamentForm = ({ request }) => {
       attribute: formData.registeration_status,
     },
     { fieldName: "tournament_status", attribute: formData.tournament_status },
+    { fieldName: "format", attribute: formData.format },
     //  { fieldName: "sponsors", attribute: newSponsor },
   ];
 
   const requiredAttributes = [
     { filedName: "game", attribute: formData.game },
+   
     { filedName: "title", attribute: formData.title },
     { filedName: "start_date", attribute: formData.start_date },
     { filedName: "start_time", attribute: formData.start_time },
