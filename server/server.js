@@ -14,6 +14,10 @@ import { fileURLToPath } from "url";
 import { reportsRouter } from "./routes/reportRoutes.js";
 
 
+
+import { blogRouter } from './routes/blogRoutes.js';
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
@@ -31,6 +35,7 @@ app.use(express.json());
 //Routes
 app.use("/api/tournaments", tournamentRouter);
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(blogRouter);
 app.use(routerGame);
 app.use(PlayerRoute);
 app.use(OrganizerRoute);
