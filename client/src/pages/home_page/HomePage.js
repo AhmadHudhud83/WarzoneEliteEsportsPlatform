@@ -99,6 +99,7 @@ export const HomePage = () => {
   return (
     <React.Fragment>
       <div className="home-page">
+        
         <div className="container ">
           <SideBar
             sideBarTitle={

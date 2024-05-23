@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
- 
+
 import './footer.css'
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
+
 
 const Footer = () => {
-
+    const { t, i18n } = useTranslation()
     const [selectedLanguage, setSelectedLanguage] = useState('English');
 
     const handleLanguageChange = (language) => {
-        setSelectedLanguage(language);
+        setSelectedLanguage(language.name)
+        i18n.changeLanguage(language.t)
     };
 
     const footerList = [
-        {link:"#",element:"Tournaments"},
-        {link:"#",element:"Help Center"},
-        {link:"#",element:"Privacy and Policy"},
-        {link:"#",element:"Terms of Use"},
-        {link:"#",element:"Contact Us"},
+        { link: "#", element: t("Tournaments") },
+        { link: "#", element: t("Help Center") },
+        { link: "#", element: t("Privacy and Policy") },
+        { link: "#", element: t("Terms of Use") },
+        { link: "#", element: t("Contact Us") },
 
     ]
     const socialMediaList = [
-"fa-square-facebook",
-"fa-square-twitter",
-"fa-square-instagram",
-"fa-square-youtube",
+        "fa-square-facebook",
+        "fa-square-twitter",
+        "fa-square-instagram",
+        "fa-square-youtube",
 
     ]
 
     const languages = [
-         "English","العربية"
-        
+        { t: 'en', name: 'English' },
+        { t: 'ar', name: 'العربية' }
     ]
-    const buttonStyle = {background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}
+
+    const buttonStyle = { background: "linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)" }
 
     return (
 
@@ -41,10 +45,10 @@ const Footer = () => {
                 <Link to="/">
 
                     <img
-                       className='logo'
-                       style={{width:"150px",height:"auto"}}
-                        src="/images/logo.png"
-                   
+                        className='logo'
+                        style={{ width: "150px", height: "auto" }}
+                        src="https://i.imgur.com/rCPCVg6.png"
+
                         alt="logo"
                     />
                 </Link>
@@ -53,67 +57,65 @@ const Footer = () => {
                     <div className="row">
                         <div className="col-md-3 ">
                             <p className="list-unstyled">
-                                Our success in creating business
-                                solutions is due in large part to our
-                                talented and highly committed team .</p>
+                                {t("Our success in creating business solutions is due in large part to our talented and highly committed team .")}</p>
 
                         </div>
                         {/*column 2*/}
                         <div className="col ">
-                            <h4>Usefull Links</h4>
+                            <h4>{t("Usefull Links")}</h4>
                             <ul className="list-unstyled">
-                                
-                                {
-                                    footerList.map((item,index)=>{
 
-                                       return(<li key={index}><Link className='footer-hover' to={item.link}>{item.element}</Link></li>) 
+                                {
+                                    footerList.map((item, index) => {
+
+                                        return (<li key={index}><Link className='footer-hover' to={item.link}>{item.element}</Link></li>)
                                     })
                                 }
                             </ul>
                         </div>
                         {/*column 2*/}
                         <div className="col ">
-                            <h4>Contact Us</h4>
+                            <h4>{t("Contact Us")}</h4>
                             <div className="list-unstyled">
 
                                 <ul>
                                     <li>
-                                        <h6>LOCATION:</h6>
+                                        <h6>{t("LOCATION:")}</h6>
                                         <address>153 Williamson Plaza, Maggieberg, MT 09514</address>
                                     </li>
                                     <li>
-                                        <h6>PHONE:</h6>
-                                        <Link className="footer-hover" to="">+1 (062) 109-9222</Link> 
+                                        <h6>{t("PHONE:")}</h6>
+                                        <Link className="footer-hover" to="">+1 (062) 109-9222</Link>
                                     </li>
                                     <li>
-                                        <h6>EMAIL:</h6>
+                                        <h6>{t("EMAIL:")}</h6>
                                         <Link className="footer-hover" to="">Info@YourGmail24.com</Link>                                            </li>
-                                    
+
                                 </ul>
                             </div>
 
 
                         </div>	{/*column 3*/}
                         <div className="col">
-                            <h4> SOCIAL MEDIA</h4>
+                            <h4>{t("SOCIAL MEDIA")}</h4>
                             <ul className="list-unstyled">
                                 <div className="socials">
                                     <a href="#">
-                                   
+
 
                                         {
-                                            socialMediaList.map((item,index)=>{
-                                                return(<i key={index} className={`fa-brands ${item}`}></i> )
+                                            socialMediaList.map((item, index) => {
+                                                return (<i key={index} className={`fa-brands ${item}`}></i>)
                                             })
                                         }
                                     </a>
                                 </div>
                             </ul>
                             <div className="sign-upfooter">
-                                <p className="para-sign">Get exclusive assets sent straight to your inbox</p>
+                                <p className="para-sign">{t("Get exclusive assets sent straight to your inbox")}</p>
                                 <ul className="signup-footer">
-                                   
-                                    <li><Link style={buttonStyle} className="btn btn-primary footer-hover1" to="">Sign up</Link></li>
+
+                                    <li><Link style={buttonStyle} className="btn btn-primary footer-hover1"  to="">{t('Sign up')}</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -125,7 +127,7 @@ const Footer = () => {
 
                 <div className="footer-button">
                     <p className="text-xs-center">
-                        Copyright ©  2024 Warzone Elite  All rights reserved.
+                        {t('Copyright ©  2024 Warzone Elite  All rights reserved.')}
                     </p>
                 </div>
 
@@ -135,9 +137,9 @@ const Footer = () => {
                     </Link>
 
                     <ul className="dropdown-menu">
-                        
-                        {languages.map((item,index)=>{
-                            return(<li key={index}><Link className='dropdown-item' to="#" onClick={() => handleLanguageChange(item)}>{item}</Link></li>)
+
+                        {languages.map((item, index) => {
+                            return (<li key={index}><a className='dropdown-item' href="#" onClick={() => handleLanguageChange(item)}>{item.name}</a></li>)
                         })}
 
 
