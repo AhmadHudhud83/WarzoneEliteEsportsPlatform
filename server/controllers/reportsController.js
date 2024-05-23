@@ -1,12 +1,7 @@
 import { ReportsModel } from "../models/Reports.js";
 import Joi from 'joi';
 
-const reportSchema = Joi.object({
-    title: Joi.string().min(3).max(100).required(),
-    description: Joi.string().min(10).max(1000).required(),
-    status: Joi.string().valid('open', 'closed', 'in-progress').required(),
-    
-});
+
 
 export const getAllReports = async (req, res) => {
     try {

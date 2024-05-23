@@ -12,7 +12,15 @@ import { tournamentRouter } from "./routes/tournamentRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { reportsRouter } from "./routes/reportRoutes.js";
+<<<<<<< HEAD
 
+=======
+import { feedbackRouter } from './routes/feedbackRoutes.js';
+const __filename = fileURLToPath(import.meta.url);
+ const __dirname = path.dirname(__filename);
+const app = express();
+//const jsonParser = bodyParser.json({limit:'50mb'});
+>>>>>>> origin/tournament-feedback
 
 
 import { blogRouter } from './routes/blogRoutes.js';
@@ -41,9 +49,7 @@ app.use(PlayerRoute);
 app.use(OrganizerRoute);
 app.use(SupervisorRoute);
 app.use(reportsRouter);
-
-
-
+app.use(feedbackRouter);
 
 
 
