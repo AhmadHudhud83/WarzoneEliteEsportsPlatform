@@ -10,11 +10,11 @@ export const Participants = () => {
 
 
       <div className="border-top ">
-        <table className="table">
+        <table className="table table-bordered">
           <thead>
             <tr>
               <th scope="col">Reg#</th>
-              <th scope="col">Participants</th>
+              <th scope="col">Participant</th>
             </tr>
           </thead>
           <tbody>

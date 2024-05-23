@@ -17,6 +17,7 @@ const TournamentsTable = ({
   const TableRows = [
     "# id",
     "Title",
+    "Game",
     "Participants",
     "Status",
     "Registration",
@@ -56,7 +57,7 @@ const TournamentsTable = ({
                 return (
                   <tr key={item._id}>
                     <th scope="row">
-                      <div className="d-flex">
+                      <div className="d-flex text-muted">
                         {item._id}
                         <Link
                           to={`/tournament-overview/${item._id}`}
@@ -66,7 +67,8 @@ const TournamentsTable = ({
                         </Link>
                       </div>
                     </th>
-                    <td>{item.title}</td>
+                    <td className="text-success">{item.title}</td>
+                    <td className="text-danger">{item.game} </td>
                     <td>{`${item.participants.length}/${item.max_participants}`}</td>
                     <td>
                       <StatusCheckBoxGroup
