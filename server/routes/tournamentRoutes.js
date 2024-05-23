@@ -12,7 +12,8 @@ import {
   resetTournament,
   getAllTournamentsPaginated,
   deleteTournament,
-  getAllTournamentsPaginatedByGame
+  getAllTournamentsPaginatedByGame,
+  getTournamentsOfUser
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -141,6 +142,16 @@ tournamentRouter.put("/:id", upload.single('cover_image_url'), updateTournament)
  *
  */
 tournamentRouter.delete("/:id",deleteTournament)
+
+
+/**
+ * @desc get all  tournaments  based on the user Id
+ * @route /api/tournaments/:userId
+ * @method GET
+ * @access public
+ *
+ */
+tournamentRouter.get("/:userId",getTournamentsOfUser)
 
 export { tournamentRouter };
 

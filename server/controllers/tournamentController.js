@@ -17,12 +17,10 @@ export const createTournament = async (req, res) => {
         req.body.participants &&
         req.body.participants.length >= req.body.max_participants
       ) {
-        return res
-          .status(400)
-          .json({
-            message:
-              "Error , participant length cannot be more than max_participants !",
-          });
+        return res.status(400).json({
+          message:
+            "Error , participant length cannot be more than max_participants !",
+        });
       }
       const respones = await axios.get("http://localhost:5000/api/Games");
       const games = respones.data;
@@ -84,6 +82,7 @@ export const createTournament = async (req, res) => {
       prize: req.body.prize,
       schedule: req.body.schedule,
       format: req.body.format,
+      platform:req.body.platform,
       description: req.body.description,
       tournament_status: req.body.tournament_status,
       registeration_status: req.body.registeration_status,
@@ -110,11 +109,12 @@ export const createTournament = async (req, res) => {
  *
  */
 export const getAllTournamentsPaginated = async (req, res) => {
-  const { page=1, pageSize=10 } = req.query;
- 
+  const { page = 1, pageSize = 10 } = req.query;
+
   try {
     const totalTournaments = await TournamentModel.countDocuments();
-    const tournaments = await TournamentModel.find().sort({ createdAt: -1 })
+    const tournaments = await TournamentModel.find()
+      .sort({ createdAt: -1 })
       .skip((page - 1) * pageSize)
       .limit(pageSize);
     res.json({ tournaments, totalTournaments });
@@ -132,18 +132,22 @@ export const getAllTournamentsPaginated = async (req, res) => {
  *
  */
 export const getAllTournamentsPaginatedByGame = async (req, res) => {
-  const { page=1,gameName } = req.query;
- 
+  const { page = 1, gameName } = req.query;
+
   try {
     const gameNameAttribute = gameName ? { game: gameName } : {};
-    const totalTournaments = await TournamentModel.countDocuments(gameNameAttribute);
+    const totalTournaments = await TournamentModel.countDocuments(
+      gameNameAttribute
+    );
     const tournaments = await TournamentModel.find(gameNameAttribute)
       .skip((page - 1) * 6)
       .limit(6);
     res.json({ tournaments, totalTournaments });
   } catch (error) {
     console.error("Error fetching Tournaments paginated by game:", error);
-    res.status(500).json({ error: "Failed to retrieve tournaments paginated by game" });
+    res
+      .status(500)
+      .json({ error: "Failed to retrieve tournaments paginated by game" });
   }
 };
 
@@ -178,6 +182,7 @@ export const getTournamentById = async (req, res) => {
 export const updateTournament = async (req, res) => {
   //  const newReqBody = emptyDataValidation(req.body);
   console.log("type of req.body.sponsors : ", typeof req.body.sponsors);
+  console.log("FORMAT IS ",req.body.format)
   let parsedSponsors;
   try {
     parsedSponsors =
@@ -188,10 +193,10 @@ export const updateTournament = async (req, res) => {
     return res.status(400).json({ message: "Invalid sponsors format" });
   }
 
-  delete req.body._id;
-  delete req.body.createdAt;
-  delete req.body.updatedAt;
-  delete req.body.__v;
+  // delete req.body._id;
+  // delete req.body.createdAt;
+  // delete req.body.updatedAt;
+  // delete req.body.__v;
   console.log(req.file);
 
   req.body.sponsors = parsedSponsors;
@@ -224,6 +229,7 @@ export const updateTournament = async (req, res) => {
           prize: req.body.prize,
           schedule: req.body.schedule,
           format: req.body.format,
+          platform:req.body.platform,
           description: req.body.description,
           tournament_status: req.body.tournament_status,
           registeration_status: req.body.registeration_status,
@@ -283,8 +289,31 @@ const deleteTournamentCoverImage = async (req, res) => {
       .json({ message: "something went wrong with deleting cover image" });
   }
 };
+/**
+ * @desc get all  tournaments  based on the user Id
+ * @route /api/tournaments/:userId
+ * @method GET
+ * @access public
+ *
+ */
+export const getTournamentsOfUser = async (req, res) => {
+  try {
+    const tournaments = await TournamentModel.find().sort({ createdAt: -1 });
+    res.json({ tournaments });
+  } catch (error) {
+    console.error(
+      `Error fetching  Tournaments of the user id : ${req.params.userId}`,
+      error
+    );
+    res
+      .status(500)
+      .json({
+        error: `Something went wrong fetching  Tournaments of the user id : ${req.params.userId}`,
+      });
+  }
+};
 
-//=================================================
+//=======================================================================================
 
 // Osama's code
 // This function structures the matches array by creating the matches array with proper structure
