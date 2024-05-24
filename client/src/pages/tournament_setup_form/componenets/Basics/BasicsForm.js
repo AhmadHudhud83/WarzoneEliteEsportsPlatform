@@ -30,9 +30,9 @@ export const BasicsForm = ({
     if (!inputValue.trim() || inputValue === "") {
       updatedValidationErrors.title = "Title field is required!";
       setValidationErrors(updatedValidationErrors);
-    } else if (inputValue.length < 5 || inputValue.length > 100) {
+    } else if (inputValue.length < 4 && inputValue.length > 15) {
       updatedValidationErrors.title =
-        "Title must be between 4 characters minimum and 100 characters maximum";
+        "Title must be between 4 characters minimum and 15 characters maximum";
       setValidationErrors(updatedValidationErrors);
     } else {
       delete updatedValidationErrors.title;
@@ -42,7 +42,7 @@ export const BasicsForm = ({
   };
   //this function is exclusive for time input validation handling
   const time_valdation_handler = (e) => {
-    const inputValue = e.target.value;
+    const inputValue = e.target.value.trim();
 
     const updatedValidationErrors = { ...validationErrors };
     if (!inputValue.trim() || inputValue === "") {

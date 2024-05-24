@@ -1,6 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 
 function AddSupervisor(){
@@ -12,7 +13,7 @@ function AddSupervisor(){
         email: '',
         password:''
       });
-
+const navigate = useNavigate();
 
 
     const handleChange = (e) => {
@@ -20,6 +21,7 @@ function AddSupervisor(){
         setFormData({
           ...formData,
           [name]: value
+          
         });
 
         if (name === 'name') {
@@ -40,6 +42,7 @@ function AddSupervisor(){
                 setPasswordError('');
             }
         }
+        console.log(formData)
       };
     
       const handleSubmit = async(e) => {
@@ -47,6 +50,7 @@ function AddSupervisor(){
         try {
             const response = await axios.post('http://localhost:5000/supervisor/add', formData);
             alert(response.data);
+            navigate('/organizer/dashboard/supervisors')
 
         } catch (error) {
             console.error('Error adding user:', error);
@@ -75,8 +79,8 @@ function AddSupervisor(){
                         {passwordError && <div className="text-danger">{passwordError}</div>}
                     </div>
                     <div className="d-flex justify-content-end ">
-                        <div className="p-2">
-                            <Link to="/organizer/supervisor/list" className="btn btn-outline-light btn-secondary">Back</Link>
+                    <div className="p-2">
+                            <Link to="/organizer/dashboard/supervisors" className="btn btn-outline-light btn-secondary">Back</Link>
                         </div>
                         <div className="p-2">
                             <button type="submit" className="btn  btn-outline-light btn-primary mr-2">Add</button>

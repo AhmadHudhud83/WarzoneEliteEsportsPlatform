@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -13,6 +13,7 @@ function EditeSupervisor() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -56,6 +57,7 @@ function EditeSupervisor() {
         }
       );
       alert(response.data);
+      navigate("/organizer/dashboard/supervisors");
     } catch (error) {
       console.error("Error updating supervisor:", error);
       alert(
@@ -89,7 +91,7 @@ function EditeSupervisor() {
     };
 
     fetchSupervisor();
-  }, [supervisorId]);
+  }, []);
 
   return (
     <div className="container">
@@ -143,7 +145,7 @@ function EditeSupervisor() {
             <div className="d-flex justify-content-end">
               <div className="p-2">
                 <Link
-                  to="/organizer/supervisor/list"
+                  to="/organizer/dashboard/supervisors"
                   className="btn btn-outline-light btn-secondary"
                 >
                   Back

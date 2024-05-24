@@ -13,7 +13,9 @@ import {
   getAllTournamentsPaginated,
   deleteTournament,
   addPlayer,
-  removePlayer
+  removePlayer,
+  getAllTournamentsPaginatedByGame,
+  getTournamentsOfUser
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -121,6 +123,16 @@ tournamentRouter.get("/paginated", getAllTournamentsPaginated)//with pagination
 
 
 /**
+ * @desc get all tournaments paginated by game name
+ * @route /api/tournaments
+ * @method GET
+ * @access public
+ *
+ */
+
+tournamentRouter.get('/paginated-by-game', getAllTournamentsPaginatedByGame);
+
+/**
  * @desc Create a new tournament
  * @route /api/tournaments
  * @method POST
@@ -156,6 +168,16 @@ tournamentRouter.put("/:id", upload.single('cover_image_url'), updateTournament)
  *
  */
 tournamentRouter.delete("/:id", deleteTournament)
+
+
+/**
+ * @desc get all  tournaments  based on the user Id
+ * @route /api/tournaments/:userId
+ * @method GET
+ * @access public
+ *
+ */
+tournamentRouter.get("/:userId", getTournamentsOfUser)
 
 export { tournamentRouter };
 

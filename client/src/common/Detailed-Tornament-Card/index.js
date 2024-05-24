@@ -2,14 +2,14 @@ import React, { createContext, useEffect, useState } from "react";
 import "./style.css";
 import { Overview } from "./top-navbar-components/Overview/Overview";
 import { Participants } from "./top-navbar-components/Participants/Participants";
-import { Matches } from "./top-navbar-components/Matches/Matches";
 import { Announcements } from "./top-navbar-components/Announcements/Announcements";
-import Footer from "../Footer/Footer";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Description } from "./top-navbar-components/Description/Description";
 import axios from "axios";
 import Sponsors from "./top-navbar-components/Sponsors/Sponsors";
 import ParticipatingModal from "../participating_modal/ParticipatingModal";
+import Matches from "../../pages/supervisor_dashboard/matches/Matches";
+
 export const useTournamentDetails = createContext();
 
 export const DetailedTournamentCard = (props) => {
@@ -33,6 +33,7 @@ export const DetailedTournamentCard = (props) => {
       .get(`/api/tournaments/${id}`)
       .then((res) => {
         setTournamentDetails(res.data);
+        console.log(tournamentDetails);
         setLoading(false);
         if (userId !== null) {
           setParticipated(res.data.participants.some(participant => participant._id === userId));
@@ -62,15 +63,11 @@ export const DetailedTournamentCard = (props) => {
       element: "PARTICIPANTS",
       component: <Participants />,
     },
-    // {
-    //   link: "#",
-    //   element: "MATCHES",
-    //   component: (
-    //     <Matches
-
-    //     />
-    //   ),
-    // },
+    {
+      link: "#",
+      element: "MATCHES",
+      component: <Matches userType="user" />,
+    },
     {
       link: "#",
       element: "ANNOUNCEMENTS",
@@ -203,7 +200,7 @@ export const DetailedTournamentCard = (props) => {
                       </ul>
                     </div>
                   </div>
-                  <nav className="navbar navbar-dark d-block d-md-block d-lg-none">
+                  <nav className="navbar navbar-dark d-block d-md-block d-lg-none ">
                     <div className="container-fluid ">
                       <button
                         className="navbar-toggler  bg-danger"
@@ -221,7 +218,7 @@ export const DetailedTournamentCard = (props) => {
                 </div>
 
                 <div className="border-bottom d-sm-none d-none d-md-none d-lg-block">
-                  <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
+                  <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center ">
                     {topNavDisplay(
                       "border border-danger border-bottom border-4",
                       "fs-5"

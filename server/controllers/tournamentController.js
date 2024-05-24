@@ -1,7 +1,4 @@
-import {
-  TournamentModel,
-  tournamentValidation,
-} from "../models/Tournament.js";
+import { TournamentModel, tournamentValidation } from "../models/Tournament.js";
 import fs from "fs";
 import axios from "axios";
 /**
@@ -16,6 +13,15 @@ export const createTournament = async (req, res) => {
   const getCoverImageUrl = async (gameName) => {
     let defaultImage = "https://i.imgur.com/KHneQTJ.png";
     try {
+      if (
+        req.body.participants &&
+        req.body.participants.length >= req.body.max_participants
+      ) {
+        return res.status(400).json({
+          message:
+            "Error , participant length cannot be more than max_participants !",
+        });
+      }
       const respones = await axios.get("http://localhost:5000/api/Games");
       const games = respones.data;
       const game = games.find((g) => g.name === gameName);
@@ -76,6 +82,7 @@ export const createTournament = async (req, res) => {
       prize: req.body.prize,
       schedule: req.body.schedule,
       format: req.body.format,
+      platform: req.body.platform,
       description: req.body.description,
       tournament_status: req.body.tournament_status,
       registeration_status: req.body.registeration_status,
@@ -102,16 +109,45 @@ export const createTournament = async (req, res) => {
  *
  */
 export const getAllTournamentsPaginated = async (req, res) => {
-  const { page, pageSize } = req.query;
-  const totalTournaments = await TournamentModel.countDocuments();
+  const { page = 1, pageSize = 10 } = req.query;
+
   try {
+    const totalTournaments = await TournamentModel.countDocuments();
     const tournaments = await TournamentModel.find()
+      .sort({ createdAt: -1 })
       .skip((page - 1) * pageSize)
       .limit(pageSize);
     res.json({ tournaments, totalTournaments });
   } catch (error) {
-    console.error("Error fetching Tournaments:", error);
-    res.status(500).json({ error: "Failed to retrieve tournaments" });
+    console.error("Error fetching paginated Tournaments:", error);
+    res.status(500).json({ error: "Failed to retrieve paginated tournaments" });
+  }
+};
+
+/**
+ * @desc get all  tournaments paginated based in the game name
+ * @route /api/tournaments
+ * @method GET
+ * @access public
+ *
+ */
+export const getAllTournamentsPaginatedByGame = async (req, res) => {
+  const { page = 1, gameName } = req.query;
+
+  try {
+    const gameNameAttribute = gameName ? { game: gameName } : {};
+    const totalTournaments = await TournamentModel.countDocuments(
+      gameNameAttribute
+    );
+    const tournaments = await TournamentModel.find(gameNameAttribute)
+      .skip((page - 1) * 6)
+      .limit(6);
+    res.json({ tournaments, totalTournaments });
+  } catch (error) {
+    console.error("Error fetching Tournaments paginated by game:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to retrieve tournaments paginated by game" });
   }
 };
 
@@ -146,6 +182,7 @@ export const getTournamentById = async (req, res) => {
 export const updateTournament = async (req, res) => {
   //  const newReqBody = emptyDataValidation(req.body);
   console.log("type of req.body.sponsors : ", typeof req.body.sponsors);
+  console.log("FORMAT IS ", req.body.format)
   let parsedSponsors;
   try {
     parsedSponsors =
@@ -156,10 +193,10 @@ export const updateTournament = async (req, res) => {
     return res.status(400).json({ message: "Invalid sponsors format" });
   }
 
-  delete req.body._id;
-  delete req.body.createdAt;
-  delete req.body.updatedAt;
-  delete req.body.__v;
+  // delete req.body._id;
+  // delete req.body.createdAt;
+  // delete req.body.updatedAt;
+  // delete req.body.__v;
   console.log(req.file);
 
   req.body.sponsors = parsedSponsors;
@@ -192,6 +229,7 @@ export const updateTournament = async (req, res) => {
           prize: req.body.prize,
           schedule: req.body.schedule,
           format: req.body.format,
+          platform: req.body.platform,
           description: req.body.description,
           tournament_status: req.body.tournament_status,
           registeration_status: req.body.registeration_status,
@@ -238,7 +276,8 @@ const deleteTournamentCoverImage = async (req, res) => {
     const oldTournament = await TournamentModel.findById(req.params.id);
     if (!oldTournament) {
       res.status(404).json({ message: "old tournament not found" });
-    } else if (oldTournament.cover_image_url.includes("public\\images\\")) {//if its uploaded one then delete, if its a default one ,then don't do anything
+    } else if (oldTournament.cover_image_url.includes("public\\images\\")) {
+      //if its uploaded one then delete, if its a default one ,then don't do anything
       fs.unlinkSync(oldTournament.cover_image_url);
     } else {
       return;
@@ -250,8 +289,31 @@ const deleteTournamentCoverImage = async (req, res) => {
       .json({ message: "something went wrong with deleting cover image" });
   }
 };
+/**
+ * @desc get all  tournaments  based on the user Id
+ * @route /api/tournaments/:userId
+ * @method GET
+ * @access public
+ *
+ */
+export const getTournamentsOfUser = async (req, res) => {
+  try {
+    const tournaments = await TournamentModel.find().sort({ createdAt: -1 });
+    res.json({ tournaments });
+  } catch (error) {
+    console.error(
+      `Error fetching  Tournaments of the user id : ${req.params.userId}`,
+      error
+    );
+    res
+      .status(500)
+      .json({
+        error: `Something went wrong fetching  Tournaments of the user id : ${req.params.userId}`,
+      });
+  }
+};
 
-//=================================================
+//=======================================================================================
 
 // Osama's code
 // This function structures the matches array by creating the matches array with proper structure

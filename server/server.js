@@ -12,6 +12,12 @@ import { tournamentRouter } from "./routes/tournamentRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { reportsRouter } from "./routes/reportRoutes.js";
+import { feedbackRouter } from './routes/feedbackRoutes.js';
+
+
+
+
+import { blogRouter } from './routes/blogRoutes.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,14 +37,13 @@ app.use(express.json());
 //Routes
 app.use("/api/tournaments", tournamentRouter);
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(blogRouter);
 app.use(routerGame);
 app.use(PlayerRoute);
 app.use(OrganizerRoute);
 app.use(SupervisorRoute);
 app.use(reportsRouter);
-
-
-
+app.use(feedbackRouter);
 
 
 

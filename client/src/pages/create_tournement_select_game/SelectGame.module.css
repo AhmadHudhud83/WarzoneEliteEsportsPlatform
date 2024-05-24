@@ -3,7 +3,6 @@
 #container {
   background-color: #1c222b;
   height: 50vh;
-  font-family: "open sans", sans-serif;
   min-height: 100vh;
   overflow-y: auto;
 }
@@ -21,7 +20,7 @@
   color: white;
   text-align: center;
   padding-top: 20px;
-  font-family: "roboto", sans-serif;
+
 }
 
 #search {
@@ -73,5 +72,5 @@
   margin-top: 40px;
   color: white;
   font-weight: normal;
-  font-family: "roboto", sans-serif;
+
 }

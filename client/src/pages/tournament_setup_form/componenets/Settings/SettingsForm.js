@@ -13,7 +13,6 @@ export const SettingsForm = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
-   
   }, []);
   const SelectedInputs = [
     {
@@ -37,10 +36,12 @@ export const SettingsForm = ({
     {
       label: "Tournament Status",
       name: "tournament_status",
-      option1: "Opened",
-      option2: "Closed",
+      option1: "Uninitialized",
+      option2: "Finished",
+      option3: "Ongoing",
       id1: 48,
       id2: 49,
+      id3:50
     },
   ];
   const platformOptions = ["PC", "Console", "Mobile", "Combained"];
@@ -63,7 +64,10 @@ export const SettingsForm = ({
   const checkBoxesChangeHandler = (e, optionValue) => {
     const name = e.target.name;
     const updatedFormData = { ...formData, [name]: optionValue };
+
     setFormData(updatedFormData);
+    console.log("UPDATED FORM DATA: ",updatedFormData)
+
     //console.log(`validation error of ${e.target.name} is :  `,validationErrors[e.target.name])
     if (validationErrors[e.target.name]) {
       delete validationErrors[e.target.name];
@@ -103,7 +107,7 @@ export const SettingsForm = ({
             className="form-select bg-dark text-white mt-3 "
             value={formData["platform"] || "choose"}
           >
-            <option  disabled  value="choose">
+            <option disabled value="choose">
               Choose
             </option>
             \
@@ -164,9 +168,31 @@ export const SettingsForm = ({
                   >
                     {item.option2}
                   </label>
-              
+                  {index === 2 && (
+                    <>
+                      <input
+                        type="radio"
+                        className="btn-check"
+                        name={item.name}
+                        id={item.id3}
+                        autoComplete="off"
+                        checked={formData[item.name] === item.option3}
+                        onChange={(e) =>
+                          checkBoxesChangeHandler(e, item.option3)
+                        }
+                      />
+                      <label
+                        className="btn btn-outline-secondary md"
+                        htmlFor={item.id3}
+                      >
+                        {item.option3}
+                      </label>
+                    </>
+                  )}
                 </div>
-                <p className="text-danger mt-2">{validationErrors[item.name]}</p>
+                <p className="text-danger mt-2">
+                  {validationErrors[item.name]}
+                </p>
               </div>
               {index === 1 ? <Platform /> : <></>}
             </React.Fragment>

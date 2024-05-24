@@ -55,7 +55,7 @@ export const Announcements = () => {
       </div>
       <ol className="list-group list-group-numbered bg-dark">
         {tournamentDetails.announcements.map((item,index)=>{
-        return(<li key={index} className="list-group-item bg-dark text-white d-flex justify-content-between align-items-start mt-4 ">
+        return(<li key={index} className="list-group-item bg-dark text-white d-flex justify-content-between align-items-start mt-4 fs-4 ">
         <div className="ms-2  me-auto">
           <div className="fw-bold mt ">Organizer </div>
          <p className="text-white mt-3">{item}</p> 

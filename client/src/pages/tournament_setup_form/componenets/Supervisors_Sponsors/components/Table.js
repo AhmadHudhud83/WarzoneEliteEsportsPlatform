@@ -10,6 +10,7 @@ const Table = () => {
     SponsorsfiledNames,
     setValidationErrors,
     validationErrors,
+    role
   } = useContext(useSupervisorsAndSponsorsDetails);
   //SPONSOR VALIDATION , CANCELED .....
   // useEffect(()=>{
@@ -233,14 +234,14 @@ const Table = () => {
         {/* ==========================================================================================THE TABLE ======================================= */}
         <div className="d-flex ">
           <h4 className="text-white mb-4 ">Sponsors</h4>
-
-          <button
+        {role==="admin"?<button
             className="btn btn-danger ms-auto px-5 my-2 "
             onClick={handleShowAddingModal}
             onMouseOver={console.log(formData)} ///////////////////////////////////////////////////////////
           >
             ADD SPONSOR
-          </button>
+          </button>:<></> }
+          
         </div>
 
         <table className="table table-dark table-striped border border-secondary border-1">
@@ -249,7 +250,7 @@ const Table = () => {
               <th scope="col">{SponsorsfiledNames[0]} </th>
               <th scope="col">{SponsorsfiledNames[1]}</th>
 
-              <th scope="col">Action</th>
+             {role==="admin"?<th scope="col">Action</th>:<></>} 
             </tr>
           </thead>
           <tbody>
@@ -259,7 +260,7 @@ const Table = () => {
                   <tr key={index}>
                     <th scope="row">{item.brand}</th>
                     <td>{item.email}</td>
-                    <td>
+                   {role==="admin"?<td>
                       <div className="d-flex">
                         <Link
                           onClick={() => deleteHandler(index)}
@@ -274,7 +275,7 @@ const Table = () => {
                           <i className="fa-solid fa-pen fa-lg " />
                         </Link>
                       </div>
-                    </td>
+                    </td>:<></>} 
                   </tr>
                 );
               })

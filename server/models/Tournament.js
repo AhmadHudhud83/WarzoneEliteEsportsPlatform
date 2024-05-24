@@ -6,7 +6,7 @@ const TournamentSchema = new Schema({
     required: true,
     trim: true,
     minlength: 4,
-    maxlength: 100
+    maxlength: 15
   },
   game: {
     type: String,
@@ -73,18 +73,22 @@ const TournamentSchema = new Schema({
   },
   format: {
     type: String,
+    enum: ['Teams', '1v1'],
     default: "Teams"
   },
   platform: {
     type: String,
-    default: "Combined"
+    enum: ['Console', 'Mobile', 'PC', 'Combained'],
+    default: "Combained"
   },
   tournament_status: {
     type: String,
-    default: "Uninitilized"
+    enum: ['Uninitialized', 'Finished', 'Ongoing'],
+    default: "Uninitialized"
   },
   registeration_status: {
     type: String,
+    enum: ['Opened', 'Closed'],
     default: "Closed"
   },
   max_participants: {
@@ -155,7 +159,7 @@ const contact_details_url_validation = (value, helpers) => {
 
 const tournamentJoiSchema = Joi.object({
   game: Joi.string().trim().required().min(3),
-  title: Joi.string().trim().min(4).max(100).required(),
+  title: Joi.string().trim().min(4).max(15).required(),
   contact_details: Joi.string()
     .custom(contact_details_url_validation)
     .trim()
@@ -167,10 +171,10 @@ const tournamentJoiSchema = Joi.object({
   rules: Joi.string().default("Not Available"),
   prize: Joi.string().default("Not Available"),
   schedule: Joi.string().default("Not Available"),
-  format: Joi.string().default("Teams"),
-  platform: Joi.string().default("Combained"),
+  format: Joi.string().valid('Teams', '1v1').default("Teams"),
+  platform: Joi.string().valid('PC', 'Mobile', 'Console', 'Combained').default("Combained"),
   description: Joi.string().default("Not Available"),
-  tournament_status: Joi.string().valid('Opened', 'Closed').default("Opened"),
+  tournament_status: Joi.string().valid('Uninitialized', 'Finished', 'Ongoing').default("Uninitialized"),
   registeration_status: Joi.string().valid('Opened', 'Closed').default("Opened"),
   cover_image_url: Joi.string().default("hello world"), /////////////////////
 
@@ -195,7 +199,7 @@ export const tournamentValidation = (tournamentObject, method) => {
   } else if (method === "PUT") {
     schema = tournamentJoiSchema.keys({
       game: Joi.string().trim().min(3),
-      title: Joi.string().trim().min(4).max(100),
+      title: Joi.string().trim().min(4).max(15),
       contact_details: Joi.string()
         .custom(contact_details_url_validation)
         .trim(),

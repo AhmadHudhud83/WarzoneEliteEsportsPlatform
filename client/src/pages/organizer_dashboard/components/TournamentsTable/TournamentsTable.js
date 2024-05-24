@@ -12,18 +12,30 @@ const TournamentsTable = ({
   pageSize,
   pageChangeHandler,
   totalTournaments,
-  deleteTournamentHandler
+  deleteTournamentHandler,
 }) => {
   const TableRows = [
     "# id",
     "Title",
+    "Game",
     "Participants",
     "Status",
     "Registration",
+    "Matches",
     "Actions",
   ];
 
-
+  const handleInitialize = async (tournamentId) => {
+    try {
+      const res = await axios.patch(
+        `http://localhost:5000/api/tournaments/${tournamentId}/initialize-matches`
+      );
+      console.log(res.data);
+    } catch (error) {
+      console.error("error initializing the tournament matches...", error);
+    }
+  };
+  
   return (
     <React.Fragment>
       <div className="table-responsive mt-2">
@@ -45,7 +57,7 @@ const TournamentsTable = ({
                 return (
                   <tr key={item._id}>
                     <th scope="row">
-                      <div className="d-flex">
+                      <div className="d-flex text-muted">
                         {item._id}
                         <Link
                           to={`/tournament-overview/${item._id}`}
@@ -55,13 +67,15 @@ const TournamentsTable = ({
                         </Link>
                       </div>
                     </th>
-                    <td>{item.title}</td>
-                    <td>{`0/${item.max_participants}`}</td>
+                    <td className="text-success">{item.title}</td>
+                    <td className="text-danger">{item.game} </td>
+                    <td>{`${item.participants.length}/${item.max_participants}`}</td>
                     <td>
                       <StatusCheckBoxGroup
                         groupName={`status_group${index}`}
                         id1={`status_opened${index}`}
                         id2={`status_closed${index}`}
+                        id3={`status_ongoing${index}`}
                         _status={item.tournament_status}
                         fieldName="tournament_status"
                         thisTournament={records[index]}
@@ -78,17 +92,66 @@ const TournamentsTable = ({
                       />
                     </td>
                     <td>
-                      <div className="d-flex justify-content-around">
+                      <div
+                        className="btn-group"
+                        role="group"
+                        aria-label="Basic example"
+                      >
                         <Link
+                          onClick={() => {
+                            handleInitialize(item._id);
+                            
+                          }}
+                          className={`btn btn-sm btn-warning`}
+                        >
+                        {"Initialize"}
+                        </Link>
+                        <Link
+                          to={`/organizer/dashboard/matches/${item._id}`}
+                          className="btn btn-sm btn-success  "
+                        >
+                          Handle
+                        </Link>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-around">
+                        <div className="btn-group drop  ">
+                          <button
+                            type="button"
+                            className="btn  dropdown-toggle "
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <i className="fa-solid fa-trash" />
+                          </button>
+                          <ul className="dropdown-menu bg-dark  ">
+                            <div className="d-flex justify-content-around  p-2 bg-dark">
+                              <Link
+                                className="dropwdown-item btn btn-sm btn-danger"
+                                onClick={() => {
+                                  deleteTournamentHandler(item._id);
+                                }}
+                              >
+                                Delete
+                              </Link>
+                              <li>
+                                <button
+                                  className=" btn btn-sm btn-primary"
+                                 // href=""
+                                >
+                                  Cancel
+                                </button>
+                              </li>
+                            </div>
+                          </ul>
+                        </div>
+
+                        <Link
+                          className="btn "
                           to={`/organizer/dashboard/management/${item._id}`}
                         >
-                          <i className="fa-solid fa-gear" />
-                        </Link>
-                        <Link onClick={()=>{deleteTournamentHandler(item._id)
-                          
-
-                        }} >
-                          <i className="fa-solid fa-trash" />
+                          <i className="fa-solid fa-gear fa-md" />
                         </Link>
                       </div>
                     </td>

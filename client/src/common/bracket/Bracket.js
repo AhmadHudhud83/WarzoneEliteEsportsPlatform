@@ -4,8 +4,10 @@ import styles from "./Bracket.module.css";
 import axios from "axios";
 import UserModal from "../user_modal/UserModal";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Bracket = ({ user, tournamentId }) => {
+    const navigate = useNavigate();
     const [supervisorId, setSupervisorId] = useState("");
     const [matches, setMatches] = useState([]);
     const [currentRound, setCurrentRound] = useState(0);
@@ -13,6 +15,17 @@ const Bracket = ({ user, tournamentId }) => {
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [scale, setScale] = useState(1);
     const roundRef = React.createRef(null);
+    const fetchTournamentData = ()=>{
+        axios.get(`http://localhost:5000/api/tournaments/${tournamentId}`)
+        .then((response) => {
+            const tournament = response.data;
+            setMatches(tournament.matches);
+            setCurrentRound(tournament.currentRound);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
     useEffect(() => {
         if (user === "supervisor") {
             // Retrieve the current supervisor id from the session storage
@@ -20,16 +33,11 @@ const Bracket = ({ user, tournamentId }) => {
             const supervisorId = "s1";
             setSupervisorId(supervisorId);
         }
-        axios.get(`http://localhost:5000/api/tournaments/${tournamentId}`)
-            .then((response) => {
-                const tournament = response.data;
-                setMatches(tournament.matches);
-                setCurrentRound(tournament.currentRound);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        fetchTournamentData();
     }, []);
+    const refreshHandler = ()=>{
+        fetchTournamentData();
+    }
 
     const handleOutcome = (matchId, outcome) => {
         axios.patch(`http://localhost:5000/api/tournaments/${tournamentId}/matches/${matchId}/set-winner`, { player: outcome })
@@ -51,15 +59,25 @@ const Bracket = ({ user, tournamentId }) => {
 
     return (
         <div id={styles.container}>
+                {user!=="user"? <button onClick={()=>{navigate(-1)}} className="btn text-white btn-danger m-3"> <i className="fa-solid fa-backward me-2" />
+back</button>:<></>} 
+
+        
+            <button onClick={()=>refreshHandler()} className="btn m-3 btn-danger "> <i className="fa-solid fa-arrow-rotate-left me-2" />
+refresh</button>
+         
+          
             {currentRound === -1 ? (
                 <h2 id={styles.uninitialized}> The tournament hasn't been initialized yet</h2>
-            ) : (
-                <div id={matches.length > 4 ? styles.bracket : styles.centered_bracket} style={{ transform: `scale(${scale})` }}>
+            ) : (   
+                <div id={matches.length > 4 ? styles.bracket : styles.centered_bracket} style={{ transform: `scale(${scale})` }}
+               >
                     {matches.map((round, roundIndex) => {
 
                         if (roundIndex <= currentRound) {
                             return (
                                 <div className={styles.round}>
+                                 
                                     <h3 onClick={
                                         () => { roundRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                                     }>
@@ -108,6 +126,7 @@ const Bracket = ({ user, tournamentId }) => {
                                                     onClick={() => handleOutcome(index, "none")}>None</button>
                                             </div>
                                         ))}
+                                          
                                     </div>
 
                                 </div>

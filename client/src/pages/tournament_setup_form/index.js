@@ -152,7 +152,7 @@ export const TournamentForm = ({ request }) => {
     //3rd page validation
     format: "Teams",
     platform: "Combained",
-    tournament_status: "Opened",
+    tournament_status: "Uninitialized",
     registeration_status: "Opened",
     max_participants: 0,
     //4th page validation
@@ -253,6 +253,7 @@ export const TournamentForm = ({ request }) => {
           setFormData={handleFormChange}
           setValidationErrors={validationErrorsHandler}
           validationErrors={validationErrors}
+          role="admin"
         />
       ),
     },
@@ -284,11 +285,13 @@ export const TournamentForm = ({ request }) => {
       attribute: formData.registeration_status,
     },
     { fieldName: "tournament_status", attribute: formData.tournament_status },
+    { fieldName: "format", attribute: formData.format },
     //  { fieldName: "sponsors", attribute: newSponsor },
   ];
 
   const requiredAttributes = [
     { filedName: "game", attribute: formData.game },
+   
     { filedName: "title", attribute: formData.title },
     { filedName: "start_date", attribute: formData.start_date },
     { filedName: "start_time", attribute: formData.start_time },

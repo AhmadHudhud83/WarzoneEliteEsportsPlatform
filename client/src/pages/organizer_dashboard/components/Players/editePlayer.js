@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+
 
 
 function EditePlayer(){
@@ -14,7 +15,7 @@ function EditePlayer(){
         password:''
       });
 
-
+const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -51,6 +52,7 @@ function EditePlayer(){
                 ...formData
             });
             alert(response.data);
+            navigate('/organizer/dashboard/players')
 
         } catch (error) {
             console.error('Error adding user:', error);
@@ -78,7 +80,7 @@ function EditePlayer(){
             console.error('Error display Supervisors:', error);
           });
 
-    }, [playerId]);
+    }, []);
    
     return(
         
@@ -103,7 +105,7 @@ function EditePlayer(){
                     </div>
                     <div className="d-flex justify-content-end ">
                         <div className="p-2">
-                            <Link to="/organizer/player/list" className="btn btn-outline-light btn-secondary">Back</Link>
+                        <Link to="/organizer/dashboard/players" className="btn btn-outline-light btn-secondary">Back</Link>
                         </div>
                         <div className="p-2">
                             <button type="submit" className="btn  btn-outline-light btn-primary mr-2">Submit</button>

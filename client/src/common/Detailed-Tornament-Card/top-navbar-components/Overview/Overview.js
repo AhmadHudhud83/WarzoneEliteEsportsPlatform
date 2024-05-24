@@ -49,19 +49,22 @@ export const Overview = () => {
           height={600}
           width={300}
           src={image}
-          className="card-img-top"
+          className=" p-2  card-img-top"
           alt="..."
         />{" "}
       </div>
+      <hr></hr>
       <div className="card-header   ">
-        <div className=" p-5">
+        <div className="p-4 pb-5 mb-5">
           <h4>ABOUT</h4>
           <hr />
 
           <p className="text-muted mt-3">{tournamentDetails.about}</p>
         </div>
 
-        <ul className="nav nav-pills card-header-pills my-3 d-flex justify-content-center  ">
+        <ul className="nav nav-pills card-header-pills mt-3 d-flex justify-content-center   ">
+        
+       
           {bottomNavElements.map((item, index) => {
             return (
               <li
@@ -69,7 +72,7 @@ export const Overview = () => {
                 key={index}
                 className={`nav-item  ${
                   activeBottomNav === index
-                    ? "active border-bottom border-4 border-light"
+                    ? "active border-bottom border-4 border-danger"
                     : ""
                 }`}
               >
@@ -81,7 +84,7 @@ export const Overview = () => {
                   className={`nav-link ${
                     activeBottomNav === index
                       ? "fs-5 text-white"
-                      : " fs-5 text-muted"
+                      : " fs-5 text-success"
                   }`}
                 >
                   {item.element}
@@ -90,7 +93,7 @@ export const Overview = () => {
             );
           })}
         </ul>
-        <hr></hr>
+  
         {bottomNavElements.map(
           (item, index) => <React.Fragment key={index}>{activeBottomComponent === index && item.component}</React.Fragment>
         )}
