@@ -182,9 +182,66 @@ export const DetailedTournamentCard = (props) => {
           gameTag={gameTag} setGameTag={setGameTag}
           discordTag={discordTag} setDiscordTag={setDiscordTag}
         />
-        <div className="container org-cont " >
-          <h2 className="text-start  pb-3">
-            {tournamentDetails.title}
+        <div className="row" id="tournament-details-container">
+          <div className="col-md-3">
+          </div>
+          <div className="col-md-6">
+            <h2 className="text-center  pb-3">
+              {tournamentDetails.title}
+
+            </h2>
+            <div className="card  text-white bg-secondary cont-1  ">
+              <div className="card-header border ">
+                <div>
+                  <div className="collapse " id="navbarToggleExternalContent">
+                    <div className="p-0 d-block d-md-block d-lg-none ">
+                      <ul
+                        style={{ listStyleType: "none" }}
+                        className="card-header-pills   "
+                      >
+                        {topNavDisplay("", "fs-6")}
+                      </ul>
+                    </div>
+                  </div>
+                  <nav className="navbar navbar-dark d-block d-md-block d-lg-none">
+                    <div className="container-fluid ">
+                      <button
+                        className="navbar-toggler  bg-danger"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarToggleExternalContent"
+                        aria-controls="navbarToggleExternalContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                      >
+                        <span className="navbar-toggler-icon" />
+                      </button>
+                    </div>
+                  </nav>
+                </div>
+
+                <div className="border-bottom d-sm-none d-none d-md-none d-lg-block">
+                  <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
+                    {topNavDisplay(
+                      "border border-danger border-bottom border-4",
+                      "fs-5"
+                    )}
+
+                    {props.children}
+                  </ul>
+                </div>
+                {topNavElements.map((item, index) => {
+                  return <React.Fragment key={index}>{activeTopComponent === index && item.component}</React.Fragment>
+                })}
+              </div>
+            </div>
+
+          </div>
+          <div className="col-md-3" id="participation-container">
+            <h3>Registration {tournamentDetails.registeration_status}</h3>
+            <p>
+              {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""}
+            </p>
             <button
               className="btn btn-primary ml-3"
               id={participated ? "participated" : ""}
@@ -197,55 +254,7 @@ export const DetailedTournamentCard = (props) => {
                     "Participate" : "Registration Closed"
               }
             </button>
-          </h2>
-          <div className="card  text-white bg-secondary cont-1  ">
-            <div className="card-header border ">
-              <div>
-                <div className="collapse " id="navbarToggleExternalContent">
-                  <div className="p-0 d-block d-md-block d-lg-none ">
-                    <ul
-                      style={{ listStyleType: "none" }}
-                      className="card-header-pills   "
-                    >
-                      {topNavDisplay("", "fs-6")}
-                    </ul>
-                  </div>
-                </div>
-                <nav className="navbar navbar-dark d-block d-md-block d-lg-none">
-                  <div className="container-fluid ">
-                    <button
-                      className="navbar-toggler  bg-danger"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#navbarToggleExternalContent"
-                      aria-controls="navbarToggleExternalContent"
-                      aria-expanded="false"
-                      aria-label="Toggle navigation"
-                    >
-                      <span className="navbar-toggler-icon" />
-                    </button>
-                  </div>
-                </nav>
-              </div>
-
-              <div className="border-bottom d-sm-none d-none d-md-none d-lg-block">
-                <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center">
-                  {topNavDisplay(
-                    "border border-danger border-bottom border-4",
-                    "fs-5"
-                  )}
-
-                  {props.children}
-                </ul>
-              </div>
-              {topNavElements.map((item, index) => {
-                return <React.Fragment key={index}>{activeTopComponent === index && item.component}</React.Fragment>
-              })}
-            </div>
           </div>
-          <button onClick={backHandler} className="btn btn-lg btn-danger mt-5">
-            Back
-          </button>
         </div>
 
         <Footer></Footer>
