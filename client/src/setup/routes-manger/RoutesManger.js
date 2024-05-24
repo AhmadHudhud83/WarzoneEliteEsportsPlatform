@@ -20,7 +20,7 @@ import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
 import OrganizerLogin from "../../pages/organizer_dashboard/components/OrganizerLogin/OrganizerLogin";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import JoinedTournaments from "../../pages/JoinedTournaments/JoinedTournaments";
-
+import LoginPage  from "../../pages/loginPage/LogIn";
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
