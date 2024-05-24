@@ -97,7 +97,8 @@ export const OrganizerDashboard = () => {
       tournamentsData.filter((tournament) =>
         tournament.title.toLowerCase().includes(inputValue)
       )
-    );
+    );  
+    
   };
   //===============deleting tournament action======================
   const deleteTournamentHandler = async (tournamentId) => {
