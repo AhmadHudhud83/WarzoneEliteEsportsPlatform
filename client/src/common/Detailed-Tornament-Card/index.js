@@ -9,6 +9,7 @@ import axios from "axios";
 import Sponsors from "./top-navbar-components/Sponsors/Sponsors";
 import ParticipatingModal from "../participating_modal/ParticipatingModal";
 import Matches from "../../pages/supervisor_dashboard/matches/Matches";
+import Footer from "../Footer/Footer";
 
 export const useTournamentDetails = createContext();
 

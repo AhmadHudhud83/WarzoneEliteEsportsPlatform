@@ -6,7 +6,7 @@ import cors from "cors";
 import { routerGame } from "./routes/gameRoutes.js";
 import { PlayerRoute } from "./routes/playerRoutes.js";
 import { OrganizerRoute } from "./routes/organizerRoutes.js";
-import {SupervisorRoute} from './routes/supervisorRoutes.js'
+import { SupervisorRoute } from './routes/supervisorRoutes.js'
 import session from "express-session";
 import { tournamentRouter } from "./routes/tournamentRoutes.js";
 import path from "path";
@@ -28,10 +28,10 @@ app.use(bodyParser.json());
 app.use(cors());
 const sessionCookieLifeTime = 1000 * 60 * 15;
 app.use(session({
-    secret: "Muy8fuSOYHDsR6WOCwNS6K6sy2QmhSEp",
-    saveUninitialized:true,
-    cookie: { maxAge: sessionCookieLifeTime },
-    resave: false
+  secret: "Muy8fuSOYHDsR6WOCwNS6K6sy2QmhSEp",
+  saveUninitialized: true,
+  cookie: { maxAge: sessionCookieLifeTime },
+  resave: false
 }));
 app.use(express.json());
 //Routes
