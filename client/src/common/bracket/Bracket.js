@@ -106,7 +106,7 @@ refresh</button>
                                                             (((match.winner._id === match.team2._id) &&
                                                                 (match.winner !== "none")) ?
                                                                 styles.winner : styles.loser) : "")}>
-                                                        <div onClick={() => handleTeamClick(match.team1)} className={(user === "organizer" || user === "supervisor" ? styles.clickable : "")}>
+                                                        <div onClick={() => handleTeamClick(match.team2)} className={(user === "organizer" || user === "supervisor" ? styles.clickable : "")}>
                                                             {match.team2 === "bye" ? "BYE" : match.team2.name}
                                                         </div>
                                                         <button className={styles["winner-btn"] + " " +
