@@ -14,6 +14,7 @@ import EditePlayer from "../../pages/organizer_dashboard/components/Players/edit
 import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
 import OrganizerLogin from "../../pages/organizer_dashboard/components/OrganizerLogin/OrganizerLogin";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
+import GameList from "../../pages/organizer_dashboard/components/Games/ListGame";
 
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
@@ -37,6 +38,15 @@ export const RoutesManger = () => {
                   <Route
                     path="edit/:supervisorId"
                     element={<EditeSupervisor />}
+                  />
+                </Route>
+
+                <Route path="games/">
+                  <Route index element={<GameList/>} />
+                  <Route path="add" element={<h1>addgame</h1>} />
+                  <Route
+                    path="edit/:gameId"
+                    element={<h1>editegame</h1>}
                   />
                 </Route>
                 <Route path="players/">
