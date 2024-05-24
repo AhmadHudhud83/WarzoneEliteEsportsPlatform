@@ -80,9 +80,15 @@ export const HomePage = () => {
       icon: <i className="me-2 fa-solid fa-phone" />,
     },
     {
-      label: " Feedback Center",
-      link: "/feedback-center",
+      label: " Send Feedback",
+      link: "/send-feedback",
       icon: <i className="me-2 fa-solid fa-comments" />,
+    },
+    {
+      label: "Blog",
+      link: "/blog",
+      icon:<i className="fa-solid fa-blog" />
+
     },
     {
       label: "Joined Tournaments",

@@ -7,7 +7,7 @@ const RegistrationCard = () => {
   return (
     <React.Fragment>
       <div
-        className="card bg-dark mt-5 ms-5 g "
+        className="card bg-dark mt-5 ms-5 border border-2 border-danger"
         style={{ width: "40rem", height: "25rem" }}
       >
         <div className="card-body">

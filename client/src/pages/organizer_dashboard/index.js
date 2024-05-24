@@ -55,6 +55,11 @@ export const OrganizerDashboard = () => {
       icon: <i className="fa-solid fa-address-book" />,
     },
     {
+      label: "Feedbacks",
+      link: "/feedbacks",
+      icon: <i className="me-2 fa-solid fa-comments" />,
+    },
+    {
       label: "Logout",
       link: "/logout",
       icon: <i className="fa-solid fa-right-from-bracket fa-rotate-180 me-3" />,
