@@ -91,11 +91,15 @@ const AnnouncementsPage = () => {
       });
   };
   const editHandler = (id) => {
+    const announcement = announcements.find((ann)=>ann._id===id)
     if (!editingContent.trim()) {
       return;
     }
     if (editingContent.length < 4 || editingContent.length > 300) {
       return;
+    }
+    if(announcement.content===editingContent){
+        return;
     }
     axios
       .patch(`http://localhost:5000/api/tournaments/announcements/${id}`, {
