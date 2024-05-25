@@ -253,7 +253,7 @@ export const DetailedTournamentCard = (props) => {
               {
                 participated ?
                   tournamentDetails.registeration_status === "Opened" ?
-                    "Drop Out" : "Participating" : tournamentDetails.registeration_status === "Opened" ?
+                    "Drop Out" : "Participated" : tournamentDetails.registeration_status === "Opened" ?
                     "Participate" : "Registration Closed"
               }
             </button>
