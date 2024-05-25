@@ -51,6 +51,7 @@ export const DetailedTournamentCard = (props) => {
 
   const handleTopComponent = (componentNumber) => {
     setActiveTopComponent(componentNumber);
+    setShowRegCard(componentNumber === 0);
   };
 
   const topNavElements = [
@@ -89,6 +90,10 @@ export const DetailedTournamentCard = (props) => {
   const [activeTopNav, setActiveTopNav] = useState(0);
   const handleActiveTopNav = (i) => {
     setActiveTopNav(i);
+  };
+  const [showRegCard, setShowRegCard] = useState(true);
+  const showRegCardHandler = (flag) => {
+    setShowRegCard(flag);
   };
 
   const topNavDisplay = (border, fontSize) => {

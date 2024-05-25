@@ -101,10 +101,10 @@ export const HomePage = () => {
   ];
 
   return (
-    <React.Fragment>
-      <div className="home-page">
-
-        <div className="container ">
+    
+      <div className="home-page ">
+        
+        <div className="container home-page-container ">
           <SideBar
             sideBarTitle={
               <div style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
@@ -151,8 +151,9 @@ export const HomePage = () => {
             ) : null}
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </React.Fragment>
+     
+
   );
 };

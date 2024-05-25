@@ -4,6 +4,7 @@ import {
   Route,
   ScrollRestoration,
 } from "react-router-dom";
+
 import React from "react";
 import SelectGame from "../../pages/create_tournement_select_game/SelectGame";
 import { HomePage } from "../../pages/home_page/HomePage";
@@ -20,14 +21,16 @@ import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
 import OrganizerLogin from "../../pages/organizer_dashboard/components/OrganizerLogin/OrganizerLogin";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import JoinedTournaments from "../../pages/JoinedTournaments/JoinedTournaments";
+import AnnouncementsPage from "../../pages/organizer_dashboard/components/AnnouncementsPage/AnnouncementsPage";
 
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
 
 const RoutesManger = () => {
+
   return (
-    <React.Fragment>
+    <BrowserRouter>
       <Routes>
         <Route path="/">
           <Route index element={<HomePage />} />
@@ -47,7 +50,9 @@ const RoutesManger = () => {
                   path="edit/:supervisorId"
                   element={<EditeSupervisor />}
                 />
+              
               </Route>
+              <Route path="announcements/:tournamentId" element={<AnnouncementsPage/>}/>
               <Route path="players/">
                 <Route index element={<PlayerList />} />
                 <Route path="add" element={<AddPlayer />} />
@@ -93,8 +98,10 @@ const RoutesManger = () => {
             }
           />
         </Route>
+        
       </Routes>
-    </React.Fragment>
+      </BrowserRouter>
+
   );
 };
 export default RoutesManger;

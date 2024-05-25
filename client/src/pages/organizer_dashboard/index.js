@@ -138,7 +138,7 @@ export const OrganizerDashboard = () => {
                 className="form-control bg-dark text-white form-control-sm"
                 onChange={Filter}
                 id="exampleFormControlInput1"
-                placeholder="name@example.com"
+                placeholder="Search for a tournament title..."
               />
               <label
                 htmlFor="exampleFormControlInput1"
