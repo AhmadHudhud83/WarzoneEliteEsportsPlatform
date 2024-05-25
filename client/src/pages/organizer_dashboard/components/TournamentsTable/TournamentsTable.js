@@ -22,7 +22,9 @@ const TournamentsTable = ({
     "Status",
     "Registration",
     "Matches",
+
     "Actions",
+    "Announcements",
   ];
 
   const handleInitialize = async (tournamentId) => {
@@ -35,7 +37,7 @@ const TournamentsTable = ({
       console.error("error initializing the tournament matches...", error);
     }
   };
-  
+
   return (
     <React.Fragment>
       <div className="table-responsive mt-2">
@@ -100,11 +102,10 @@ const TournamentsTable = ({
                         <Link
                           onClick={() => {
                             handleInitialize(item._id);
-                            
                           }}
                           className={`btn btn-sm btn-warning`}
                         >
-                        {"Initialize"}
+                          {"Initialize"}
                         </Link>
                         <Link
                           to={`/organizer/dashboard/matches/${item._id}`}
@@ -138,7 +139,7 @@ const TournamentsTable = ({
                               <li>
                                 <button
                                   className=" btn btn-sm btn-primary"
-                                 // href=""
+                                  // href=""
                                 >
                                   Cancel
                                 </button>
@@ -154,6 +155,12 @@ const TournamentsTable = ({
                           <i className="fa-solid fa-gear fa-md" />
                         </Link>
                       </div>
+                    </td>
+                    <td className="text-success text-center">
+                      <Link to={`/organizer/dashboard/announcements/${item._id}`}>
+                   
+                      <i className="fa-solid fa-flag" />
+                      </Link>
                     </td>
                   </tr>
                 );

@@ -39,6 +39,7 @@ export const DetailedTournamentCard = (props) => {
 
   const handleTopComponent = (componentNumber) => {
     setActiveTopComponent(componentNumber);
+    setShowRegCard(componentNumber === 0);
   };
 
   const topNavElements = [
@@ -78,6 +79,10 @@ export const DetailedTournamentCard = (props) => {
   const handleActiveTopNav = (i) => {
     setActiveTopNav(i);
   };
+  const [showRegCard, setShowRegCard] = useState(true);
+  const showRegCardHandler = (flag) => {
+    setShowRegCard(flag);
+  };
 
   const topNavDisplay = (border, fontSize) => {
     return topNavElements.map((item, index) => {
@@ -113,7 +118,7 @@ export const DetailedTournamentCard = (props) => {
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentDetails}>
-        <div className="org-cont d-flex">
+        <div className="org-cont d-flex ">
           <div className="container  fs-4 ">
             <h2 className="text-start pb-4 pt-5">{tournamentDetails.title}</h2>
             <div className="card  text-white bg-secondary cont-1  ">
@@ -171,11 +176,9 @@ export const DetailedTournamentCard = (props) => {
             >
               Back
             </button>
-            
           </div>
-          <RegistrationCard/>
+          {showRegCard && <RegistrationCard />}
         </div>
-        
       </useTournamentDetails.Provider>
     </React.Fragment>
   );

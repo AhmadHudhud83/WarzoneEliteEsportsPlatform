@@ -82,12 +82,17 @@ export const createTournament = async (req, res) => {
       prize: req.body.prize,
       schedule: req.body.schedule,
       format: req.body.format,
-      platform:req.body.platform,
+      platform: req.body.platform,
       description: req.body.description,
       tournament_status: req.body.tournament_status,
       registeration_status: req.body.registeration_status,
       cover_image_url: req.file ? req.file.path : req.body.cover_image_url, //uploading an image is optional,if not uploaded then it takes the default cover value based on the seletcted game
-      announcements: req.body.announcements,
+      // announcements: [
+      //   {
+      //     name: "Tournament Organization",
+      //     content: `Welcome to ${req.body.title} ! `,
+      //   },
+      // ],
       sponsors: req.body.sponsors,
       supervisors: req.body.supervisors,
       //image:req.file.filename
@@ -169,7 +174,9 @@ export const getTournamentById = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({
+      message: `Something went wrong fetching tournament with id :${req.params.id} `,
+    });
   }
 };
 /**
@@ -182,7 +189,7 @@ export const getTournamentById = async (req, res) => {
 export const updateTournament = async (req, res) => {
   //  const newReqBody = emptyDataValidation(req.body);
   console.log("type of req.body.sponsors : ", typeof req.body.sponsors);
-  console.log("FORMAT IS ",req.body.format)
+  console.log("FORMAT IS ", req.body.format);
   let parsedSponsors;
   try {
     parsedSponsors =
@@ -229,12 +236,11 @@ export const updateTournament = async (req, res) => {
           prize: req.body.prize,
           schedule: req.body.schedule,
           format: req.body.format,
-          platform:req.body.platform,
+          platform: req.body.platform,
           description: req.body.description,
           tournament_status: req.body.tournament_status,
           registeration_status: req.body.registeration_status,
           cover_image_url: req.file ? req.file.path : req.body.cover_image_url,
-          announcements: req.body.announcements,
           sponsors: req.body.sponsors,
           supervisors: req.body.supervisors,
         },
@@ -293,7 +299,7 @@ const deleteTournamentCoverImage = async (req, res) => {
  * @desc get all  tournaments  based on the user Id
  * @route /api/tournaments/:userId
  * @method GET
- * @access public
+ * @access private
  *
  */
 export const getTournamentsOfUser = async (req, res) => {
@@ -305,13 +311,12 @@ export const getTournamentsOfUser = async (req, res) => {
       `Error fetching  Tournaments of the user id : ${req.params.userId}`,
       error
     );
-    res
-      .status(500)
-      .json({
-        error: `Something went wrong fetching  Tournaments of the user id : ${req.params.userId}`,
-      });
+    res.status(500).json({
+      error: `Something went wrong fetching  Tournaments of the user id : ${req.params.userId}`,
+    });
   }
 };
+
 
 //=======================================================================================
 
@@ -347,7 +352,7 @@ const structureMatches = (
     numRounds--;
   } while (numRounds > 0);
 
-  // remove the extra rounds after the last round
+  // remove the extra rounds after the   last round
   matches.splice(currentRound + numberOfRounds - init);
 };
 

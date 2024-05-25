@@ -19,7 +19,11 @@ export const Participants = () => {
           </thead>
           <tbody>
             {typeof tournamentDetails.participants[0] === "undefined" ? (
-              <h1 className="ms-auto fs-4 p-4">No available participants</h1>
+               <tr >
+                <th colSpan={2}  className="ms-auto fs-4 p-4 text-center text-danger" >No available participants...</th>
+       
+             </tr>
+           
             ) : (
               tournamentDetails.participants.map((participant, index) => {
                 return (

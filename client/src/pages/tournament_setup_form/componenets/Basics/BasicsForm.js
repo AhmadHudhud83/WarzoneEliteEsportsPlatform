@@ -25,12 +25,12 @@ export const BasicsForm = ({
   //validaton handler of the form data , consdier each step, note how the object filled with attributes ,and deleted in case there is no validation errros
   //remember next button state is related to the object attributes number
   const validationHandler = (e) => {
-    const inputValue = e.target.value;
+    const inputValue = e.target.value.trim();
     const updatedValidationErrors = { ...validationErrors };
     if (!inputValue.trim() || inputValue === "") {
       updatedValidationErrors.title = "Title field is required!";
       setValidationErrors(updatedValidationErrors);
-    } else if (inputValue.length < 4 && inputValue.length > 15) {
+    } else if (inputValue.length < 4 || inputValue.length > 23) {
       updatedValidationErrors.title =
         "Title must be between 4 characters minimum and 15 characters maximum";
       setValidationErrors(updatedValidationErrors);

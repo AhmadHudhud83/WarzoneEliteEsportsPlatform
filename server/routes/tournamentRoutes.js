@@ -13,7 +13,7 @@ import {
   getAllTournamentsPaginated,
   deleteTournament,
   getAllTournamentsPaginatedByGame,
-  getTournamentsOfUser
+  getTournamentsOfUser,
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -148,10 +148,12 @@ tournamentRouter.delete("/:id",deleteTournament)
  * @desc get all  tournaments  based on the user Id
  * @route /api/tournaments/:userId
  * @method GET
- * @access public
+ * @access private
  *
  */
 tournamentRouter.get("/:userId",getTournamentsOfUser)
+
+
 
 export { tournamentRouter };
 

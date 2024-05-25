@@ -158,8 +158,6 @@ export const TournamentForm = ({ request }) => {
     //4th page validation
     sponsors: [{ brand: "", email: "" }],
     //other attributes related to the tournament object
-    announcements: ["hi", "bye"],
-    supervisors: ["123", "456"],
     organizerID: "8910",
     //sueprvisosr (array of supervisors ids (object ids))
     // organizer id (when logged in)

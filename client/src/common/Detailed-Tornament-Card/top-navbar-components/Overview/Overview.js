@@ -49,9 +49,9 @@ export const Overview = () => {
           height={600}
           width={300}
           src={image}
-          className=" p-2  card-img-top"
+          className="  rounded rounded-3 card-img-top"
           alt="..."
-        />{" "}
+        />
       </div>
       <hr></hr>
       <div className="card-header   ">
@@ -72,7 +72,7 @@ export const Overview = () => {
                 key={index}
                 className={`nav-item  ${
                   activeBottomNav === index
-                    ? "active border-bottom border-4 border-danger"
+                    ? "active border-bottom border-4 border-danger "
                     : ""
                 }`}
               >
