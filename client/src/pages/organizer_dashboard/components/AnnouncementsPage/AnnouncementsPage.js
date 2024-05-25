@@ -4,11 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import "./AnnouncementsPage.css";
 const AnnouncementsPage = () => {
+    const [flag,setFlag] = useState(false)
+    const [loading ,setLoading] = useState(true)
   const [announcements, setAnnouncements] = useState([{}]);
   const [tournament, setTournament] = useState({});
   const [content, setContent] = useState("");
   const { tournamentId } = useParams();
   const fetchTournamentAnnouncement = () =>
+    setLoading(true)
     axios
       .get(
         `http://localhost:5000/api/tournaments/${tournamentId}/announcements`
@@ -16,8 +19,13 @@ const AnnouncementsPage = () => {
       .then((res) => {
         setAnnouncements(res.data.announcements);
         console.log(res.data);
+        setFlag(true)
+        setLoading(false)
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {console.error(e)
+
+        setLoading(false)
+      });
   useEffect(() => {
     fetchTournamentAnnouncement();
     //get the name of the tournament
@@ -121,6 +129,13 @@ const AnnouncementsPage = () => {
   const handleShow = () => setModalShow(true);
   const [editingContent, setEditingContent] = useState("");
   const [index, setIndex] = useState(0);
+  if(loading){
+    return null
+  }
+  if(!flag){
+    return <h1>Announcement not found !</h1>
+  }
+  
   return (
     <React.Fragment>
       <Modal
