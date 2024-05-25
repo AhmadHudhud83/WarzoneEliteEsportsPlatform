@@ -8,7 +8,7 @@ import axios from "axios";
 import SideBar from "../../common/SideBar/SideBar";
 export const useTournamentDetails = createContext();
 export const OrganizerDashboard = () => {
-  
+
   const location = useLocation(); //keep track of path
   const navigate = useNavigate(); //for navigation
   const [tournamentsData, setTournamentsData] = useState([]); //tournament data state
@@ -75,7 +75,6 @@ export const OrganizerDashboard = () => {
           params: { page, pageSize },
         }
       );
-      console.log("Tournaments Data : ", res.data);
 
       setTournamentsData(res.data.tournaments);
       setRecords(res.data.tournaments);
@@ -102,8 +101,8 @@ export const OrganizerDashboard = () => {
       tournamentsData.filter((tournament) =>
         tournament.title.toLowerCase().includes(inputValue)
       )
-    );  
-    
+    );
+
   };
   //===============deleting tournament action======================
   const deleteTournamentHandler = async (tournamentId) => {
@@ -111,7 +110,6 @@ export const OrganizerDashboard = () => {
       const res = await axios.delete(
         `http://localhost:5000/api/tournaments/${tournamentId}`
       );
-      console.log(res.status);
       setRecords(
         records.filter((tournament) => tournament._id !== tournamentId)
       );
@@ -122,42 +120,43 @@ export const OrganizerDashboard = () => {
     // setRecords((records));
     //fetchTournaments(currentPage, pageSize);
   };
-  const recordsHandler = (newRecords)=>{
+  const recordsHandler = (newRecords) => {
     setRecords(newRecords)
   }
-  const refreshHandler=()=>{
+  const refreshHandler = () => {
     setRecords([]);
     fetchTournaments(currentPage, pageSize);
   }
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentsData}>
+        <div className="organizer-dashboard mx-4">
+          <div className="container-custom" >
+            <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
 
-        <div className="organizer-dashboard">
-        <div className=" mx-5" >
-          <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
+            <h1 className="text-white mb-4">Tournaments</h1>
+            <div className="d-flex align-items-center">
+              <div className="mb-3 d-flex w-50 ">
+                <input
+                  type="email"
+                  className="form-control bg-dark text-white form-control-sm"
+                  onChange={Filter}
+                  id="exampleFormControlInput1"
+                  placeholder="Search for a tournament title..."
+                />
+                <label
+                  htmlFor="exampleFormControlInput1"
+                  className="form-label  ms-4"
+                >
+                  <i className="fas fa-search " />
+                </label>
+              </div>
 
-          <h1 className="text-white mb-4">Tournaments</h1>
-          <div className="d-flex align-items-center">
-            <div className="mb-3 d-flex w-50 ">
-              <input
-                type="email"
-                className="form-control bg-dark text-white form-control-sm"
-                onChange={Filter}
-                id="exampleFormControlInput1"
-                placeholder="Search for a tournament title..."
-              />
-              <label
-                htmlFor="exampleFormControlInput1"
-                className="form-label  ms-4"
-              >
-                <i className="fas fa-search " />
-              </label>
             </div>
 
             <button
               onClick={() => {
-               refreshHandler();
+                refreshHandler();
               }}
               className="btn btn-danger ms-auto  "
             >
@@ -166,7 +165,7 @@ export const OrganizerDashboard = () => {
             </button>
           </div>
           <TournamentsTable
-          refreshHandler={refreshHandler}
+            refreshHandler={refreshHandler}
             records={records}
             setRecords={recordsHandler}
             pageSize={pageSize}
@@ -176,8 +175,7 @@ export const OrganizerDashboard = () => {
             deleteTournamentHandler={deleteTournamentHandler}
           />
         </div>
-        </div>
       </useTournamentDetails.Provider>
-    </React.Fragment>
+    </React.Fragment >
   );
 };

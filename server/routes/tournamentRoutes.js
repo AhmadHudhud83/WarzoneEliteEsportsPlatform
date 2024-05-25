@@ -5,7 +5,6 @@ import {
   initializeMatches,
   setWinner,
   getTournaments,
-  setUpRound,
   createTournament,
   updateTournament,
   getTournamentById,
@@ -15,13 +14,14 @@ import {
   addPlayer,
   removePlayer,
   getAllTournamentsPaginatedByGame,
-  getTournamentsOfUser,
+  getSupervisors,
+  updateSupervisors
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
 
 // Initialize a tournament
-tournamentRouter.patch(
+tournamentRouter.post(
   "/:tournamentId/initialize-matches",
   async (req, res) => {
     try {
@@ -52,7 +52,7 @@ tournamentRouter.patch(
 );
 
 // Reset the tournament
-tournamentRouter.patch("/:tournamentId/reset", async (req, res) => {
+tournamentRouter.post("/:tournamentId/reset", async (req, res) => {
   try {
     const tournamentId = req.params.tournamentId;
     await resetTournament(tournamentId);
@@ -69,18 +69,6 @@ tournamentRouter.get("/allTournaments", async (req, res) => {
   try {
     const tournaments = await getTournaments();
     res.json(tournaments);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err.message);
-  }
-});
-
-// Setup the next round
-tournamentRouter.patch("/:tournamentId/setup-round", async (req, res) => {
-  try {
-    const tournamentId = req.params.tournamentId;
-    await setUpRound(tournamentId);
-    res.json("Round set up successfully");
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
@@ -112,6 +100,32 @@ tournamentRouter.delete("/:tournamentId/participation/:playerId", async (req, re
   }
 });
 
+// Get tournament's supervisors
+tournamentRouter.get("/:tournamentId/supervisors", async (req, res) => {
+  try {
+    const { tournamentId } = req.params;
+    const supervisors = await getSupervisors(tournamentId);
+    res.json(supervisors);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+});
+
+// Update tournament's supervisors
+tournamentRouter.patch("/:tournamentId/supervisors", async (req, res) => {
+  try {
+    const { tournamentId } = req.params;
+    const { newSupervisors } = req.body;
+    await updateSupervisors(tournamentId, newSupervisors);
+    res.json("Supervisors updated successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+});
+
+
 /**
  * @desc get all tournaments (with pagination)
  * @route /api/tournaments
@@ -124,7 +138,7 @@ tournamentRouter.get("/paginated", getAllTournamentsPaginated)//with pagination
 
 /**
  * @desc get all tournaments paginated by game name
- * @route /api/tournaments
+ * @route /api/tournaments/paginated-by-game
  * @method GET
  * @access public
  *
@@ -169,15 +183,6 @@ tournamentRouter.put("/:id", upload.single('cover_image_url'), updateTournament)
  */
 tournamentRouter.delete("/:id", deleteTournament)
 
-
-/**
- * @desc get all  tournaments  based on the user Id
- * @route /api/tournaments/:userId
- * @method GET
- * @access private
- *
- */
-tournamentRouter.get("/:userId", getTournamentsOfUser)
 
 
 

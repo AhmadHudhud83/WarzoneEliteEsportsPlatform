@@ -33,5 +33,4 @@ i18n
     //   loadPath: './assets/locales/{{lng}}/translation.json',
     // },
   });
-console.log(Arabic);
 export default i18n;

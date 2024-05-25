@@ -36,8 +36,8 @@ export const HomePage = () => {
   const [tournaments, setTournaments] = useState([]);
   //fetch the tournament data using  async load more button for better performance and optimization  (6 elements atmost)
   useEffect(() => {
-
-    axios
+    if(selectedGame){
+      axios
       .get(
         `http://localhost:5000/api/tournaments/paginated-by-game?page=${page}&gameName=${selectedGame}`
       )
@@ -50,7 +50,7 @@ export const HomePage = () => {
             ...res.data.tournaments,
           ]); //add the incoming tournament data and added to the current array state using state callback
         }
-        if (selectedGame !== "") {
+        if (selectedGame) {
           setTotalTournaments(res.data.totalTournaments);//if selected game not set yet , then dont set the total tournaments length , otherwise it will bug the load more button
         }
 
@@ -59,6 +59,8 @@ export const HomePage = () => {
       .catch((e) => {
         console.log(e);
       });
+    }
+     
   }, [selectedGame, page]); // if selectedGame or page have been changed , then fetch the new data
 
   const loadMoreHandler = () => {

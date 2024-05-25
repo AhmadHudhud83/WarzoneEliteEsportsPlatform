@@ -295,27 +295,7 @@ const deleteTournamentCoverImage = async (req, res) => {
       .json({ message: "something went wrong with deleting cover image" });
   }
 };
-/**
- * @desc get all  tournaments  based on the user Id
- * @route /api/tournaments/:userId
- * @method GET
- * @access private
- *
- */
-export const getTournamentsOfUser = async (req, res) => {
-  try {
-    const tournaments = await TournamentModel.find().sort({ createdAt: -1 });
-    res.json({ tournaments });
-  } catch (error) {
-    console.error(
-      `Error fetching  Tournaments of the user id : ${req.params.userId}`,
-      error
-    );
-    res.status(500).json({
-      error: `Something went wrong fetching  Tournaments of the user id : ${req.params.userId}`,
-    });
-  }
-};
+
 
 
 //=======================================================================================
@@ -396,6 +376,10 @@ export const initializeMatches = async (tournamentId) => {
 
   // Get the participants and supervisors
   const participants = tournament.participants;
+
+  if (participants.length < 2) {
+    throw new Error("Not enough participants to initialize the tournament");
+  }
   const supervisors = tournament.supervisors;
 
   // Create the matches array
@@ -444,7 +428,7 @@ const isRoundComplete = (round) => {
 };
 
 // This function sets up the next round by moving the winners of the current round to the next round
-export const setUpRound = async (tournament) => {
+const setUpRound = async (tournament) => {
   tournament.currentRound++; // Move to the next round
 
   const previousRound = tournament.currentRound - 1;
@@ -543,6 +527,32 @@ export const removePlayer = async (tournamentId, playerId) => {
 
   // Save the updated tournament document
   tournament.markModified("participants"); // Mark the participants array as modified
+  await tournament.save();
+};
+
+// Get the tournament supervisors
+export const getSupervisors = async (tournamentId) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+
+  return tournament.supervisors;
+};
+
+// Update the tournament supervisors
+export const updateSupervisors = async (tournamentId, supervisors) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+  console.log(supervisors);
+  tournament.supervisors = supervisors;
+
+  // Save the updated tournament document
+  tournament.markModified("supervisors"); // Mark the supervisors array as modified
   await tournament.save();
 };
 

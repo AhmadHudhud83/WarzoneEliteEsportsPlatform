@@ -2,7 +2,7 @@ import styles from './ParticipatingModal.module.css';
 
 const ParticipatingModal = ({ show, onClose, onConfirm, name, setName, gameTag, setGameTag, discordTag, setDiscordTag }) => {
     return (
-        <div className={`${styles.modal} ${show ? styles.show : ''}`}>
+        <div className={`${styles.modal} ${show ? styles.show : ''}`}> {/* show modal if show is true */}
             <div className={styles.modalContent}>
                 <h3>Participating</h3>
                 <form>

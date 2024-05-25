@@ -5,6 +5,7 @@ import { Pagination, theme, ConfigProvider } from "antd";
 import "antd/dist/reset.css";
 import axios from "axios";
 import DropDownButton from "../DropdownButton/DropDownButton";
+import SupervisorsModal from "../assign_supervisors_modal/SupervisorsModal.js";
 //pagination using antd library
 
 const TournamentsTable = ({
@@ -16,6 +17,8 @@ const TournamentsTable = ({
   totalTournaments,
   deleteTournamentHandler,
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [tournamentId, setTournamentId] = useState("");
   const TableRows = [
     "# id",
     "Title",
@@ -32,18 +35,17 @@ const TournamentsTable = ({
 
   const handleInitialize = async (tournamentId) => {
     try {
-      const res = await axios.patch(
+      const res = await axios.post(
         `http://localhost:5000/api/tournaments/${tournamentId}/initialize-matches`
       );
       console.log(res.data);
-      refreshHandler();
     } catch (error) {
       console.error("error initializing the tournament matches...", error);
     }
   };
   const resetHandler = (tournamentId) => {
     axios
-      .patch(`http://localhost:5000/api/tournaments/${tournamentId}/reset`)
+      .post(`http://localhost:5000/api/tournaments/${tournamentId}/reset`)
       .then((res) => {
         console.log("Tournament has been reset !", res);
         refreshHandler();
@@ -54,6 +56,11 @@ const TournamentsTable = ({
   };
   return (
     <React.Fragment>
+      <SupervisorsModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        tournamentId={tournamentId}
+      />
       <div className="table-responsive mt-2">
         <table className="table table-bordered border">
           <thead>
@@ -162,19 +169,11 @@ const TournamentsTable = ({
                       <Link
                         to={`/organizer/dashboard/announcements/${item._id}`}
                       >
-                        <i
-                          className="fa-solid fa-flag"
-                          style={{ color: "lightblue" }}
-                        />
+                        <i className="fa-solid fa-flag" style={{ color: "lightblue" }} />
                       </Link>
                     </td>
-                    <td className="text-success text-center">
-                      <Link to={`/organizer/dashboard/`}>
-                        <i
-                          className=" fa-solid fa-user-plus"
-                          style={{ color: "red" }}
-                        />
-                      </Link>
+                    <td className="text-danger text-center">
+                      <i className=" fa-solid fa-user-plus" style={{ color: "red",cursor:"pointer" }} onClick={() => { setShowModal(true); setTournamentId(item._id) }} />
                     </td>
                   </tr>
                 );
