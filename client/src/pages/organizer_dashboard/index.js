@@ -122,12 +122,19 @@ export const OrganizerDashboard = () => {
     // setRecords((records));
     //fetchTournaments(currentPage, pageSize);
   };
+  const recordsHandler = (newRecords)=>{
+    setRecords(newRecords)
+  }
+  const refreshHandler=()=>{
+    setRecords([]);
+    fetchTournaments(currentPage, pageSize);
+  }
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentsData}>
 
         <div className="organizer-dashboard">
-        <div className="container " >
+        <div className=" mx-5" >
           <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
 
           <h1 className="text-white mb-4">Tournaments</h1>
@@ -150,8 +157,7 @@ export const OrganizerDashboard = () => {
 
             <button
               onClick={() => {
-                setRecords([]);
-                fetchTournaments(currentPage, pageSize);
+               refreshHandler();
               }}
               className="btn btn-danger ms-auto  "
             >
@@ -160,7 +166,9 @@ export const OrganizerDashboard = () => {
             </button>
           </div>
           <TournamentsTable
+          refreshHandler={refreshHandler}
             records={records}
+            setRecords={recordsHandler}
             pageSize={pageSize}
             currentPage={currentPage}
             pageChangeHandler={pageChangeHandler}

@@ -504,7 +504,7 @@ export const resetTournament = async (tournamentId) => {
   tournament.currentRound = -1;
   tournament.winner = null;
   tournament.tournament_status = "Uninitialized";
-  tournament.registeration_status = "Open";
+  tournament.registeration_status = "Opened";
   tournament.matches = [];
 
   tournament.markModified("matches"); // Mark the matches array as modified
