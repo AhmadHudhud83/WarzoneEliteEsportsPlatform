@@ -12,9 +12,10 @@ import PlayerList from "../../pages/organizer_dashboard/components/Players/Playe
 import AddPlayer from "../../pages/organizer_dashboard/components/Players/addPlayer";
 import EditePlayer from "../../pages/organizer_dashboard/components/Players/editePlayer";
 import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
-import OrganizerLogin from "../../pages/organizer_dashboard/components/OrganizerLogin/OrganizerLogin";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import GameList from "../../pages/organizer_dashboard/components/Games/ListGame";
+import OrganizerLogin from "../../pages/login/OrganizerLogin";
+import SupervisorLogin from "../../pages/login/SupervisorLogin";
 
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
@@ -71,7 +72,7 @@ export const RoutesManger = () => {
             </Route>
 
             <Route path="supervisor/">
-              <Route index element={<h1>Login</h1>} />
+              <Route index element={<SupervisorLogin/>} />
               <Route path="tournaments">
                 <Route index element={<Tournaments />} />
                 <Route path=":id" element={<Matches />} />

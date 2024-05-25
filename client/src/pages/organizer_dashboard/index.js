@@ -5,6 +5,7 @@ import { useState, useEffect, createContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import TournamentsTable from "./components/TournamentsTable/TournamentsTable";
 import axios from "axios";
+import OrganizerAuthCheck from "../CheckAuth/OrganizerCheckAuth";
 export const useTournamentDetails = createContext();
 export const OrganizerDashboard = () => {
   const location = useLocation(); //keep track of path
@@ -14,6 +15,7 @@ export const OrganizerDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1); //current page tracker
   const [pageSize, setPageSize] = useState(10); //for page size
   const [totalTournaments, setTotalTournaments] = useState(0);
+  const {isAuthChecked } =OrganizerAuthCheck();
   // const currentData = records.slice(
   //   //for the pagination logic
   //   (currentPage - 1) * pageSize,
@@ -78,6 +80,11 @@ export const OrganizerDashboard = () => {
    // setRecords((records));
     //fetchTournaments(currentPage, pageSize);
   };
+
+  if (!isAuthChecked) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentsData}>

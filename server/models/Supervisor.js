@@ -24,6 +24,7 @@ const SupervisorSchema = new Schema({
         type: String,
         required: true,
     },
+    password:String
 });
 
 export const SupervisorModel = mongoose.model("supervisors", SupervisorSchema);
