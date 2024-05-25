@@ -25,7 +25,7 @@ export const DynamicForm = forwardRef(
           .then((res) => console.log(res))
           .catch((err) => console.error(err));
 
-        //navigate("/organizer/dashboard");
+        navigate("/organizer/dashboard");
       } else if (request === "UPDATE_TOURNAMENT") {
         console.log("THIS IS AN UPDATING TOURNAMENT REQUEST");
         if (tournamentObject) {
