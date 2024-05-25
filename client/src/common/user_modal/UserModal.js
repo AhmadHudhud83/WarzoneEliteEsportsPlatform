@@ -15,7 +15,7 @@ const UserModal = ({ user, isOpen, setIsOpen }) => {
     }, [isOpen]);
     return (
         <div className="modal"
-            id={isOpen ? styles.open : styles.closed}
+            id={isOpen ? styles.open : styles.closed} // show modal if isOpen is true
             onClick={() => setIsOpen(false)}>
             {user ? (
                 <div className="modal-dialog modal-dialog-centered" >

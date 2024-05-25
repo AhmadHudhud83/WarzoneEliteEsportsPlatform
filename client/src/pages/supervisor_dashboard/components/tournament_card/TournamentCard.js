@@ -7,6 +7,7 @@ const TournamentCard = ({ tournament }) => {
                 <img src={tournament.cover_image_url} alt={tournament.title} />
                 <div>
                     <h3>{tournament.title}</h3>
+                    {/* If tournament is not started yet, show "Not Started Yet", if it's finished, show "Finished", otherwise show "Current Round: {currentRound}" */}
                     {tournament.tournament_status === "Uninitialized" ? <p>Not Started Yet</p> : tournament.tournament_status === "Finished" ? <p>Finished</p> : <p>Current Round: {tournament.currentRound}</p>}
                 </div>
 
