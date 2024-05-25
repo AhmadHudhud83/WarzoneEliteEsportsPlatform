@@ -4,16 +4,19 @@ import StatusCheckBoxGroup from "../StatusCheckBoxGroup/StatusCheckBoxGroup";
 import { Pagination, theme, ConfigProvider } from "antd";
 import "antd/dist/reset.css";
 import axios from "axios";
+import DropDownButton from "../DropdownButton/DropDownButton";
 import SupervisorsModal from "../assign_supervisors_modal/SupervisorsModal";
 //pagination using antd library
 
 const TournamentsTable = ({
   records,
+  refreshHandler,
   currentPage,
   pageSize,
   pageChangeHandler,
   totalTournaments,
   deleteTournamentHandler,
+
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [tournamentId, setTournamentId] = useState("");
@@ -36,11 +39,22 @@ const TournamentsTable = ({
       const res = await axios.post(
         `http://localhost:5000/api/tournaments/${tournamentId}/initialize-matches`
       );
+      console.log(res.data);
     } catch (error) {
       console.error("error initializing the tournament matches...", error);
     }
   };
-
+  const resetHandler = (tournamentId) => {
+    axios
+      .patch(`http://localhost:5000/api/tournaments/${tournamentId}/reset`)
+      .then((res) => {
+        console.log("Tournament has been reset !", res);
+        refreshHandler();
+      })
+      .catch((err) => {
+        console.error("Failed to reset the tournament", err);
+      });
+  };
   return (
     <React.Fragment>
       <SupervisorsModal
@@ -107,14 +121,27 @@ const TournamentsTable = ({
                         role="group"
                         aria-label="Basic example"
                       >
-                        <Link
-                          onClick={() => {
-                            handleInitialize(item._id);
-                          }}
-                          className={`btn btn-sm btn-warning`}
-                        >
-                          {"Initialize"}
-                        </Link>
+
+                        <div className="d-flex justify-content-around">
+
+                          <div className="btn-group drop  ">
+                            <DropDownButton
+                              handler={handleInitialize}
+                              buttonColor={`btn-warning`}
+
+                              _id={item._id}
+                              label={"Initialize"}
+                            />
+
+                            <DropDownButton
+                              handler={resetHandler}
+                              buttonColor={`btn-danger`}
+
+                              _id={item._id}
+                              label={"Reset"}
+                            />
+                          </div>
+                        </div>
                         <Link
                           to={`/organizer/dashboard/matches/${item._id}`}
                           className="btn btn-sm btn-success  "
@@ -164,6 +191,7 @@ const TournamentsTable = ({
                         </Link>
                       </div>
                     </td>
+
                     <td className="text-success text-center">
                       <Link
                         to={`/organizer/dashboard/announcements/${item._id}`}
@@ -172,11 +200,9 @@ const TournamentsTable = ({
                       </Link>
                     </td>
                     <td className="text-success text-center">
-                      <i className=" fa-solid fa-user" style={{ color: "red", cursor: "pointer" }} onClick={() => {
-                        setTournamentId(item._id);
-                        setShowModal(true);
-                      }
-                      } />
+                      <Link to={`/organizer/dashboard/`}>
+                        <i className=" fa-solid fa-user-plus" style={{ color: "red" }} />
+                      </Link>
                     </td>
                   </tr>
                 );

@@ -120,6 +120,13 @@ export const OrganizerDashboard = () => {
     // setRecords((records));
     //fetchTournaments(currentPage, pageSize);
   };
+  const recordsHandler = (newRecords) => {
+    setRecords(newRecords)
+  }
+  const refreshHandler = () => {
+    setRecords([]);
+    fetchTournaments(currentPage, pageSize);
+  }
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentsData}>
@@ -145,28 +152,30 @@ export const OrganizerDashboard = () => {
                 </label>
               </div>
 
-              <button
-                onClick={() => {
-                  setRecords([]);
-                  fetchTournaments(currentPage, pageSize);
-                }}
-                className="btn btn-danger ms-auto  "
-              >
-                <i className="fa fa-refresh me-2 " aria-hidden="true" />
-                Refresh
-              </button>
             </div>
-            <TournamentsTable
-              records={records}
-              pageSize={pageSize}
-              currentPage={currentPage}
-              pageChangeHandler={pageChangeHandler}
-              totalTournaments={totalTournaments}
-              deleteTournamentHandler={deleteTournamentHandler}
-            />
+
+            <button
+              onClick={() => {
+                refreshHandler();
+              }}
+              className="btn btn-danger ms-auto  "
+            >
+              <i className="fa fa-refresh me-2 " aria-hidden="true" />
+              Refresh
+            </button>
           </div>
+          <TournamentsTable
+            refreshHandler={refreshHandler}
+            records={records}
+            setRecords={recordsHandler}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            pageChangeHandler={pageChangeHandler}
+            totalTournaments={totalTournaments}
+            deleteTournamentHandler={deleteTournamentHandler}
+          />
         </div>
       </useTournamentDetails.Provider>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
