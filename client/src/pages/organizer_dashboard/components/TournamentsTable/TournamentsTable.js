@@ -5,6 +5,7 @@ import { Pagination, theme, ConfigProvider } from "antd";
 import "antd/dist/reset.css";
 import axios from "axios";
 import DropDownButton from "../DropdownButton/DropDownButton";
+import SupervisorsModal from "../assign_supervisors_modal/SupervisorsModal";
 //pagination using antd library
 
 const TournamentsTable = ({
@@ -15,8 +16,10 @@ const TournamentsTable = ({
   pageChangeHandler,
   totalTournaments,
   deleteTournamentHandler,
-  
+
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [tournamentId, setTournamentId] = useState("");
   const TableRows = [
     "# id",
     "Title",
@@ -33,18 +36,17 @@ const TournamentsTable = ({
 
   const handleInitialize = async (tournamentId) => {
     try {
-      const res = await axios.patch(
+      const res = await axios.post(
         `http://localhost:5000/api/tournaments/${tournamentId}/initialize-matches`
       );
       console.log(res.data);
-      refreshHandler();
     } catch (error) {
       console.error("error initializing the tournament matches...", error);
     }
   };
   const resetHandler = (tournamentId) => {
     axios
-      .patch(`http://localhost:5000/api/tournaments/${tournamentId}/reset`)
+      .post(`http://localhost:5000/api/tournaments/${tournamentId}/reset`)
       .then((res) => {
         console.log("Tournament has been reset !", res);
         refreshHandler();
@@ -55,6 +57,11 @@ const TournamentsTable = ({
   };
   return (
     <React.Fragment>
+      <SupervisorsModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        tournamentId={tournamentId}
+      />
       <div className="table-responsive mt-2">
         <table className="table table-bordered border">
           <thead>
@@ -114,14 +121,14 @@ const TournamentsTable = ({
                         role="group"
                         aria-label="Basic example"
                       >
-                       
+
                         <div className="d-flex justify-content-around">
-                        
+
                           <div className="btn-group drop  ">
-                          <DropDownButton
+                            <DropDownButton
                               handler={handleInitialize}
                               buttonColor={`btn-warning`}
-                          
+
                               _id={item._id}
                               label={"Initialize"}
                             />
@@ -129,7 +136,7 @@ const TournamentsTable = ({
                             <DropDownButton
                               handler={resetHandler}
                               buttonColor={`btn-danger`}
-                        
+
                               _id={item._id}
                               label={"Reset"}
                             />
@@ -146,13 +153,34 @@ const TournamentsTable = ({
                     <td>
                       <div className="d-flex justify-content-around">
                         <div className="btn-group drop  ">
-                          <DropDownButton
-                            handler={deleteTournamentHandler}
-                            buttonColor=""
-                        
-                            _id={item._id}
-                            label={<i className="fa-solid fa-trash" />}
-                          />
+                          <button
+                            type="button"
+                            className="btn  dropdown-toggle "
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <i className="fa-solid fa-trash" />
+                          </button>
+                          <ul className="dropdown-menu bg-dark  ">
+                            <div className="d-flex justify-content-around  p-2 bg-dark">
+                              <Link
+                                className="dropwdown-item btn btn-sm btn-danger"
+                                onClick={() => {
+                                  deleteTournamentHandler(item._id);
+                                }}
+                              >
+                                Delete
+                              </Link>
+                              <li>
+                                <button
+                                  className=" btn btn-sm btn-primary"
+                                // href=""
+                                >
+                                  Cancel
+                                </button>
+                              </li>
+                            </div>
+                          </ul>
                         </div>
 
                         <Link
@@ -168,19 +196,11 @@ const TournamentsTable = ({
                       <Link
                         to={`/organizer/dashboard/announcements/${item._id}`}
                       >
-                        <i
-                          className="fa-solid fa-flag"
-                          style={{ color: "lightblue" }}
-                        />
+                        <i className="fa-solid fa-flag" style={{ color: "lightblue" }} />
                       </Link>
                     </td>
                     <td className="text-success text-center">
-                      <Link to={`/organizer/dashboard/`}>
-                        <i
-                          className=" fa-solid fa-user-plus"
-                          style={{ color: "red" }}
-                        />
-                      </Link>
+                      <i className=" fa-solid fa-user-plus" style={{ color: "red" }} onClick={() => { setShowModal(true); setTournamentId(item._id) }} />
                     </td>
                   </tr>
                 );

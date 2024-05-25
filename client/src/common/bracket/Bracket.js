@@ -8,37 +8,42 @@ import { useNavigate } from "react-router-dom";
 
 const Bracket = ({ user, tournamentId }) => {
     const navigate = useNavigate();
-    const [supervisorId, setSupervisorId] = useState("");
+    const [supervisorId, setSupervisorId] = useState(""); // The id of the current supervisor
     const [matches, setMatches] = useState([]);
     const [currentRound, setCurrentRound] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedTeam, setSelectedTeam] = useState(null);
-    const [scale, setScale] = useState(1);
+    const [selectedTeam, setSelectedTeam] = useState(null); // The team that the supervisor clicked on
     const roundRef = React.createRef(null);
-    const fetchTournamentData = ()=>{
-        axios.get(`http://localhost:5000/api/tournaments/${tournamentId}`)
-        .then((response) => {
-            const tournament = response.data;
-            setMatches(tournament.matches);
-            setCurrentRound(tournament.currentRound);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
+    const [status, setStatus] = useState("Unitialized");
+
     useEffect(() => {
         if (user === "supervisor") {
             // Retrieve the current supervisor id from the session storage
             //const supervisorId = sessionStorage.getItem("supervisorId");
-            const supervisorId = "s1";
+            const supervisorId = "664cd6cf90ec080145afa0e4";
             setSupervisorId(supervisorId);
         }
         fetchTournamentData();
     }, []);
-    const refreshHandler = ()=>{
+
+    const fetchTournamentData = () => {
+        axios.get(`http://localhost:5000/api/tournaments/${tournamentId}`)
+            .then((response) => {
+                const tournament = response.data;
+                setMatches(tournament.matches);
+                setCurrentRound(tournament.currentRound);
+                setStatus(tournament.tournament_status);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const refreshHandler = () => {
         fetchTournamentData();
     }
 
+    // Handle the outcome of a match
     const handleOutcome = (matchId, outcome) => {
         axios.patch(`http://localhost:5000/api/tournaments/${tournamentId}/matches/${matchId}/set-winner`, { player: outcome })
             .then((response) => {
@@ -59,41 +64,42 @@ const Bracket = ({ user, tournamentId }) => {
 
     return (
         <div id={styles.container}>
-                {user!=="user"? <button onClick={()=>{navigate(-1)}} className="btn text-white btn-danger m-3"> <i className="fa-solid fa-backward me-2" />
-back</button>:<></>} 
+            {user !== "user" ? <button onClick={() => { navigate(-1) }} className="btn text-white btn-danger m-3"> <i className="fa-solid fa-backward me-2" />
+                back</button> : <></>}
 
-        
-            <button onClick={()=>refreshHandler()} className="btn m-3 btn-danger "> <i className="fa-solid fa-arrow-rotate-left me-2" />
-refresh</button>
-         
-          
-            {currentRound === -1 ? (
+
+            <button onClick={() => refreshHandler()} className="btn m-3 btn-danger "> <i className="fa-solid fa-arrow-rotate-left me-2" />
+                refresh</button>
+
+            {status === "Uninitialized" ? ( // If the tournament hasn't been initialized yet
                 <h2 id={styles.uninitialized}> The tournament hasn't been initialized yet</h2>
-            ) : (   
-                <div id={matches.length > 4 ? styles.bracket : styles.centered_bracket} style={{ transform: `scale(${scale})` }}
-               >
-                    {matches.map((round, roundIndex) => {
+            ) : (
+                // If the tournament has been initialized
+                <div id={matches.length > 4 ? styles.bracket : styles.centered_bracket} // If there are less than 5 rounds, center the bracket
+                >
+                    {matches.map((round, roundIndex) => { // For each round
 
-                        if (roundIndex <= currentRound) {
+                        if (roundIndex <= currentRound) { // If the round has already been played or is currently being played
                             return (
                                 <div className={styles.round}>
-                                 
                                     <h3 onClick={
                                         () => { roundRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                                     }>
                                         Round {roundIndex + 1}</h3>
                                     <div className={styles.round_div}>
-                                        {round.map((match, index) => (
+                                        {round.map((match, index) => ( // For each match in the round
+
                                             <div className={styles["match-container"]} >
                                                 <div className={styles.match}>
                                                     <div className={styles.team + " " +
                                                         ((match.winner !== null) ?
                                                             (match.winner._id === match.team1._id ?
-                                                                styles.winner : styles.loser) : "")}>
+                                                                styles.winner : styles.loser) : "")}> {/* If the team is the winner, color it green else color it red */}
                                                         <div onClick={() => handleTeamClick(match.team1)} className={(user === "organizer" || user === "supervisor" ? styles.clickable : "")}>
                                                             {match.team1.name}
-                                                        </div>
+                                                        </div> {/* If the user is an organizer or supervisor, make the team name clickable */}
 
+                                                        {/* If the user is an organizer or supervisor and the match winner is undecided, show the winner button */}
                                                         <button className={styles["winner-btn"] + " " +
                                                             ((user === "organizer" ||
                                                                 (user === "supervisor" && match.supervisor._id === supervisorId)) &&
@@ -105,10 +111,11 @@ refresh</button>
                                                         ((match.winner !== null) ?
                                                             (((match.winner._id === match.team2._id) &&
                                                                 (match.winner !== "none")) ?
-                                                                styles.winner : styles.loser) : "")}>
+                                                                styles.winner : styles.loser) : "")}> {/* If the team is the winner, color it green else color it red */}
                                                         <div onClick={() => handleTeamClick(match.team2)} className={(user === "organizer" || user === "supervisor" ? styles.clickable : "")}>
                                                             {match.team2 === "bye" ? "BYE" : match.team2.name}
-                                                        </div>
+                                                        </div> {/* If the user is an organizer or supervisor, make the team name clickable */}
+                                                        {/* If the user is an organizer or supervisor and the match winner is undecided, show the winner button */}
                                                         <button className={styles["winner-btn"] + " " +
                                                             ((user === "organizer" ||
                                                                 (user === "supervisor" && match.supervisor._id === supervisorId)) &&
@@ -118,6 +125,8 @@ refresh</button>
                                                             onClick={() => handleOutcome(index, match.team2)}>WINNER</button>
                                                     </div>
                                                 </div>
+
+                                                {/* If the user is an organizer or supervisor and the match winner is undecided, show the none button */}
                                                 <button className={styles.none + " " +
                                                     ((user === "organizer" ||
                                                         (user === "supervisor" && match.supervisor._id === supervisorId)) &&
@@ -126,24 +135,25 @@ refresh</button>
                                                     onClick={() => handleOutcome(index, "none")}>None</button>
                                             </div>
                                         ))}
-                                          
+
                                     </div>
 
                                 </div>
 
                             );
                         }
+                        // If the round hasn't been played yet
                         return <div className={styles.round} ref={roundRef}>
                             <h3 onClick={
                                 () => { roundRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                             }>Round {roundIndex + 1}</h3>
                             <div className={styles.round_div}>
-                                {round.map(() => (
+                                {round.map(() => ( // For each match in the round
                                     <div className={styles["match-container"]}>
                                         <div className={styles.match}>
                                             <div className={styles.team + " " + styles.team}>Undecided Yet</div>
                                             <div className={styles.team}>{"Undecided Yet"}</div>
-                                        </div>
+                                        </div> {/* If the user is an organizer or supervisor, make the team name clickable */}
                                     </div>
                                 ))}
                             </div>

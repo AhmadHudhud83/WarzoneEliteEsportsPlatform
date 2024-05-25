@@ -22,7 +22,7 @@ export const DetailedTournamentCard = (props) => {
   const [loading, setLoading] = useState(true);
   const [tournamentDetails, setTournamentDetails] = useState(null);
   const { id } = useParams();
-  const userId = "664cd8ea90ec080145afa148";
+  const userId = "664cdd1abc4681e2757ee34a";
   const [participated, setParticipated] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState('');
@@ -129,9 +129,10 @@ export const DetailedTournamentCard = (props) => {
   // handle participation button click which checks if user is logged in and then adds or removes user from tournament
   const handleParticipation = () => {
     if (tournamentDetails.registeration_status === "Closed") {
-      return;
+      return; // If registration is closed, do nothing
     }
     // check if user is logged in
+    // if not, redirect to login page
     if (userId === null) {
       navigate("/login");
       return;
@@ -185,6 +186,7 @@ export const DetailedTournamentCard = (props) => {
           gameTag={gameTag} setGameTag={setGameTag}
           discordTag={discordTag} setDiscordTag={setDiscordTag}
         />
+
         <div className="row" id="tournament-details-container">
           <div className="col-md-3">
           </div>
@@ -241,17 +243,18 @@ export const DetailedTournamentCard = (props) => {
 
           </div>
           <div className="col-md-3" id="participation-container">
-            <h3>Registration {tournamentDetails.registeration_status}</h3>
+            <h3>Registration {tournamentDetails.registeration_status}</h3> {/* Registration status */}
             <p>
-              {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""}
+              {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""} {/* If tournament is ongoing, show current round */}
             </p>
+            {/* If user is logged in, show participation button */}
             <button
               className="btn btn-primary ml-3"
               id={participated ? "participated" : ""}
               onClick={handleParticipation}
               disabled={tournamentDetails.registeration_status !== "Opened"} >
               {
-                participated ?
+                participated ? // If user is already participating, and registration is opened, show drop out button
                   tournamentDetails.registeration_status === "Opened" ?
                     "Drop Out" : "Participated" : tournamentDetails.registeration_status === "Opened" ?
                     "Participate" : "Registration Closed"

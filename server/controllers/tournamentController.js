@@ -396,6 +396,10 @@ export const initializeMatches = async (tournamentId) => {
 
   // Get the participants and supervisors
   const participants = tournament.participants;
+
+  if (participants.length < 2) {
+    throw new Error("Not enough participants to initialize the tournament");
+  }
   const supervisors = tournament.supervisors;
 
   // Create the matches array
@@ -444,7 +448,7 @@ const isRoundComplete = (round) => {
 };
 
 // This function sets up the next round by moving the winners of the current round to the next round
-export const setUpRound = async (tournament) => {
+const setUpRound = async (tournament) => {
   tournament.currentRound++; // Move to the next round
 
   const previousRound = tournament.currentRound - 1;
@@ -543,6 +547,32 @@ export const removePlayer = async (tournamentId, playerId) => {
 
   // Save the updated tournament document
   tournament.markModified("participants"); // Mark the participants array as modified
+  await tournament.save();
+};
+
+// Get the tournament supervisors
+export const getSupervisors = async (tournamentId) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+
+  return tournament.supervisors;
+};
+
+// Update the tournament supervisors
+export const updateSupervisors = async (tournamentId, supervisors) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+  console.log(supervisors);
+  tournament.supervisors = supervisors;
+
+  // Save the updated tournament document
+  tournament.markModified("supervisors"); // Mark the supervisors array as modified
   await tournament.save();
 };
 
