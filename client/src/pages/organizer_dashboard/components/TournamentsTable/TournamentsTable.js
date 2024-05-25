@@ -25,6 +25,7 @@ const TournamentsTable = ({
 
     "Actions",
     "Announcements",
+    "Supervisors",
   ];
 
   const handleInitialize = async (tournamentId) => {
@@ -157,9 +158,15 @@ const TournamentsTable = ({
                       </div>
                     </td>
                     <td className="text-success text-center">
-                      <Link to={`/organizer/dashboard/announcements/${item._id}`}>
-                   
-                      <i className="fa-solid fa-flag" />
+                      <Link
+                        to={`/organizer/dashboard/announcements/${item._id}`}
+                      >
+                        <i className="fa-solid fa-flag"style={{color:"lightblue"}} />
+                      </Link>
+                    </td>
+                    <td className="text-success text-center">
+                      <Link to={`/organizer/dashboard/`}>
+                        <i className=" fa-solid fa-user-plus" style={{color:"red"}} />
                       </Link>
                     </td>
                   </tr>
