@@ -11,7 +11,7 @@ const AnnouncementsPage = () => {
   const [content, setContent] = useState("");
   const { tournamentId } = useParams();
   const fetchTournamentAnnouncement = () =>{
-    setLoading(true)
+   
     axios
     .get(
       `http://localhost:5000/api/tournaments/${tournamentId}/announcements`
