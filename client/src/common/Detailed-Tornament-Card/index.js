@@ -187,10 +187,9 @@ export const DetailedTournamentCard = (props) => {
           discordTag={discordTag} setDiscordTag={setDiscordTag}
         />
 
-        <div className="row" id="tournament-details-container">
-          <div className="col-md-3">
-          </div>
-          <div className="col-md-6">
+        <div className="d-flex container " id="tournament-details-container">
+       
+          <div className="col-md-10">
             <h2 className="text-center  pb-3">
               {tournamentDetails.title}
 
@@ -242,7 +241,7 @@ export const DetailedTournamentCard = (props) => {
             </div>
 
           </div>
-          <div className="col-md-3" id="participation-container">
+         {showRegCard &&<div className="col-md-3 ms-5  h-50  rounded border border-danger py-5 " id="participation-container">
             <h3>Registration {tournamentDetails.registeration_status}</h3> {/* Registration status */}
             <p>
               {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""} {/* If tournament is ongoing, show current round */}
@@ -260,7 +259,7 @@ export const DetailedTournamentCard = (props) => {
                     "Participate" : "Registration Closed"
               }
             </button>
-          </div>
+          </div>} 
         </div>
 
         <Footer></Footer>
