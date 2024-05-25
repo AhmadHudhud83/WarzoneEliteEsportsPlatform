@@ -10,22 +10,26 @@ const AnnouncementsPage = () => {
   const [tournament, setTournament] = useState({});
   const [content, setContent] = useState("");
   const { tournamentId } = useParams();
-  const fetchTournamentAnnouncement = () =>
+  const fetchTournamentAnnouncement = () =>{
     setLoading(true)
     axios
-      .get(
-        `http://localhost:5000/api/tournaments/${tournamentId}/announcements`
-      )
-      .then((res) => {
-        setAnnouncements(res.data.announcements);
-        console.log(res.data);
-        setFlag(true)
-        setLoading(false)
-      })
-      .catch((e) => {console.error(e)
+    .get(
+      `http://localhost:5000/api/tournaments/${tournamentId}/announcements`
+    )
+    .then((res) => {
+      setAnnouncements(res.data.announcements);
+      console.log(res.data);
+      setFlag(true)
+      setLoading(false)
+    })
+    .catch((e) => {console.error(e)
 
-        setLoading(false)
-      });
+      setLoading(false)
+    });
+    
+  }
+   
+  
   useEffect(() => {
     fetchTournamentAnnouncement();
     //get the name of the tournament

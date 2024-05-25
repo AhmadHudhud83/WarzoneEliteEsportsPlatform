@@ -15,7 +15,6 @@ const TournamentsTable = ({
   pageChangeHandler,
   totalTournaments,
   deleteTournamentHandler,
-  
 }) => {
   const TableRows = [
     "# id",
@@ -114,14 +113,11 @@ const TournamentsTable = ({
                         role="group"
                         aria-label="Basic example"
                       >
-                       
                         <div className="d-flex justify-content-around">
-                        
                           <div className="btn-group drop  ">
-                          <DropDownButton
+                            <DropDownButton
                               handler={handleInitialize}
                               buttonColor={`btn-warning`}
-                          
                               _id={item._id}
                               label={"Initialize"}
                             />
@@ -129,7 +125,6 @@ const TournamentsTable = ({
                             <DropDownButton
                               handler={resetHandler}
                               buttonColor={`btn-danger`}
-                        
                               _id={item._id}
                               label={"Reset"}
                             />
@@ -149,7 +144,6 @@ const TournamentsTable = ({
                           <DropDownButton
                             handler={deleteTournamentHandler}
                             buttonColor=""
-                        
                             _id={item._id}
                             label={<i className="fa-solid fa-trash" />}
                           />
