@@ -91,7 +91,7 @@ const AnnouncementsPage = () => {
       });
   };
   const editHandler = (id) => {
-    const announcement = announcements.find((ann)=>ann._id===id)
+    const announcement = announcements.find((ann)=>ann._id===id)//if the content is not edited then don't send patch request(optimization)
     if (!editingContent.trim()) {
       return;
     }

@@ -88,11 +88,7 @@ export const HomePage = () => {
       icon: <i className="fa-solid fa-blog" />
 
     },
-    {
-      label: "Joined Tournaments",
-      link: "/joined-tournaments",
-      icon: <i className="me-2 fa-solid fa-server" />,
-    },
+  
     {
       label: "Sign up",
       link: "/sign-up",
