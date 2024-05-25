@@ -46,7 +46,7 @@ const TournamentsTable = ({
   };
   const resetHandler = (tournamentId) => {
     axios
-      .patch(`http://localhost:5000/api/tournaments/${tournamentId}/reset`)
+      .post(`http://localhost:5000/api/tournaments/${tournamentId}/reset`)
       .then((res) => {
         console.log("Tournament has been reset !", res);
         refreshHandler();
@@ -200,9 +200,7 @@ const TournamentsTable = ({
                       </Link>
                     </td>
                     <td className="text-success text-center">
-                      <Link to={`/organizer/dashboard/`}>
-                        <i className=" fa-solid fa-user-plus" style={{ color: "red" }} />
-                      </Link>
+                      <i className=" fa-solid fa-user-plus" style={{ color: "red" }} onClick={() => { setShowModal(true); setTournamentId(item._id) }} />
                     </td>
                   </tr>
                 );
