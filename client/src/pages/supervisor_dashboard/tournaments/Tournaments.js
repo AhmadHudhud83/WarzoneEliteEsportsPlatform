@@ -3,14 +3,18 @@ import axios from "axios";
 import Header from "../components/header/Header";
 import styles from "./Tournaments.module.css";
 import TournamentCard from "../components/tournament_card/TournamentCard";
+import SupervisorAuthCheck from "../../CheckAuth/SupervisorCheckAuth";
 
 function TournamentPage() {
   const [tournaments, setTournaments] = useState([]);
+
+  const {isAuthChecked } = SupervisorAuthCheck();
 
   useEffect(() => {
     // Retrieve the current supervisor id from the session storage
     //const supervisorId = sessionStorage.getItem("supervisorId");
     const supervisorId = "s1";
+
 
     // Fetch the tournaments which the supervisor is part of its supervisors array
     axios
@@ -31,6 +35,11 @@ function TournamentPage() {
       });
   }, []);
 
+
+    if (!isAuthChecked) {
+      return <div>Loading...</div>;
+    }
+  
   return (
     <div id={styles.container}>
       <Header />
