@@ -6,53 +6,51 @@ import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
 
 
 
-function PlayerList(){
+function GameList(){
 
-    const [players, SetAllPlayers] = useState([]);
+    const [games, SetAllGames] = useState([]);
+
     const {isAuthChecked } =OrganizerAuthCheck();
 
 
-
     useEffect(() => {
-        axios.get('http://localhost:5000/player/allplayer')
+        axios.get('http://localhost:5000/api/games')
         .then(response => {
-          SetAllPlayers(response.data);
+          SetAllGames(response.data);
         })
         .catch(error => {
-          console.error('Error display players:', error);
+          console.error('Error display Games:', error);
         });
 
     }, []);
 
 
 
-    const handleDeletePlayers=(id)=>{
+    const handleDeleteGame=(id)=>{
         axios.delete(`http://localhost:5000/player/delete?id=${id}`).then(()=>{
-            SetAllPlayers(players.filter(player => player._id !== id));
+            SetAllGames(games.filter(game => game._id !== id));
         })
           .catch(error => {
-            console.error('Error display players:', error);
+            console.error('Error display Games:', error);
           });
     }
-
-
-
-
 
     if (!isAuthChecked) {
         return <div>Loading...</div>;
       }
+
+
 
     return(
         <div className="container-xxl bg-dark">
             <div className="container-md"> 
                 <div className="d-flex justify-content-between bg-dark p-3">
                     <div className="text-white">
-                        <label className="fs-4">Players</label>
+                        <label className="fs-4">Games</label>
                     </div>
                     <div className="d-flex">
                         <Link to="/organizer/dashboard/players/add" className="btn btn-outline-light btn-primary">
-                            + Add Players</Link>
+                            + Add Game</Link>
                     </div>
                 </div>
             </div>
@@ -61,8 +59,8 @@ function PlayerList(){
                 <table className="table table-dark table-striped">
                     <thead>
                         <tr>
+                        <th className="text-center">Image</th>
                         <th className="text-center">Name</th>
-                        <th className="text-center">Email</th>
                         <th className="text-center">Edit</th>
                         <th className="text-center">Delete</th>
                         </tr>
@@ -70,34 +68,37 @@ function PlayerList(){
 
                     
                     <tbody>
-                    {players.map((player ,index)=>(
+                    {games.map((game ,index)=>(
 
                         <tr key={index}>
-                            <td>
+                            <td  className="align-middle"style={{ width: '25%' }}>
                                 <div className="d-flex justify-content-center align-items-center">
-                                <label >{player.name}</label>
+                                
+                                <img
+                                    src={game.imgUrl}
+                                    alt="Image"
+                                    className="img-fluid"
+                                    style={{ maxWidth: '100%', height: 'auto' }}
+                                    />
                                 </div>
                             </td>
-                            <td className="text-white" >
-                                <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
-                                    <label >{player.email}</label>
-                                </div>
+                            <td className="text-white align-middle text-center" >
+                                 
+                                    {game.name}
+                              
                             </td>
                             
-                            <td>
-                                <div className="d-flex justify-content-center">
-                                <Link to={`/organizer/dashboard/players/edit/${player._id}` } className="btn btn-outline-light btn-primary">Edit</Link>                                </div>
+                            <td className="text-white align-middle text-center">
+                                
+                                <Link to={`/organizer/dashboard/players/edit/${game._id}` } className="btn btn-outline-light btn-primary">Edit</Link>                               
                                 
                             </td>
-                            <td>
-                                <div className="d-flex justify-content-center">
-                                    <button className="btn btn-outline-light btn-danger" onClick={()=>{handleDeletePlayers(player._id) 
-                                       
-                                        
-                                    }}
-                                    
-                                    >Delete</button>
-                                </div>
+                            <td className="text-white align-middle text-center">
+                                
+                                    <button className="btn btn-outline-light btn-danger" onClick={()=>{handleDeleteGame(game._id) }}>
+                                        Delete
+                                    </button>
+                                
                             </td>
                         </tr>
                     ))}
@@ -107,8 +108,7 @@ function PlayerList(){
             </div>
             <Link to="/organizer/dashboard" className="btn btn-outline-light btn-secondary">Back</Link>
         </div>
-        
     );
 }
 
-export default PlayerList;
+export default GameList;

@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
+
 
 function EditeSupervisor() {
   const { supervisorId } = useParams();
@@ -15,6 +17,36 @@ function EditeSupervisor() {
   });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const {isAuthChecked } =OrganizerAuthCheck();
+  useEffect(() => {
+    const fetchSupervisor = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/supervisor/get?id=${supervisorId}`
+        );
+        if (response.data !== "user not found") {
+          setSupervisor(response.data);
+          setFormData({
+            name: response.data.name,
+            email: response.data.email,
+            password: "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching supervisor:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSupervisor();
+  }, [supervisorId]);
+
+
+
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,6 +124,9 @@ function EditeSupervisor() {
 
     fetchSupervisor();
   }, []);
+  if (!isAuthChecked) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container">

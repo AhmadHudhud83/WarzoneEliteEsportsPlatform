@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import "./AnnouncementsPage.css";
+import OrganizerAuthCheck from "../../../CheckAuth/OrganizerCheckAuth";
 const AnnouncementsPage = () => {
     const [flag,setFlag] = useState(false)
     const [loading ,setLoading] = useState(true)
@@ -10,6 +11,8 @@ const AnnouncementsPage = () => {
   const [tournament, setTournament] = useState({});
   const [content, setContent] = useState("");
   const { tournamentId } = useParams();
+  const {isAuthChecked } =OrganizerAuthCheck();
+ 
   const fetchTournamentAnnouncement = () =>{
    
     axios
@@ -140,6 +143,9 @@ const AnnouncementsPage = () => {
     return <h1>Announcement not found !</h1>
   }
   
+  if (!isAuthChecked) {
+    return <h1 className="text-center p-5">Loading...</h1>;
+  }
   return (
     <React.Fragment>
       <Modal

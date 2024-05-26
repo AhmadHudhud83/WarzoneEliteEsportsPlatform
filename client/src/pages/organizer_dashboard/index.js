@@ -6,6 +6,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import TournamentsTable from "./components/TournamentsTable/TournamentsTable";
 import axios from "axios";
 import SideBar from "../../common/SideBar/SideBar";
+import OrganizerAuthCheck from "../CheckAuth/OrganizerCheckAuth";
 export const useTournamentDetails = createContext();
 export const OrganizerDashboard = () => {
 
@@ -16,6 +17,7 @@ export const OrganizerDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1); //current page tracker
   const [pageSize, setPageSize] = useState(10); //for page size
   const [totalTournaments, setTotalTournaments] = useState(0);
+  const {isAuthChecked } =OrganizerAuthCheck();
   // const currentData = records.slice(
   //   //for the pagination logic
   //   (currentPage - 1) * pageSize,
@@ -127,10 +129,15 @@ export const OrganizerDashboard = () => {
     setRecords([]);
     fetchTournaments(currentPage, pageSize);
   }
+
+  if (!isAuthChecked) {
+    return <h1 className="text-center p-5">Loading...</h1>;
+  }
+
   return (
-    <React.Fragment>
+    <div style={{height:"100vh",overflowY:"auto"}}>
       <useTournamentDetails.Provider value={tournamentsData}>
-        <div className="organizer-dashboard mx-4 " style={{height:"120vh",overflowY:"auto"}}>
+        <div className="organizer-dashboard mx-5" >
           <div className="custom-contaner  mb-4" >
             <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
 
@@ -176,6 +183,6 @@ export const OrganizerDashboard = () => {
           />
         </div>
       </useTournamentDetails.Provider>
-    </React.Fragment >
+      </div>
   );
 };

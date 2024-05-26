@@ -51,7 +51,7 @@ export const LoginPlayer = async (req, res) => {
             return res.status(StatusCode.NotFound).send('Incorrect password');
         }
 
-        req.session.user_id = user.name;
+        req.session.user_id = user._id;
 
         return res.status(StatusCode.Ok).send('Welcome to the home page');
     } catch (error) {

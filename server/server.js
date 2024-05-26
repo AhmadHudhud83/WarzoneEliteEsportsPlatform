@@ -2,7 +2,7 @@ import express from "express";
 import { connectToDB } from "./DataBaseConnection/dbconnection.js";
 import bodyParser from "body-parser";
 import cors from "cors";
-
+import MongoStore from "connect-mongo";
 import { routerGame } from "./routes/gameRoutes.js";
 import { PlayerRoute } from "./routes/playerRoutes.js";
 import { OrganizerRoute } from "./routes/organizerRoutes.js";
@@ -15,19 +15,31 @@ import { reportsRouter } from "./routes/reportRoutes.js";
 import { feedbackRouter } from "./routes/feedbackRoutes.js";
 import { blogRouter } from "./routes/blogRoutes.js";
 import { tournamentAnnouncementsRouter } from "./routes/tournamentAnnouncementsRoute.js";
+import { AuthRoute } from "./routes/authenticationRoutes.js";
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 const sessionCookieLifeTime = 1000 * 60 * 15;
 app.use(session({
-  secret: "Muy8fuSOYHDsR6WOCwNS6K6sy2QmhSEp",
-  saveUninitialized: true,
-  cookie: { maxAge: sessionCookieLifeTime },
-  resave: false
+    secret: "Muy8fuSOYHDsR6WOCwNS6K6sy2QmhSEp",
+    saveUninitialized:false,
+    cookie: { 
+        maxAge: sessionCookieLifeTime,
+        secure: false,
+        httpOnly: true,
+     },
+    resave: false,
+    store: MongoStore.create({ mongoUrl:  `mongodb+srv://${process.env.AHMAD_HUDHUD_USERNAME}:${process.env.AHMAD_HUDHUD_PASSWORD}@cluster0.ue5yau5.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority&appName=Cluster0` }),
 }));
 app.use(express.json());
 //Routes
@@ -41,6 +53,12 @@ app.use(OrganizerRoute);
 app.use(SupervisorRoute);
 app.use(reportsRouter);
 app.use(feedbackRouter);
+app.use(AuthRoute);
+
+
+
+
+
 
 //Database config
 connectToDB()

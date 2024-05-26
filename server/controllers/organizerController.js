@@ -21,7 +21,7 @@ export const LoginOrganaizer = async(req,res)=>{
             return res.status(StatusCode.NotFound).send('Incorrect password');
         }
 
-        req.session.admin_id = user.name;
+        req.session.admin_id = user._id;
 
         return res.status(StatusCode.Ok).send('Welcome to the home page');
     } catch (error) {
@@ -48,4 +48,5 @@ export const SignUpOrganaizer = async(req,res)=>{
         return res.status(StatusCode.BadRequst).send({message:"the name is exist for anothor account"} );
     }
 };
+
 

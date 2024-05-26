@@ -44,7 +44,7 @@ export const LoginSupervaisor = async (req, res) => {
       return res.status(StatusCode.NotFound).send("Incorrect password");
     }
 
-    req.session.supervaisor_id = user.name;
+    req.session.supervaisor_id = user._id;
 
     return res.status(StatusCode.Ok).send("Welcome to the home page");
   } catch (error) {
