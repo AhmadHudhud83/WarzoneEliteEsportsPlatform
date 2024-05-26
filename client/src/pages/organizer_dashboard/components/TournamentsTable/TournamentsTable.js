@@ -38,6 +38,7 @@ const TournamentsTable = ({
       const res = await axios.post(
         `http://localhost:5000/api/tournaments/${tournamentId}/initialize-matches`
       );
+      refreshHandler();
       console.log(res.data);
     } catch (error) {
       console.error("error initializing the tournament matches...", error);
