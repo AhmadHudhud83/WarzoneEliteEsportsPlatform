@@ -23,7 +23,7 @@ export const OrganizerDashboard = () => {
   //   (currentPage - 1) * pageSize,
   //   currentPage * pageSize
   // );
-  //=========================HERE DEFINE THE LOGOUT REQUEST FOR THE CUSTOM SIDEBAR LOGOUT BUTTON (ORGANIZER OR PLAYER)
+  //=========================HERE DEFINE THE LOGOUT REQUEST FOR THE CUSTOM SIDEBAR LOGOUT BUTTON go
   const OrganizerLogoutRequest = ()=>{
     console.log("LOGGED OUT !")
   }
