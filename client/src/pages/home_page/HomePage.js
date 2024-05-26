@@ -91,11 +91,7 @@ export const HomePage = () => {
 
     },
   
-    {
-      label: "Sign up",
-      link: "/sign-up",
-      icon: <i className=" me-2 fa-solid fa-right-to-bracket" />,
-    },
+  
   ];
 
   return (
