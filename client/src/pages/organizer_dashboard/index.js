@@ -130,8 +130,8 @@ export const OrganizerDashboard = () => {
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentsData}>
-        <div className="organizer-dashboard mx-4">
-          <div className="container-custom" >
+        <div className="organizer-dashboard mx-4 " style={{height:"120vh",overflowY:"auto"}}>
+          <div className="custom-contaner  mb-4" >
             <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
 
             <h1 className="text-white mb-4">Tournaments</h1>

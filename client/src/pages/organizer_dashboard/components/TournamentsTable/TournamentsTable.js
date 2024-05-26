@@ -62,7 +62,7 @@ const TournamentsTable = ({
         setShowModal={setShowModal}
         tournamentId={tournamentId}
       />
-      <div className="table-responsive mt-2">
+      <div className="table-responsive mt-2" >
         <table className="table table-bordered border">
           <thead>
             <tr>
