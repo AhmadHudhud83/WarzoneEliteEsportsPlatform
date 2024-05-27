@@ -5,6 +5,7 @@ import axios from "axios";
 import UserModal from "../user_modal/UserModal";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import SupervisorAuthCheck from "../../pages/CheckAuth/SupervisorCheckAuth";
 
 const Bracket = ({ user, tournamentId }) => {
     const navigate = useNavigate();
@@ -15,13 +16,12 @@ const Bracket = ({ user, tournamentId }) => {
     const [selectedTeam, setSelectedTeam] = useState(null); // The team that the supervisor clicked on
     const roundRef = React.createRef(null);
     const [status, setStatus] = useState("Unitialized");
+    const { isAuthChecked } = SupervisorAuthCheck();
 
     useEffect(() => {
         if (user === "supervisor") {
             // Retrieve the current supervisor id from the session storage
-            //const supervisorId = sessionStorage.getItem("supervisorId");
-            const supervisorId = "664cd6cf90ec080145afa0e4";
-            setSupervisorId(supervisorId);
+            setSupervisorId(sessionStorage.getItem("supervisor_id"));
         }
         fetchTournamentData();
     }, []);
@@ -60,6 +60,10 @@ const Bracket = ({ user, tournamentId }) => {
         // Open the modal
         setSelectedTeam(team);
         setIsModalOpen(true);
+    }
+
+    if (!isAuthChecked) {
+        return <div>Loading...</div>;
     }
 
     return (
