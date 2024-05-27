@@ -42,7 +42,7 @@ const Footer = () => {
 
   return (
 
-      <div className="main-footer ">
+      <div className="main-footer px-5 ">
         <Link to="/">
           <img
             className="logo"
