@@ -30,7 +30,7 @@ const BlogList = () => {
   }, []);
 
   return (
-    <div>
+    <div className="BlogList">
       <Header />
       <section className="background">
         {backgrounds.map((bg, index) => (
