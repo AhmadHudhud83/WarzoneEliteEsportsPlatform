@@ -1,0 +1,13 @@
+.close-btn {
+    background: linear-gradient(to right, #c81a0d, #390606);
+
+}
+
+.submit-btn {
+    background: linear-gradient(to left, #26df0e, #0c390e);
+
+}
+
+.write-box {
+    color: black;
+}

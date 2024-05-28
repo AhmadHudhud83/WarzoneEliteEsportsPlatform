@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
+import "./registrationCard.css"
 import { useTournamentDetails } from "..";
 const RegistrationCard = () => {
   const tournament = useContext(useTournamentDetails);
@@ -58,8 +58,10 @@ const RegistrationCard = () => {
           </div>
           {showReportBox && (
             <div className="report-box">
-              <textarea placeholder="Write your report here..." />
-              <button onClick={handleCloseReportBox}>Close</button>
+              <textarea className="write-box" placeholder="Write your report here..." />
+              <button className="close-btn" onClick={handleCloseReportBox}>Close</button>
+              <button className="submit-btn" onClick={handleCloseReportBox}>Submit</button>
+
             </div>
           )}
 
