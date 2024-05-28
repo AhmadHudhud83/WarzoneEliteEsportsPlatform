@@ -7,6 +7,7 @@ import TournamentsTable from "./components/TournamentsTable/TournamentsTable";
 import axios from "axios";
 import SideBar from "../../common/SideBar/SideBar";
 import OrganizerAuthCheck from "../CheckAuth/OrganizerCheckAuth";
+import LogoutButton from "../Logout/logout.js"
 export const useTournamentDetails = createContext();
 export const OrganizerDashboard = () => {
 
@@ -143,7 +144,11 @@ export const OrganizerDashboard = () => {
       <useTournamentDetails.Provider value={tournamentsData}>
         <div className="organizer-dashboard mx-5" >
           <div className="custom-contaner  mb-4" >
+            <div className="d-flex">
             <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
+            <LogoutButton pageName="organizer"/>
+            </div>
+            
 
             <h1 className="text-white mb-4">Tournaments</h1>
             <div className="d-flex align-items-center">
@@ -184,7 +189,7 @@ export const OrganizerDashboard = () => {
             pageChangeHandler={pageChangeHandler}
             totalTournaments={totalTournaments}
             deleteTournamentHandler={deleteTournamentHandler}
-          />
+          />          
         </div>
       </useTournamentDetails.Provider>
       </div>

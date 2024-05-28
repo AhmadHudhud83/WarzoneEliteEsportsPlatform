@@ -18,7 +18,8 @@ const LogoutButton = ({ pageName }) => {
   };
 
   return (
-    <button onClick={()=>handleLogout(pageName)}>Logout</button>
+    <button className="btn btn-md btn-primary text-white  mb-4 custom-btn mt-5 d-block ms-auto"
+    style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}} onClick={()=>handleLogout(pageName)}>Logout</button>
   );
 };
 
