@@ -12,7 +12,7 @@ const Carousel = () => {
     
   ]
   return (
-    <div className=" carousel">
+    <div className=" carousel ">
       <div
         id="carouselExampleIndicators"
         className="carousel slide h-25 w-100  rounded"
@@ -45,15 +45,15 @@ const Carousel = () => {
             return(<div key={index} className={`carousel-item  rounded ${index===0?"active":""}`}>
             <img
               src={item.img}
-              className="d-block img-fluid     "
+              className="d-block img-fluid rounded rounded-3     "
               style={{ width: "1300px", height: "600px" ,filter:"brightness(50%)"}}
               alt="..."
             />
             <div className="carousel-caption d-none d-md-block">
              
-              <h1 className="text-white text-center ">
+              <h2 className="text-white text-center ">
               {item.caption}
-              </h1>
+              </h2>
             </div>
           </div>)
           })}

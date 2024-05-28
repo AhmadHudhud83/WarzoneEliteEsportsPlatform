@@ -4,7 +4,7 @@ import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i a
 import Footer from "../../common/Footer/Footer";
 import Carousel from "./components/carousel_component/Carousel";
 import SideBar from "../../common/SideBar/SideBar";
-import BottomBar from "../../common/bottomBar/BottomBar.js";
+import TopBar from "../../common/TopBar/TopBar.js";
 import { useNavigate } from "react-router-dom";
 
 import "./HomePage.css";
@@ -97,7 +97,7 @@ export const HomePage = () => {
   return (
     
       <div className="home-page ">
-        
+ 
         <div className="container home-page-container ">
           <SideBar
             sideBarTitle={
@@ -118,9 +118,10 @@ export const HomePage = () => {
           />
 
           <Carousel />
+         
+          <div className="d-flex ">
           <h2 className="text-start pt-4  mb-0">Find tournaments</h2>
-          <div className="d-flex justify-content-end">
-            <BottomBar
+            <TopBar
               gamesData={gamesData}
               setSelectedGame={selectGameHandler}
               selectedGame={selectedGame}
@@ -145,6 +146,7 @@ export const HomePage = () => {
             ) : null}
           </div>
         </div>
+
         <Footer />
       </div>
      

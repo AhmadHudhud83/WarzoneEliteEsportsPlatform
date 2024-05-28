@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const BottomBar = ({ gamesData, selectedGame, setSelectedGame }) => {
+const TopBar = ({ gamesData, selectedGame, setSelectedGame }) => {
   //bottom bar of games , with functionalites to select a game
   return (
     <React.Fragment>
-      <div>
-        <button
-          className="btn btn-outline-warning bg-dark me-5"
+       <button
+          className="btn  btn-outline-warning bg-dark mt-4 ms-auto "
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasTop"
@@ -15,6 +14,8 @@ const BottomBar = ({ gamesData, selectedGame, setSelectedGame }) => {
         >
           Select your game
         </button>
+      <div >
+       
         <div
           className="offcanvas offcanvas-top  rounded border bg-dark h-50"
           style={{backgroundImage:"url(https://i.imgur.com/DZMaZjP.jpeg"}}
@@ -70,4 +71,4 @@ const BottomBar = ({ gamesData, selectedGame, setSelectedGame }) => {
     </React.Fragment>
   );
 };
-export default BottomBar;
+export default TopBar;
