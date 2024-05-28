@@ -32,6 +32,7 @@ const SideBar = ({elementsList,sideBarTitle}) => {
                   to={item.link}
                   className="btn btn-md btn-primary text-white  mb-4 custom-btn mt-5 d-block "
                   style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}}
+                  onClick={item.label==="Logout"?item.request : ""}
                 >
                   {item.icon} {item.label}
                 </Link>

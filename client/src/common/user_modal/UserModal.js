@@ -1,9 +1,21 @@
 import styles from './UserModal.module.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const UserModal = ({ user, isOpen, setIsOpen }) => {
+    const [userDetails, setUserDetails] = useState(null);
+    useEffect(() => {
+        // get user details
+        if (!user) return;
+        axios
+            .get(`http://localhost:5000/player/get?id=${user._id}`)
+            .then((res) => {
+                setUserDetails(res.data);
+            })
+    }, [isOpen]);
     return (
         <div className="modal"
-            id={isOpen ? styles.open : styles.closed}
+            id={isOpen ? styles.open : styles.closed} // show modal if isOpen is true
             onClick={() => setIsOpen(false)}>
             {user ? (
                 <div className="modal-dialog modal-dialog-centered" >
@@ -15,9 +27,9 @@ const UserModal = ({ user, isOpen, setIsOpen }) => {
                         <div className="modal-body">
                             {user ? (
                                 <>
-                                    <p>Email: {user.email}</p>
-                                    <p>Game ID: {user.gameId}</p>
-                                    <p>Discord: {user.discord}</p>
+                                    <p>Email: {userDetails.email}</p>
+                                    <p>Game ID: {user.gameTag}</p>
+                                    <p>Discord: {user.discordTag}</p>
                                 </>
                             ) : (
                                 <p>No user selected</p>

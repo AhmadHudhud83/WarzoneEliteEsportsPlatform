@@ -4,6 +4,7 @@ import {
   Route,
   ScrollRestoration,
 } from "react-router-dom";
+
 import React from "react";
 import SelectGame from "../../pages/create_tournement_select_game/SelectGame";
 import { HomePage } from "../../pages/home_page/HomePage";
@@ -17,24 +18,26 @@ import PlayerList from "../../pages/organizer_dashboard/components/Players/Playe
 import AddPlayer from "../../pages/organizer_dashboard/components/Players/addPlayer";
 import EditePlayer from "../../pages/organizer_dashboard/components/Players/editePlayer";
 import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
-import OrganizerLogin from "../../pages/organizer_dashboard/components/OrganizerLogin/OrganizerLogin";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import JoinedTournaments from "../../pages/JoinedTournaments/JoinedTournaments";
-import LoginPage  from "../../pages/loginPage/LogIn";
+import LoginPage from "../../pages/loginPage/LogIn";
+import AnnouncementsPage from "../../pages/organizer_dashboard/components/AnnouncementsPage/AnnouncementsPage";
+import GameList from "../../pages/organizer_dashboard/components/Games/ListGame";
+import OrganizerLogin from "../../pages/login/OrganizerLogin";
+import SupervisorLogin from "../../pages/login/SupervisorLogin";
+
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
 
 const RoutesManger = () => {
+
   return (
-    <React.Fragment>
+    <BrowserRouter>
       <Routes>
         <Route path="/">
           <Route index element={<HomePage />} />
-          <Route
-            path="/joined-tournaments/:userId"
-            element={<JoinedTournaments />}
-          ></Route>
+
 
           <Route path="organizer/">
             <Route index element={<OrganizerLogin />} />
@@ -48,6 +51,15 @@ const RoutesManger = () => {
                   element={<EditeSupervisor />}
                 />
               </Route>
+
+              <Route path="games/">
+                <Route index element={<GameList />} />
+                <Route path="add" element={<h1>addgame</h1>} />
+                <Route
+                  path="edit/:gameId"
+                  element={<h1>editegame</h1>}
+                />
+              </Route>
               <Route path="players/">
                 <Route index element={<PlayerList />} />
                 <Route path="add" element={<AddPlayer />} />
@@ -57,9 +69,16 @@ const RoutesManger = () => {
                 <Route index element={<SelectGame />} />
                 <Route
                   path="tournament-setup/:gameName"
-                  element={<TournamentForm request={createTournamentRequest} />}
+                  element={
+                    <TournamentForm request={createTournamentRequest} />
+                  }
                 />
               </Route>
+              <Route
+                path="edit/:supervisorId"
+                element={<EditeSupervisor />}
+              />
+              <Route path="announcements/:tournamentId" element={<AnnouncementsPage />} />
               <Route
                 path="management/:tournamentId"
                 element={<TournamentForm request={updateTournamentRequest} />}
@@ -69,13 +88,28 @@ const RoutesManger = () => {
                 element={<Matches userType="organizer" />}
               />
             </Route>
+
+
+            <Route path="players/">
+              <Route index element={<PlayerList />} />
+              <Route path="add" element={<AddPlayer />} />
+              <Route path="edit/:playerId" element={<EditePlayer />} />
+            </Route>
+            <Route path="select-game/">
+              <Route index element={<SelectGame />} />
+              <Route
+                path="tournament-setup/:gameName"
+                element={<TournamentForm request={createTournamentRequest} />}
+              />
+            </Route>
+
           </Route>
 
           <Route path="supervisor/">
-            <Route index element={<h1>Login</h1>} />
+            <Route index element={<SupervisorLogin />} />
             <Route path="tournaments">
               <Route index element={<Tournaments />} />
-              <Route path=":id" element={<Matches userType="supervisor" />} />
+              <Route path=":id" element={<Matches />} />
             </Route>
           </Route>
 
@@ -93,8 +127,14 @@ const RoutesManger = () => {
             }
           />
         </Route>
+
+
+
+
+
       </Routes>
-    </React.Fragment>
+    </BrowserRouter>
+
   );
 };
 export default RoutesManger;

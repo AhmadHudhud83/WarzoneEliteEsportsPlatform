@@ -1,12 +1,11 @@
 @font-face {
     font-family: Kardust Condensed;
-  src: url('../../../public/assets/fonts/Kardust Condensed Bold.otf');
+    src: url('../../../public/assets/fonts/Kardust Condensed Bold.otf');
 }
 
-footer {
-    font-family:'Kardust Condensed';
+.main-footer {
+    font-family: 'Kardust Condensed';
     width: 100%;
-    position: absolute;
     padding: 20px;
     padding-right: 0;
     background: linear-gradient(to right, #250053, #000000);
@@ -15,87 +14,68 @@ footer {
     border-top-left-radius: 125px;
     font-size: 13px;
     line-height: 25px;
-    display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px 0;
-
 }
 
-
-footer .list-unstyled {
+.main-footer .list-unstyled {
     line-height: 1.9;
     font-size: 15px;
     box-sizing: border-box;
     color: #869fb2;
 }
 
-
-
-footer .logo {
+.main-footer .logo {
     width: 100px;
     height: auto;
     margin-bottom: 10px;
-
 }
 
-footer .row {
+.main-footer .row {
     color: #ffffff;
     opacity: 0.8;
     margin: 10px;
     font-size: 18px;
-
 }
 
-
-
-footer .footer-button {
+.main-footer .footer-button {
     color: #bac8d3;
     padding-top: 20px;
     border-top: 1px solid #300367;
     display: flex;
 }
 
-
-
-
-footer .socials {
+.main-footer .socials {
     display: flex;
     justify-content: space-between;
-
 }
 
-
-footer .socials a i {
+.main-footer .socials a i {
     color: #fff;
     font-size: 30px;
     margin-right: 40px;
-
 }
 
-footer .dropdown-loc {
+.main-footer .dropdown-loc {
     display: flex;
     justify-content: flex-end;
-
 }
 
-footer .footer-hover:hover {
-
-    color: #7c4372
+.main-footer .footer-hover:hover {
+    color: #7c4372;
 }
 
-footer .footer-hover {
+.main-footer .footer-hover {
     text-decoration: none;
     color: #869fb2;
 }
 
-
-footer .hide-fot {
+.main-footer .hide-fot {
     display: none;
-
 }
 
-footer .para-sign {
+.main-footer .para-sign {
     color: #869fb2;
     padding-top: 10%;
     padding-bottom: 2%;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-
+import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
 
 
 
@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 function PlayerList(){
 
     const [players, SetAllPlayers] = useState([]);
+    const {isAuthChecked } =OrganizerAuthCheck();
+
 
 
     useEffect(() => {
@@ -36,6 +38,10 @@ function PlayerList(){
 
 
 
+
+    if (!isAuthChecked) {
+        return <div>Loading...</div>;
+      }
 
     return(
         <div className="container-xxl bg-dark">

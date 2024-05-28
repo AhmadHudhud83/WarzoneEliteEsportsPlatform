@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 //BY islam
 export const DynamicForm = forwardRef(
-  ({ isAgreed, setIsAgreed, request, tournamentObject,validationErrors }, ref) => {
+  ({ isAgreed, setIsAgreed, request, tournamentObject, validationErrors }, ref) => {
     const params = useParams();
     const requiredParamsFunction = () => {//selecting the parameter based on the request
       if (request === "CREATE_TOURNAMENT") return "gameName";
@@ -24,6 +24,8 @@ export const DynamicForm = forwardRef(
           .post("http://localhost:5000/api/tournaments/", tournamentObject)
           .then((res) => console.log(res))
           .catch((err) => console.error(err));
+
+        navigate("/organizer/dashboard");
       } else if (request === "UPDATE_TOURNAMENT") {
         console.log("THIS IS AN UPDATING TOURNAMENT REQUEST");
         if (tournamentObject) {
@@ -92,7 +94,7 @@ export const DynamicForm = forwardRef(
               id="policyAgreement"
               checked={isAgreed}
               onChange={(e) => setIsAgreed(e)}
-              // onMouseOver={() => console.log(formData)}
+            // onMouseOver={() => console.log(formData)}
             />
             <label className="mx-4" htmlFor="policyAgreement">
               I agree to website's policy & community standards
@@ -101,11 +103,11 @@ export const DynamicForm = forwardRef(
           <div className="publish-buttons"></div>
         </div>
 
-        {}
+        { }
 
         <div>
           <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header className="bg-dark "  closeButton>
+            <Modal.Header className="bg-dark " closeButton>
               <Modal.Title className="bg-dark">
                 {modalObject.header}
               </Modal.Title>

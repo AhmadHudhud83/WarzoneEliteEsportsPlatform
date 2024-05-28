@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BasicsForm } from "./componenets/Basics/BasicsForm";
 import { InfoForm } from "./componenets/Info/InfoForm";
 import { SettingsForm } from "./componenets/Settings/SettingsForm";
-import { SupervisorsAndSponsors } from "./componenets/Supervisors_Sponsors/SupervisorsAndSponsors";
+import { SupervisorsAndSponsors } from "./componenets/Sponsors/Sponsors";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DynamicForm from "./componenets/Dynamic/DynamicForm";
 import axios from "axios";
@@ -158,8 +158,6 @@ export const TournamentForm = ({ request }) => {
     //4th page validation
     sponsors: [{ brand: "", email: "" }],
     //other attributes related to the tournament object
-    announcements: ["hi", "bye"],
-    supervisors: ["123", "456"],
     organizerID: "8910",
     //sueprvisosr (array of supervisors ids (object ids))
     // organizer id (when logged in)
@@ -177,12 +175,11 @@ export const TournamentForm = ({ request }) => {
     if (request === "UPDATE_TOURNAMENT" && requiredObject) {
       //for the updating request
       console.log("image path :", requiredObject.cover_image_url);
-      if(requiredObject.cover_image_url.includes("public\\images\\")){
-        setImage(`http://localhost:3000/${requiredObject.cover_image_url}`)
-      }else{
+      if (requiredObject.cover_image_url.includes("public\\images\\")) {
+        setImage(`http://localhost:3000/${requiredObject.cover_image_url}`);
+      } else {
         setImage(requiredObject.cover_image_url);
       }
-      
     }
   }, [setImage, request, requiredObject]);
 
@@ -291,7 +288,7 @@ export const TournamentForm = ({ request }) => {
 
   const requiredAttributes = [
     { filedName: "game", attribute: formData.game },
-   
+
     { filedName: "title", attribute: formData.title },
     { filedName: "start_date", attribute: formData.start_date },
     { filedName: "start_time", attribute: formData.start_time },
@@ -466,14 +463,16 @@ export const TournamentForm = ({ request }) => {
 
               <div className="d-flex ">
                 {/* THE BUTTON STATS LOGIC */}
-                {nav === 0 ?<button
+                {nav === 0 ? (
+                  <button
                     type="button"
                     className="btn btn-danger me-auto "
                     onClick={backHandler}
                     disabled={nav !== 0}
                   >
                     Back
-                  </button> : (
+                  </button>
+                ) : (
                   <button
                     type="button"
                     className="btn btn-danger me-auto "

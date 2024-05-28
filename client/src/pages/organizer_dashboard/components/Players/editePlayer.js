@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
 
 
 
@@ -14,6 +15,7 @@ function EditePlayer(){
         email: '',
         password:''
       });
+      const {isAuthChecked } =OrganizerAuthCheck();
 
 const navigate = useNavigate()
 
@@ -80,8 +82,11 @@ const navigate = useNavigate()
             console.error('Error display Supervisors:', error);
           });
 
-    }, []);
+    }, [playerId]);
    
+    if (!isAuthChecked) {
+        return <div>Loading...</div>;
+    }
     return(
         
         <div className="container">

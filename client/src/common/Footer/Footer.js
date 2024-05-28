@@ -18,10 +18,9 @@ const Footer = () => {
   };
 
   const footerList = [
-    { link: "#", element: t("Tournaments") },
-    { link: "#", element: t("Help Center") },
-    { link: "#", element: t("Privacy and Policy") },
-    { link: "#", element: t("Terms of Use") },
+    { link: "#", element: t("Blog") },
+    { link: "#", element: t("Feedback Center") },
+    { link: "#", element: t("Joined Tournaments") },
     { link: "#", element: t("Contact Us") },
   ];
   const socialMediaList = [
@@ -42,8 +41,8 @@ const Footer = () => {
   };
 
   return (
-    <footer>
-      <div className="main-footer">
+
+      <div className="main-footer ">
         <Link to="/">
           <img
             className="logo"
@@ -173,7 +172,7 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-    </footer>
+    
   );
 };
 
