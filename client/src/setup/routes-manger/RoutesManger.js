@@ -8,6 +8,9 @@ import { OrganizerDashboard } from "../../pages/organizer_dashboard/index";
 import { TournamentForm } from "../../pages/tournament_setup_form/index";
 import DynamicForm from "../../pages/tournament_setup_form/componenets/Dynamic/DynamicForm";
 import axios from "axios";
+import Reports from "../../pages/Reports/Reports"
+import BlogList from '../../pages/Blog/BlogList';
+import BlogDetail from '../../pages/Blog/BlogDetail';
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
@@ -47,7 +50,18 @@ export const RoutesManger = () => {
               path="tournament-overview/:id"
               element={<DetailedTournamentCard />}
             ></Route>
-
+            <Route
+            path="reports"
+            element={<Reports/>}
+            ></Route>
+            <Route
+            path="blog"
+            element={<BlogList/>}
+            ></Route>
+            <Route
+            path="blog/:id"
+            element={<BlogDetail/>}
+            ></Route>
             <Route
               path="*"
               element={
