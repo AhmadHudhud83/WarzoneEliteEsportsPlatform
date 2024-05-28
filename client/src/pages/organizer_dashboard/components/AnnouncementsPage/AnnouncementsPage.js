@@ -215,9 +215,9 @@ const AnnouncementsPage = () => {
               return (
                 <li
                   key={index}
-                  className="list-group-item bg-dark text-white p-4 m-4 d-flex border border-secondary rounded justify-content-between align-items-center"
+                  className="row list-group-item bg-dark text-white p-4 m-4 d-flex border border-secondary rounded justify-content-between align-items-center"
                 >
-                  <div>
+                  <div className="col-md-6">
                     <h3 className="text-muted pb-2  ">{announcement.name}</h3>
 
                     <p className="text-white p-3 pb-0 fs-5   rounded ">
@@ -225,13 +225,14 @@ const AnnouncementsPage = () => {
                     </p>
                     <hr />
                   </div>
-
-                  <span className="badge  text-muted  fs-6 p-2">
-                    {local_date_format(new Date(announcement.date))}
-                    <div className="d-flex">
+                  <div className="col-md-3"/>
+                  
+                  <span className="badge col-md-3 text-muted  fs-6 p-2">
+                 <p className="text-muted">{local_date_format(new Date(announcement.date))}</p> 
+                    <div className="d-flex justify-content-center">
                       <button
                         onClick={() => handleDelete(announcement._id)}
-                        className="btn btn-danger  mt-5 "
+                        className="btn btn-danger  mt-3 "
                       >
                         Delete
                       </button>
@@ -241,7 +242,7 @@ const AnnouncementsPage = () => {
                           setEditingContent(announcement.content);
                           setIndex(announcement._id);
                         }}
-                        className="btn btn-success   mt-5 mx-3 "
+                        className="btn btn-success   mt-3 ms-3 "
                       >
                         Edit
                       </button>

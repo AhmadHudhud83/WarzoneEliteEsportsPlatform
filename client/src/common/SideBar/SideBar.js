@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import './SideBar.css'
 const SideBar = ({elementsList,sideBarTitle}) => {
   return (
     <React.Fragment>
       <div
-      style={{backgroundImage:"url(https://i.imgur.com/5OFllrX.jpeg)"}}
+        style={{backgroundImage:"url(https://i.imgur.com/5OFllrX.jpeg)"}}
         className="offcanvas offcanvas-start side-bar "
         tabIndex={-1}
         id="offcanvasExample"
@@ -30,7 +31,7 @@ const SideBar = ({elementsList,sideBarTitle}) => {
                 <Link
                   key={index}
                   to={item.link}
-                  className="btn btn-md btn-primary text-white  mb-4 custom-btn mt-5 d-block "
+                  className="btn btn-md btn-primary text-white px-0 py-2  mb-4 custom-btn mt-5 d-block "
                   style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}}
                   onClick={item.label==="Logout"?item.request : ""}
                 >
@@ -55,6 +56,7 @@ const SideBar = ({elementsList,sideBarTitle}) => {
           <span className="navbar-toggler-icon" />
         </button>
       </nav>
+     
     </React.Fragment>
   );
 };

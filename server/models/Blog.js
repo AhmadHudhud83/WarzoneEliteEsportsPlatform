@@ -27,6 +27,7 @@ const BlogSchema = new Schema({
         minlength: 3,
         maxlength: 200
     },
+   
     content: {
         type: String,
         required: true,
@@ -55,14 +56,13 @@ const BlogSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    
     views: {
         type: Number,
         default: 0
-    },
-    image: {
-        type: String, 
-        required: true
     }
 });
+
+
 
 export const BlogModel = mongoose.model("Blog", BlogSchema);

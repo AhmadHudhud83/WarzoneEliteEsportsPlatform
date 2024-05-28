@@ -4,9 +4,12 @@ import { json, useNavigate } from "react-router-dom";
 import { useImperativeHandle, forwardRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-//BY islam
-export const DynamicForm = forwardRef(
+
+//source https://www.youtube.com/watch?v=Kfr5EAKMIL0   for calling a child component function from parent 
+// IMPORTANT  :  THIS COMPONENT WERE INTIALLY CREATED BY MEMBER ISLAM YASIN , BUT LATER ON HAD SOME MODIFICATIONS FOR BACKEND LINKING DONE BY AHMAD HUDHUD
+export const DynamicForm = forwardRef(//for calling a child component function from parent
   ({ isAgreed, setIsAgreed, request, tournamentObject, validationErrors }, ref) => {
+    //====================================================(by ahmad hudhud )===============================
     const params = useParams();
     const requiredParamsFunction = () => {//selecting the parameter based on the request
       if (request === "CREATE_TOURNAMENT") return "gameName";

@@ -1,6 +1,5 @@
 import { BlogModel } from "../models/Blog.js";
 import Joi from 'joi';
-
 const commentSchema = Joi.object({
     user: Joi.string().min(3).max(100).required(),
     message: Joi.string().min(1).max(500).required(),
@@ -13,8 +12,14 @@ const blogSchema = Joi.object({
     author: Joi.string().min(3).max(100).required(),
     tags: Joi.array().items(Joi.string().min(1).max(50)).optional(),
     category: Joi.string().required(),
-    image: Joi.string().uri().required(), // Ensure image URL is required and valid
-    comments: Joi.array().items(commentSchema).optional(),
+    featured_image: Joi.string().uri().optional(),
+    comments: Joi.array().items(
+        Joi.object({
+            user: Joi.string().required(),
+            message: Joi.string().required(),
+            posted_at: Joi.date().optional()
+        })
+    ).optional(),
     likes: Joi.number().optional(),
     views: Joi.number().optional(),
     published_date: Joi.date().optional()

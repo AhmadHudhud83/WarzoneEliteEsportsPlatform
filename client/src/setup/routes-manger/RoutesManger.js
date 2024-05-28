@@ -25,6 +25,7 @@ import OrganizerLogin from "../../pages/login/OrganizerLogin";
 import SupervisorLogin from "../../pages/login/SupervisorLogin";
 import BlogList from '../../pages/Blog/BlogList.js'
 import BlogDetail from "../../pages/Blog/BlogDetail.js";
+
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
@@ -107,15 +108,7 @@ const RoutesManger = () => {
             path="tournament-overview/:id"
             element={<DetailedTournamentCard />}
           ></Route>
-          
-            <Route
-            path="blog"
-            element={<BlogList/>}
-            ></Route>
-            <Route
-            path="blog/:id"
-            element={<BlogDetail/>}
-            ></Route>
+
           <Route
             path="*"
             element={
