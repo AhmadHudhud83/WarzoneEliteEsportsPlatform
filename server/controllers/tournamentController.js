@@ -10,11 +10,18 @@ import axios from "axios";
  */
 export const createTournament = async (req, res) => {
   //get games from mongoDB request
-  //if there is no uploaded cover image , then the default cover image will be based in the tournaemnt selected game cover
   const getCoverImageUrl = async (gameName) => {
     let defaultImage = "https://i.imgur.com/KHneQTJ.png";
     try {
-     
+      if (
+        req.body.participants &&
+        req.body.participants.length >= req.body.max_participants
+      ) {
+        return res.status(400).json({
+          message:
+            "Error , participant length cannot be more than max_participants !",
+        });
+      }
       const respones = await axios.get("http://localhost:5000/api/Games");
       const games = respones.data;
       const game = games.find((g) => g.name === gameName);
@@ -51,6 +58,7 @@ export const createTournament = async (req, res) => {
     "type of sponsors attribute from client is : ",
     typeof parsedSponsors
   );
+  //==================JOI VALIDATION (EXPRESS LEVEL VALIDAITON)=====================
   //parse the sponsors array of objects
   req.body.sponsors = parsedSponsors;
   //setting the cover_image_url
@@ -89,7 +97,6 @@ export const createTournament = async (req, res) => {
       supervisors: req.body.supervisors,
       //image:req.file.filename
     });
-   
     const result = await tournament.save();
     res.status(201).json(result);
   } catch (error) {
@@ -223,7 +230,7 @@ export const updateTournament = async (req, res) => {
           contact_details: req.body.contact_details,
           start_date: req.body.start_date,
           start_time: req.body.start_time,
-          // max_participants: req.body.max_participants, there is no ability to modify the tournamnet max _ participants
+          max_participants: req.body.max_participants,
           about: req.body.about,
           rules: req.body.rules,
           prize: req.body.prize,
@@ -241,7 +248,6 @@ export const updateTournament = async (req, res) => {
       { new: true }
     );
     console.log(req.body.cover_image_url);
-
     res.status(200).json(tournament);
   } catch (error) {
     console.error(error);
@@ -271,7 +277,6 @@ export const deleteTournament = async (req, res) => {
   }
 };
 //========================================delete image cover url of tournament function===========================================================
-//source https://www.youtube.com/watch?v=wF-NqY-4L_g
 const deleteTournamentCoverImage = async (req, res) => {
   try {
     const oldTournament = await TournamentModel.findById(req.params.id);

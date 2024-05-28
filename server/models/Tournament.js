@@ -228,7 +228,7 @@ export const tournamentValidation = (tournamentObject, method) => {
         .trim(),
       start_date: Joi.string().trim(),
       start_time: Joi.string().trim(),
-      max_participants: Joi.number().min(10),//not required
+      max_participants: Joi.number().min(10),
     });
   }
 

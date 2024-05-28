@@ -33,4 +33,9 @@
   .background img:nth-child(3) {
     animation-delay: 6s;
   }
-  
+  .BlogList{
+    height:100vh;
+    overflow-y: auto;
+    
+
+  }
