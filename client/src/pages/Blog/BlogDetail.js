@@ -17,10 +17,13 @@ const BlogDetail = () => {
     fetchBlog();
   }, [id]);
 
+
   if (!blog) {
     return <div>Loading...</div>;
   }
 
+
+  
   return (
     <div>
       <Header />
