@@ -24,7 +24,7 @@ import GameList from "../../pages/organizer_dashboard/components/Games/ListGame"
 import OrganizerLogin from "../../pages/login/OrganizerLogin";
 import SupervisorLogin from "../../pages/login/SupervisorLogin";
 import BlogList from '../../pages/Blog/BlogList.js'
-import BlogDetaig from "../../pages/Blog/BlogDetail.js";
+import BlogDetail from "../../pages/Blog/BlogDetail.js";
 
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling

@@ -13,15 +13,7 @@ export const createTournament = async (req, res) => {
   const getCoverImageUrl = async (gameName) => {
     let defaultImage = "https://i.imgur.com/KHneQTJ.png";
     try {
-      if (
-        req.body.participants &&
-        req.body.participants.length >= req.body.max_participants
-      ) {
-        return res.status(400).json({
-          message:
-            "Error , participant length cannot be more than max_participants !",
-        });
-      }
+     
       const respones = await axios.get("http://localhost:5000/api/Games");
       const games = respones.data;
       const game = games.find((g) => g.name === gameName);
