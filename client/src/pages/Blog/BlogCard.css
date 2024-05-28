@@ -1,0 +1,13 @@
+.blog-card {
+    max-height: 500px;
+    object-fit: cover;
+  }
+  
+  .blog-title {
+    color: #007bff;
+  }
+  
+  .blog-content {
+    color: gray;
+  }
+  

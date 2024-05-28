@@ -23,21 +23,19 @@ import AnnouncementsPage from "../../pages/organizer_dashboard/components/Announ
 import GameList from "../../pages/organizer_dashboard/components/Games/ListGame";
 import OrganizerLogin from "../../pages/login/OrganizerLogin";
 import SupervisorLogin from "../../pages/login/SupervisorLogin";
-import PlayerLogin from "../../pages/login/PlayerLogin.js";
-import PlayerSignup from "../../pages/login/PlayerSignup";
+import BlogList from '../../pages/Blog/BlogList'
+import BlogDetail from "../../pages/Blog/BlogDetail";
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
 
 const RoutesManger = () => {
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/">
           <Route index element={<HomePage />} />
-          <Route path="login" element={<PlayerLogin />} />
-          <Route path="signup" element={<PlayerSignup />} />
+
           <Route path="organizer/">
             <Route index element={<OrganizerLogin />} />
             <Route path="dashboard/">
@@ -54,10 +52,7 @@ const RoutesManger = () => {
               <Route path="games/">
                 <Route index element={<GameList />} />
                 <Route path="add" element={<h1>addgame</h1>} />
-                <Route
-                  path="edit/:gameId"
-                  element={<h1>editegame</h1>}
-                />
+                <Route path="edit/:gameId" element={<h1>editegame</h1>} />
               </Route>
               <Route path="players/">
                 <Route index element={<PlayerList />} />
@@ -68,16 +63,14 @@ const RoutesManger = () => {
                 <Route index element={<SelectGame />} />
                 <Route
                   path="tournament-setup/:gameName"
-                  element={
-                    <TournamentForm request={createTournamentRequest} />
-                  }
+                  element={<TournamentForm request={createTournamentRequest} />}
                 />
               </Route>
+              <Route path="edit/:supervisorId" element={<EditeSupervisor />} />
               <Route
-                path="edit/:supervisorId"
-                element={<EditeSupervisor />}
+                path="announcements/:tournamentId"
+                element={<AnnouncementsPage />}
               />
-              <Route path="announcements/:tournamentId" element={<AnnouncementsPage />} />
               <Route
                 path="management/:tournamentId"
                 element={<TournamentForm request={updateTournamentRequest} />}
@@ -87,7 +80,6 @@ const RoutesManger = () => {
                 element={<Matches userType="organizer" />}
               />
             </Route>
-
 
             <Route path="players/">
               <Route index element={<PlayerList />} />
@@ -101,7 +93,6 @@ const RoutesManger = () => {
                 element={<TournamentForm request={createTournamentRequest} />}
               />
             </Route>
-
           </Route>
 
           <Route path="supervisor/">
@@ -116,7 +107,15 @@ const RoutesManger = () => {
             path="tournament-overview/:id"
             element={<DetailedTournamentCard />}
           ></Route>
-
+          
+            <Route
+            path="blog"
+            element={<BlogList/>}
+            ></Route>
+            <Route
+            path="blog/:id"
+            element={<BlogDetail/>}
+            ></Route>
           <Route
             path="*"
             element={
@@ -126,14 +125,8 @@ const RoutesManger = () => {
             }
           />
         </Route>
-
-
-
-
-
       </Routes>
     </BrowserRouter>
-
   );
 };
 export default RoutesManger;
