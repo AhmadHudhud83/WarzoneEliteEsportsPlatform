@@ -108,7 +108,14 @@ const RoutesManger = () => {
             path="tournament-overview/:id"
             element={<DetailedTournamentCard />}
           ></Route>
-
+            <Route
+            path="blog"
+            element={<BlogList/>}
+            ></Route>
+            <Route
+            path="blog/:id"
+            element={<BlogDetail/>}
+            ></Route>
           <Route
             path="*"
             element={
