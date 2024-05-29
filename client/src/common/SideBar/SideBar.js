@@ -43,6 +43,8 @@ const SideBar = ({ elementsList, sideBarTitle }) => {
                 </Link>
               );
             })}
+            {sideBarTitle!=="Organizer Dashboard"?
+            
             <div id="logout-btn">
               {playerId ? <LogoutButton /> :
                 <Link
@@ -54,7 +56,10 @@ const SideBar = ({ elementsList, sideBarTitle }) => {
                 </Link>
               }
             </div>
-
+            :<></>
+            
+            }
+            
           </div>
         </div>
       </div>
@@ -69,7 +74,7 @@ const SideBar = ({ elementsList, sideBarTitle }) => {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon" />
-        </button>
+        </button> 
       </nav>
 
     </React.Fragment>
