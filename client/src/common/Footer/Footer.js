@@ -119,17 +119,7 @@ const Footer = () => {
                 <p className="para-sign">
                   {t("Get exclusive assets sent straight to your inbox")}
                 </p>
-                <ul className="signup-footer">
-                  <li>
-                    <Link
-                      style={buttonStyle}
-                      className="btn btn-primary footer-hover1"
-                      to=""
-                    >
-                      {t("Sign up")}
-                    </Link>
-                  </li>
-                </ul>
+                
               </div>
             </div>
           </div>

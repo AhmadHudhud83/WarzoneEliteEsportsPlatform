@@ -25,9 +25,7 @@ export const OrganizerDashboard = () => {
   //   currentPage * pageSize
   // );
   //=========================HERE DEFINE THE LOGOUT REQUEST FOR THE CUSTOM SIDEBAR LOGOUT BUTTON go
-  const OrganizerLogoutRequest = ()=>{
-    console.log("LOGGED OUT !")
-  }
+
   const dashboardElements = [
     {
       label: "New Tournament",
@@ -65,12 +63,7 @@ export const OrganizerDashboard = () => {
       link: "/feedbacks",
       icon: <i className="me-2 fa-solid fa-comments" />,
     },
-    {
-      label: "Logout",
-      link: "/organizer",
-      icon: <i className="fa-solid fa-right-from-bracket fa-rotate-180 me-3" />,
-      request:OrganizerLogoutRequest
-    },
+ 
   ];
 
   const fetchTournaments = async (page, pageSize) => {
@@ -146,7 +139,7 @@ export const OrganizerDashboard = () => {
           <div className="custom-contaner  mb-4" >
             <div className="d-flex">
             <SideBar elementsList={dashboardElements} sideBarTitle="Organizer Dashboard" />
-            <LogoutButton pageName="organizer"/>
+           <div className="ms-auto align-self-center"> <LogoutButton pageName="organizer"/></div>
             </div>
             
 
