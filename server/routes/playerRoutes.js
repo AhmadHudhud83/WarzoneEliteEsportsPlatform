@@ -2,7 +2,7 @@
 import  express  from "express";
 import { body,query} from "express-validator";
 import{validate} from"../Utils/validator.js";
-import { AllPlayer, DeletePlayer, GetPlayer, LoginPlayer, SignUpPlayer, UpdatePlayer } from "../controllers/playerController.js";
+import { AllPlayer, DeletePlayer, GetPlayer, LoginPlayer, SignUpPlayer, UpdatePlayer } from "../controllers/PlayerController.js";
 
 import { StatusCode } from "../HTTPStatusCode/StatusCode.js";
 
