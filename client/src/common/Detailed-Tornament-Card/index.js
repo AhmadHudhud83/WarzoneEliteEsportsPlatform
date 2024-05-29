@@ -10,7 +10,6 @@ import Sponsors from "./top-navbar-components/Sponsors/Sponsors";
 import ParticipatingModal from "../participating_modal/ParticipatingModal";
 import Matches from "../../pages/supervisor_dashboard/matches/Matches";
 import Footer from "../Footer/Footer";
-import RegestrationCard from "./RegistrationCard/RegistrationCard";
 import { useTranslation } from "react-i18next";
 
 export const useTournamentDetails = createContext();
