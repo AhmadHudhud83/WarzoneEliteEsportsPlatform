@@ -1,11 +1,19 @@
 import React from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const LogoutButton = ({ pageName }) => {
   const handleLogout = async (pageName) => {
     try {
-      const response = await axios.post('http://localhost:5000/user/logout', {}, { withCredentials: true });
-      console.log(response);
+      const response = await axios.post('http://localhost:5000/user/logout', {}, { withCredentials: true })
+        .then((response) => {
+          if (pageName === "login") {
+            Cookies.remove('user_id');
+          } else {
+            Cookies.remove('supervisor_id');
+          }
+          return response;
+        });
       if (response.status === 200) {
         window.location.href = `/${pageName}`;
       } else {

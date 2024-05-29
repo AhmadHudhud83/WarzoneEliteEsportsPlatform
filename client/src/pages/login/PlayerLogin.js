@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const PlayerLogin = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const PlayerLogin = () => {
         try {
             const response = await axios.post('http://localhost:5000/player/login', formData, { withCredentials: true });
             if (response.data) {
-                sessionStorage.setItem('player_id', response.data.user_id);
+                Cookies.set('user_id', response.data.user_id);
                 navigate('/');
             }
         }

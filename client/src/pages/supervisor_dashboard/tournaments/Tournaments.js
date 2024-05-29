@@ -4,6 +4,7 @@ import Header from "../components/header/Header";
 import styles from "./Tournaments.module.css";
 import TournamentCard from "../components/tournament_card/TournamentCard";
 import SupervisorAuthCheck from "../../CheckAuth/SupervisorCheckAuth";
+import Cookies from "js-cookie";
 
 function TournamentPage() {
   const [tournaments, setTournaments] = useState([]);
@@ -11,8 +12,8 @@ function TournamentPage() {
   const { isAuthChecked } = SupervisorAuthCheck();
 
   useEffect(() => {
-    // Retrieve the current supervisor id from the session storage
-    const supervisorId = sessionStorage.getItem("supervisor_id");
+    // Retrieve the current supervisor id from the Cookies
+    const supervisorId = Cookies.get("supervisor_id");
 
     // Fetch the tournaments which the supervisor is part of its supervisors array
     axios
