@@ -1,5 +1,5 @@
 import  express  from "express";
-import { CheckAuthAdmin, CheckAuthPlayer, CheckAuthSupervisor } from "../controllers/AuthenticationController.js";
+import { CheckAuthAdmin, CheckAuthPlayer, CheckAuthSupervisor, logout } from "../controllers/AuthenticationController.js";
 
 
 export const AuthRoute = express.Router();
@@ -19,3 +19,8 @@ AuthRoute.get('/player/check-auth' , async(req,res)=>{
     CheckAuthPlayer(req,res);
 }
 );
+
+
+AuthRoute.post('/user/logout' , async(req,res)=>{
+    logout(req,res);
+})

@@ -20,9 +20,10 @@ export const LoginOrganaizer = async(req,res)=>{
         if (!isPasswordCorrect) {
             return res.status(StatusCode.NotFound).send('Incorrect password');
         }
+        
 
         req.session.admin_id = user._id;
-
+        
         return res.status(StatusCode.Ok).send('Welcome to the home page');
     } catch (error) {
         console.error('Login error:', error);

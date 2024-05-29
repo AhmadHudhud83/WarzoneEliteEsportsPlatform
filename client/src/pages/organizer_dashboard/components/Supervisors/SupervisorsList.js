@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
+import LogoutButton from "../../../Logout/logout";
 
 
 
