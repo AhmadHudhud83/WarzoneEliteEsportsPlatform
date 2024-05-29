@@ -10,22 +10,35 @@ import Sponsors from "./top-navbar-components/Sponsors/Sponsors";
 import ParticipatingModal from "../participating_modal/ParticipatingModal";
 import Matches from "../../pages/supervisor_dashboard/matches/Matches";
 import Footer from "../Footer/Footer";
+import { useTranslation } from "react-i18next";
 
 export const useTournamentDetails = createContext();
 
 export const DetailedTournamentCard = (props) => {
+  const { id } = useParams();
+  const userId = localStorage.getItem("player_id");
+  const [loading, setLoading] = useState(true);
+  const [tournamentDetails, setTournamentDetails] = useState(null);
+  const [participated, setParticipated] = useState(false);
+  const { t, i18n } = useTranslation();
+  const [showReportBox, setShowReportBox] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [gameTag, setGameTag] = useState("");
+  const [discordTag, setDiscordTag] = useState("");
   const navigate = useNavigate();
 
 
-  const [loading, setLoading] = useState(true);
-  const [tournamentDetails, setTournamentDetails] = useState(null);
-  const { id } = useParams();
-  const userId = localStorage.getItem("userId");
-  const [participated, setParticipated] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [name, setName] = useState('');
-  const [gameTag, setGameTag] = useState('');
-  const [discordTag, setDiscordTag] = useState('');
+  const handleReportClick = () => {
+    setShowReportBox(true);
+  };
+
+  const handleCloseReportBox = () => {
+    setShowReportBox(false);
+  };
+  const handleOpenReportBox = () => {
+    setShowReportBox(false);
+  };
   const fetchTournamentDetails = () => {
     axios
       .get(`/api/tournaments/${id}`)
@@ -123,7 +136,7 @@ export const DetailedTournamentCard = (props) => {
     return <h1>Error 404 ,Page not found</h1>;
   }
 
-  // handle participation button click which checks if user is logged in and then adds or removes user from tournament
+
   const handleParticipation = () => {
     if (tournamentDetails.registeration_status === "Closed") {
       return; // If registration is closed, do nothing
@@ -176,14 +189,7 @@ export const DetailedTournamentCard = (props) => {
   return (
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentDetails}>
-        <ParticipatingModal
-          show={showModal}
-          onClose={() => setShowModal(false)}
-          onConfirm={handleConfirm}
-          name={name} setName={setName}
-          gameTag={gameTag} setGameTag={setGameTag}
-          discordTag={discordTag} setDiscordTag={setDiscordTag}
-        />
+
 
         <div className="d-flex my-5 container org-cont" id="tournament-details-container">
 
@@ -234,36 +240,78 @@ export const DetailedTournamentCard = (props) => {
                 </div>
                 {topNavElements.map((item, index) => {
                   return <React.Fragment key={index}>{activeTopComponent === index && item.component}</React.Fragment>
-                })}
+                })} <div className="btn-group">
+                  <button type="button" className="btn btn-danger">
+                    {t("Report")}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                    data-bs-toggle="dropdown"
+                    aria-expanded={showReportBox}
+                  >
+                    <span className="visually-hidden">Toggle Dropdown</span>
+                  </button>
+                  <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" >{t("Action")}</a></li>
+                    <li><a className="dropdown-item" >{t("Another action")}</a></li>
+                    <li><a className="dropdown-item" >{t("Something else here")}</a></li>
+                    <li>
+                      <a className="dropdown-item" onClick={handleReportClick}>
+                        {t("Other")} ...
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                {showReportBox && (
+                  <div className="report-box">
+                    <textarea className="write-box" placeholder="Write your report here..." />
+                    <button className="close-btn" onClick={handleCloseReportBox}>{t("Close")}</button>
+                    <button className="submit-btn" onClick={handleOpenReportBox}>{t("Submit")}</button>
+
+                  </div>
+                )}
               </div>
             </div>
 
           </div>
-          {showRegCard && <div className="col-md-3 me-auto ms-4 bg-dark  h-50  rounded border border-danger py-5 " id="participation-container">
-            <h3>Registration {tournamentDetails.registeration_status}</h3> {/* Registration status */}
-            <p className="mb-4">
-              {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""} {/* If tournament is ongoing, show current round */}
-            </p>
-            <hr className="mx-3 " />
-            <h5 className="text-start mt-5 mx-3 mb-4">{`${tournamentDetails.participants.length} / ${tournamentDetails.max_participants}  `}Participants Registered</h5>
-            {/* If user is logged in, show participation button */}
-            <button
-              className="btn btn-primary ml-3"
-              id={participated ? "participated" : ""}
-              onClick={handleParticipation}
-              disabled={tournamentDetails.registeration_status !== "Opened"} >
-              {
-                participated ? // If user is already participating, and registration is opened, show drop out button
-                  tournamentDetails.registeration_status === "Opened" ?
-                    "Drop Out" : "Participated" : tournamentDetails.registeration_status === "Opened" ?
-                    "Participate" : "Registration Closed"
-              }
-            </button>
-          </div>}
-        </div>
+          {showRegCard &&
 
+            <div className="col-md-3 me-auto ms-4 bg-dark  h-50  rounded border border-danger py-5 " id="participation-container">
+              <h3>Registration {tournamentDetails.registeration_status}</h3> {/* Registration status */}
+              <p className="mb-4">
+                {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""} {/* If tournament is ongoing, show current round */}
+              </p>
+              <hr className="mx-3 " />
+              <h5 className="text-start mt-5 mx-3 mb-4">{`${tournamentDetails.participants.length} / ${tournamentDetails.max_participants}  `}Participants Registered</h5>
+
+
+
+              <button
+                className="btn btn-primary ml-3"
+                id={participated ? "participated" : ""}
+                onClick={handleParticipation}
+                disabled={tournamentDetails.registeration_status !== "Opened"} >
+                {
+                  participated ? // If user is already participating, and registration is opened, show drop out button
+                    tournamentDetails.registeration_status === "Opened" ?
+                      "Drop Out" : "Participated" : tournamentDetails.registeration_status === "Opened" ?
+                      "Participate" : "Registration Closed"
+                }
+              </button>
+            </div>
+          }
+        </div>
+        <ParticipatingModal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onConfirm={handleConfirm}
+          name={name} setName={setName}
+          gameTag={gameTag} setGameTag={setGameTag}
+          discordTag={discordTag} setDiscordTag={setDiscordTag}
+        />
         <Footer></Footer>
       </useTournamentDetails.Provider>
-    </React.Fragment>
+    </React.Fragment >
   );
 };

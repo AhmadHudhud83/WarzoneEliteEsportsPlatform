@@ -1,35 +1,37 @@
-import React, { useContext,useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { Details } from "../../bottom-navbar-components/Details/Details";
 import { Prizes } from "../../bottom-navbar-components/Prizes/Prizes";
 import { Rules } from "../../bottom-navbar-components/Rules/Rules";
 import { Schedule } from "../../bottom-navbar-components/Schedule/Schedule";
 import { Contact } from "../../bottom-navbar-components/Contact/Contact";
+import { useTranslation } from 'react-i18next'
 
 import { useTournamentDetails } from "../..";
 
 export const Overview = () => {
-  
+  const { t, i18n } = useTranslation()
+
 
   const tournamentDetails = useContext(useTournamentDetails);
   const [image, setImage] = useState("https://i.imgur.com/R8Ze4GS.png");
   useEffect(() => {
-    
+
     console.log("image path :", tournamentDetails.cover_image_url);
-    if(tournamentDetails.cover_image_url.includes("public\\images\\")){
+    if (tournamentDetails.cover_image_url.includes("public\\images\\")) {
       setImage(`http://localhost:3000/${tournamentDetails.cover_image_url}`)
-    }else{
+    } else {
       setImage(tournamentDetails.cover_image_url);
     }
-    
+
   }
-, []);
+    , []);
   const bottomNavElements = [
-    { element: "CONTACT", component: <Contact /> },
-    { element: "DETAILS", component: <Details /> },
-    { element: "RULES", component: <Rules /> },
-    { element: "PRIZES", component: <Prizes /> },
-    { element: "SCHEDULE", component: <Schedule /> },
+    { element: t("CONTACT"), component: <Contact /> },
+    { element: t("DETAILS"), component: <Details /> },
+    { element: t("RULES"), component: <Rules /> },
+    { element: t("PRIZES"), component: <Prizes /> },
+    { element: t("SCHEDULE"), component: <Schedule /> },
   ];
 
   const [activeBottomComponent, setActiveBottomComponent] = useState(0);
@@ -63,29 +65,27 @@ export const Overview = () => {
         </div>
 
         <ul className="nav nav-pills card-header-pills mt-3 d-flex justify-content-center   ">
-        
-       
+
+
           {bottomNavElements.map((item, index) => {
             return (
               <li
                 style={{ cursor: "pointer" }}
                 key={index}
-                className={`nav-item  ${
-                  activeBottomNav === index
-                    ? "active border-bottom border-4 border-danger "
-                    : ""
-                }`}
+                className={`nav-item  ${activeBottomNav === index
+                  ? "active border-bottom border-4 border-danger "
+                  : ""
+                  }`}
               >
                 <p
                   onClick={() => {
                     handleBottomComponent(index);
                     handleActiveBottomNav(index);
                   }}
-                  className={`nav-link ${
-                    activeBottomNav === index
-                      ? "fs-5 text-white"
-                      : " fs-5 text-success"
-                  }`}
+                  className={`nav-link ${activeBottomNav === index
+                    ? "fs-5 text-white"
+                    : " fs-5 text-success"
+                    }`}
                 >
                   {item.element}
                 </p>
@@ -93,12 +93,12 @@ export const Overview = () => {
             );
           })}
         </ul>
-  
+
         {bottomNavElements.map(
           (item, index) => <React.Fragment key={index}>{activeBottomComponent === index && item.component}</React.Fragment>
         )}
       </div>
-  
+
     </React.Fragment>
   );
 };
