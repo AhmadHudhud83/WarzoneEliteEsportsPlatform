@@ -15,7 +15,8 @@ import {
   removePlayer,
   getAllTournamentsPaginatedByGame,
   getSupervisors,
-  updateSupervisors
+  updateSupervisors,
+  getTournamentsSupervised
 } from "../controllers/tournamentController.js";
 
 const tournamentRouter = express.Router();
@@ -119,6 +120,18 @@ tournamentRouter.patch("/:tournamentId/supervisors", async (req, res) => {
     const { newSupervisors } = req.body;
     await updateSupervisors(tournamentId, newSupervisors);
     res.json("Supervisors updated successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+});
+
+// Get all tournaments supervised by a supervisor
+tournamentRouter.get("/supervised/:supervisorId", async (req, res) => {
+  try {
+    const { supervisorId } = req.params;
+    const tournaments = await getTournamentsSupervised(supervisorId);
+    res.json(tournaments);
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);

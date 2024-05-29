@@ -468,6 +468,15 @@ export const getTournaments = async () => {
   return tournaments;
 };
 
+// Get the tournaments supervised by a supervisor
+export const getTournamentsSupervised = async (supervisorId) => {
+  // Fetch tournamnets where the supervisor is part of the supervisors array
+  const tournaments = await TournamentModel.find({
+    'supervisors._id': supervisorId,
+  });
+  return tournaments;
+};
+
 // Reset the tournament
 export const resetTournament = async (tournamentId) => {
   // Fetch the tournament document

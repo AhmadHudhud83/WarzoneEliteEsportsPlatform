@@ -16,7 +16,7 @@ import { feedbackRouter } from "./routes/feedbackRoutes.js";
 import { blogRouter } from "./routes/blogRoutes.js";
 import { tournamentAnnouncementsRouter } from "./routes/tournamentAnnouncementsRoute.js";
 import { AuthRoute } from "./routes/authenticationRoutes.js";
-
+import cookieParser from 'cookie-parser';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,14 +33,27 @@ const sessionCookieLifeTime = 1000 * 60 * 15;
 app.use(session({
     secret: "Muy8fuSOYHDsR6WOCwNS6K6sy2QmhSEp",
     saveUninitialized:false,
+    resave: false,
     cookie: { 
         maxAge: sessionCookieLifeTime,
         secure: false,
         httpOnly: true,
      },
-    resave: false,
-    store: MongoStore.create({ mongoUrl:  `mongodb+srv://${process.env.AHMAD_HUDHUD_USERNAME}:${process.env.AHMAD_HUDHUD_PASSWORD}@cluster0.ue5yau5.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority&appName=Cluster0` }),
+    store: MongoStore.create(
+      { 
+        mongoUrl:  `mongodb+srv://${process.env.AHMAD_HUDHUD_USERNAME}:${process.env.AHMAD_HUDHUD_PASSWORD}@cluster0.ue5yau5.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority&appName=Cluster0`,
+        dbName: process.env.DATABASE,
+        autoRemove: 'interval',
+        autoRemoveInterval: 10, // Removes expired sessions every 10 minutes
+        mongoOptions: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        },
+        stringify: false
+      }
+    ),
 }));
+app.use(cookieParser());
 app.use(express.json());
 //Routes
 app.use("/api/tournaments", tournamentRouter);

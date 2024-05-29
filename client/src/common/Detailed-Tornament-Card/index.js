@@ -20,7 +20,7 @@ export const DetailedTournamentCard = (props) => {
   const [loading, setLoading] = useState(true);
   const [tournamentDetails, setTournamentDetails] = useState(null);
   const { id } = useParams();
-  const userId = "664cdd1abc4681e2757ee34a";
+  const userId = localStorage.getItem("userId");
   const [participated, setParticipated] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState('');
@@ -91,7 +91,7 @@ export const DetailedTournamentCard = (props) => {
     setActiveTopNav(i);
   };
   const [showRegCard, setShowRegCard] = useState(true);
- 
+
 
   const topNavDisplay = (border, fontSize) => {
     return topNavElements.map((item, index) => {
@@ -186,7 +186,7 @@ export const DetailedTournamentCard = (props) => {
         />
 
         <div className="d-flex my-5 container org-cont" id="tournament-details-container">
-       
+
           <div className="col-md-9 ">
             <h2 className="text-center  pb-3">
               {tournamentDetails.title}
@@ -239,13 +239,13 @@ export const DetailedTournamentCard = (props) => {
             </div>
 
           </div>
-         {showRegCard &&<div className="col-md-3 me-auto ms-4 bg-dark  h-50  rounded border border-danger py-5 " id="participation-container">
+          {showRegCard && <div className="col-md-3 me-auto ms-4 bg-dark  h-50  rounded border border-danger py-5 " id="participation-container">
             <h3>Registration {tournamentDetails.registeration_status}</h3> {/* Registration status */}
             <p className="mb-4">
               {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""} {/* If tournament is ongoing, show current round */}
             </p>
-            <hr className="mx-3 "/>
-            <h5 className="text-start mt-5 mx-3 mb-4">{`${tournamentDetails.participants.length } / ${tournamentDetails.max_participants}  `}Participants Registered</h5>
+            <hr className="mx-3 " />
+            <h5 className="text-start mt-5 mx-3 mb-4">{`${tournamentDetails.participants.length} / ${tournamentDetails.max_participants}  `}Participants Registered</h5>
             {/* If user is logged in, show participation button */}
             <button
               className="btn btn-primary ml-3"
@@ -259,7 +259,7 @@ export const DetailedTournamentCard = (props) => {
                     "Participate" : "Registration Closed"
               }
             </button>
-          </div>} 
+          </div>}
         </div>
 
         <Footer></Footer>

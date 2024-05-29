@@ -1,10 +1,10 @@
 @media (max-width: 576px) {
-    .side-bar {
-      width: 50%; 
-     
-    }
+  .side-bar {
+    width: 50%;
+
+  }
 }
 
-.side-bar{
-  
+#logout-btn {
+  margin-top: 45px;
 }

@@ -25,6 +25,8 @@ import OrganizerLogin from "../../pages/login/OrganizerLogin";
 import SupervisorLogin from "../../pages/login/SupervisorLogin";
 import BlogList from '../../pages/Blog/BlogList.js'
 import BlogDetail from "../../pages/Blog/BlogDetail.js";
+import PlayerLogin from "../../pages/login/PlayerLogin";
+import PlayerSignup from "../../pages/login/PlayerSignup";
 
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
@@ -36,7 +38,8 @@ const RoutesManger = () => {
       <Routes>
         <Route path="/">
           <Route index element={<HomePage />} />
-
+          <Route path="login" element={<PlayerLogin />} />
+          <Route path="signup" element={<PlayerSignup />} />
           <Route path="organizer/">
             <Route index element={<OrganizerLogin />} />
             <Route path="dashboard/">
@@ -108,14 +111,14 @@ const RoutesManger = () => {
             path="tournament-overview/:id"
             element={<DetailedTournamentCard />}
           ></Route>
-            <Route
+          <Route
             path="blog"
-            element={<BlogList/>}
-            ></Route>
-            <Route
+            element={<BlogList />}
+          ></Route>
+          <Route
             path="blog/:id"
-            element={<BlogDetail/>}
-            ></Route>
+            element={<BlogDetail />}
+          ></Route>
           <Route
             path="*"
             element={
