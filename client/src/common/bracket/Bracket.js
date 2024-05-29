@@ -7,8 +7,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
 import SupervisorAuthCheck from "../../pages/CheckAuth/SupervisorCheckAuth";
+import OrganizerAuthCheck from "../../pages/CheckAuth/OrganizerCheckAuth";
 
-const Bracket = ({ user, tournamentId }) => {
+const Bracket = ({ user, tournamentId,viewFlag }) => {
     const { t, i18n } = useTranslation()
     const navigate = useNavigate();
     const [supervisorId, setSupervisorId] = useState(""); // The id of the current supervisor
@@ -18,7 +19,14 @@ const Bracket = ({ user, tournamentId }) => {
     const [selectedTeam, setSelectedTeam] = useState(null); // The team that the supervisor clicked on
     const roundRef = React.createRef(null);
     const [status, setStatus] = useState("Unitialized");
-    const { isAuthChecked } = SupervisorAuthCheck();
+    let isAuthChecked;
+    if(!viewFlag && user==="supervisor"){
+        isAuthChecked  = SupervisorAuthCheck().isAuthChecked;
+    }
+    else if(!viewFlag && user==="organizer"){
+        isAuthChecked=OrganizerAuthCheck().isAuthChecked
+    }
+   
 
     useEffect(() => {
         if (user === "supervisor") {
@@ -63,8 +71,8 @@ const Bracket = ({ user, tournamentId }) => {
         setSelectedTeam(team);
         setIsModalOpen(true);
     }
-
-    if (!isAuthChecked) {
+    
+    if (!isAuthChecked&&!viewFlag) {
         return <div>Loading...</div>;
     }
 

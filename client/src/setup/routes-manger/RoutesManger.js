@@ -81,7 +81,7 @@ const RoutesManger = () => {
               />
               <Route
                 path="matches/:id"
-                element={<Matches userType="organizer" />}
+                element={<Matches userType="organizer" viewFlag={false } />}
               />
             </Route>
 
@@ -103,7 +103,7 @@ const RoutesManger = () => {
             <Route index element={<SupervisorLogin />} />
             <Route path="tournaments">
               <Route index element={<Tournaments />} />
-              <Route path=":id" element={<Matches />} />
+              <Route path=":id" element={<Matches userType="supervisor" viewFlag={false} />} />
             </Route>
           </Route>
 

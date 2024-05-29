@@ -80,7 +80,7 @@ export const DetailedTournamentCard = (props) => {
     {
       link: "#",
       element: "MATCHES",
-      component: <Matches userType="user" />,
+      component: <Matches userType="user" viewFlag={true} />,
     },
     {
       link: "#",
