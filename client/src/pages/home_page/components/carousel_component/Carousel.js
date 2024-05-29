@@ -1,15 +1,18 @@
 import "./Carousel.css";
+import { useTranslation } from 'react-i18next'
 const Carousel = () => {
+  const { t, i18n } = useTranslation()
+
   const carouselItems = [
 
-    {img:"https://i.imgur.com/xf0YhHj.jpeg",caption:" Welcome to the future of gaming   platform where competition meets community and innovation fuels growth.   "},
+    { img: "https://i.imgur.com/xf0YhHj.jpeg", caption: t(" Welcome to the future of gaming   platform where competition meets community and innovation fuels growth.") },
 
-    
-    {img:"https://i.imgur.com/2MLRj63.jpeg",caption:"Discover the journey we're embarking on to redefine video games & eSports titles."},
-    
-    {img:"https://i.imgur.com/QnrDhhp.jpeg",caption:"Enter the battlefield of champions. Our arena is where legends are forged, and the brave rise to become the elite."},
-    
-    
+
+    { img: "https://i.imgur.com/2MLRj63.jpeg", caption: t("Discover the journey we're embarking on to redefine video games & eSports titles.") },
+
+    { img: "https://i.imgur.com/QnrDhhp.jpeg", caption: t("Enter the battlefield of champions. Our arena is where legends are forged, and the brave rise to become the elite.") },
+
+
   ]
   return (
     <div className=" carousel">
@@ -41,23 +44,23 @@ const Carousel = () => {
           />
         </div>
         <div className="carousel-inner  ">
-          {carouselItems.map((item,index)=>{
-            return(<div key={index} className={`carousel-item  rounded ${index===0?"active":""}`}>
-            <img
-              src={item.img}
-              className="d-block img-fluid     "
-              style={{ width: "1300px", height: "600px" ,filter:"brightness(50%)"}}
-              alt="..."
-            />
-            <div className="carousel-caption d-none d-md-block">
-             
-              <h1 className="text-white text-center ">
-              {item.caption}
-              </h1>
-            </div>
-          </div>)
+          {carouselItems.map((item, index) => {
+            return (<div key={index} className={`carousel-item  rounded ${index === 0 ? "active" : ""}`}>
+              <img
+                src={item.img}
+                className="d-block img-fluid     "
+                style={{ width: "1300px", height: "600px", filter: "brightness(50%)" }}
+                alt="..."
+              />
+              <div className="carousel-caption d-none d-md-block">
+
+                <h1 className="text-white text-center ">
+                  {item.caption}
+                </h1>
+              </div>
+            </div>)
           })}
-         
+
         </div>
         <button
           className="carousel-control-prev"

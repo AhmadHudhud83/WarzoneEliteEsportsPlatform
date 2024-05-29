@@ -5,11 +5,13 @@ import Footer from "../../common/Footer/Footer";
 import Carousel from "./components/carousel_component/Carousel";
 import SideBar from "../../common/SideBar/SideBar";
 import BottomBar from "../../common/bottomBar/BottomBar.js";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
 
 import "./HomePage.css";
 
 export const HomePage = () => {
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate();
   const [gamesData, setGamesData] = useState([]);
   const [page, setPage] = useState(1);
@@ -37,7 +39,7 @@ export const HomePage = () => {
   const [tournaments, setTournaments] = useState([]);
   //fetch the tournament data using  async load more button for better performance and optimization  (6 elements atmost)
   useEffect(() => {
-    
+
     axios
       .get(
         `http://localhost:5000/api/tournaments/paginated-by-game?page=${page}&gameName=${selectedGame}`
@@ -52,17 +54,17 @@ export const HomePage = () => {
             ...res.data.tournaments,
           ]); //add the incoming tournament data and added to the current array state using state callback
         }
-        if(selectedGame!==""){
+        if (selectedGame !== "") {
           setTotalTournaments(res.data.totalTournaments);//if selected game not set yet , then dont set the total tournaments length , otherwise it will bug the load more button
         }
 
-      
+
       })
       .catch((e) => {
         console.log(e);
       });
   }, [selectedGame, page]); // if selectedGame or page have been changed , then fetch the new data
- 
+
   const loadMoreHandler = () => {
     setPage((pB) => pB + 1);
   };
@@ -70,27 +72,27 @@ export const HomePage = () => {
   //side bar elements
   const homePageSideBarElements = [
     {
-      label: "Home",
+      label: t("Home"),
       link: "/",
       icon: <i className="me-2 fa-solid fa-house" />,
     },
     {
-      label: "Contact Us ",
+      label: t("Contact Us"),
       link: "/contact",
       icon: <i className="me-2 fa-solid fa-phone" />,
     },
     {
-      label: " Feedback Center",
+      label: t("Feedback Center"),
       link: "/feedback-center",
       icon: <i className="me-2 fa-solid fa-comments" />,
     },
     {
-      label: "Joined Tournaments",
+      label: t("Joined Tournaments"),
       link: "/joined-tournaments",
       icon: <i className="me-2 fa-solid fa-server" />,
     },
     {
-      label: "Sign up",
+      label: t("Sign up"),
       link: "/sign-up",
       icon: <i className=" me-2 fa-solid fa-right-to-bracket" />,
     },
@@ -99,7 +101,7 @@ export const HomePage = () => {
   return (
     <React.Fragment>
       <div className="home-page">
-        
+
         <div className="container ">
           <SideBar
             sideBarTitle={
@@ -135,14 +137,14 @@ export const HomePage = () => {
             })}
           </div>
           <div className="d-flex justify-content-center ">
-            {typeof tournaments[0] === "undefined"? (
+            {typeof tournaments[0] === "undefined" ? (
               <h3 className="text-white my-5 ">
-                No available tournaments for this game...
+                {t("No available tournaments for this game...")}
               </h3>
             ) : tournaments.length >= 6 &&
               tournaments.length < totalTournaments ? (
               <button onClick={loadMoreHandler} className="btn btn-danger mb-5">
-                Load more
+                {t("Load more")}
               </button>
             ) : null}
           </div>

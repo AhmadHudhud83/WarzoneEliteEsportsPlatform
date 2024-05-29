@@ -5,9 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import GameCard from "./components/game_card/GameCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
 
 
 function SelectGame() {
+  const { t, i18n } = useTranslation()
   const searchInput = useRef(null); // Reference to the search input element
   const [searchValue, setSearchValue] = useState(""); // The value of the search input
   const [searchResults, setSearchResults] = useState([]); // The search results
@@ -17,7 +19,7 @@ function SelectGame() {
 
 
 
-//////
+  //////
 
 
   const navigate = useNavigate();
@@ -60,7 +62,7 @@ function SelectGame() {
   return (
     <div id={styles.container}>
       <div className="container-xlg">
-        <h1>SELECT A GAME</h1>
+        <h1>{t("SELECT A GAME")}</h1>
 
         <div id={styles["search-container"]}>
           <FontAwesomeIcon
@@ -81,9 +83,9 @@ function SelectGame() {
         </div>
         {searchValue === "" ? ( // If the search input is empty, show the number of games specified in numGamesToShow
           <>
-            <h2>Most Popular Games</h2>
+            <h2>{t("Most Popular Games")}</h2>
             <div id={styles["games-container"]}>
-              {searchResults.slice(0, numGamesToShow).map((game,index) => (
+              {searchResults.slice(0, numGamesToShow).map((game, index) => (
                 <GameCard key={index} name={game.name} imgUrl={game.imgUrl} />
               ))}
             </div>
@@ -91,15 +93,15 @@ function SelectGame() {
         ) : (
           // If the search input is not empty, show the search results
           <div id={styles["games-container"]}>
-            {searchResults.map((game,index) => (
-              <GameCard  key={index} name={game.name} imgUrl={game.imgUrl} id={game._id} />
+            {searchResults.map((game, index) => (
+              <GameCard key={index} name={game.name} imgUrl={game.imgUrl} id={game._id} />
             ))}
             <div id={styles.contact}>
-              <p>can't find the game? please reach us</p>
-              <a href="contact">here</a>
+              <p>{t("can't find the game? please reach us")}</p>
+              <a href="contact">{t("here")}</a>
             </div>
             <button onClick={backHandler} className="btn btn-danger">
-              Back
+              {t("Back")}
             </button>
           </div>
         )}

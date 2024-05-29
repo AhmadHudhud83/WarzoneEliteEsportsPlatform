@@ -5,8 +5,10 @@ import axios from "axios";
 import UserModal from "../user_modal/UserModal";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
 
 const Bracket = ({ user, tournamentId }) => {
+    const { t, i18n } = useTranslation()
     const navigate = useNavigate();
     const [supervisorId, setSupervisorId] = useState("");
     const [matches, setMatches] = useState([]);
@@ -15,16 +17,16 @@ const Bracket = ({ user, tournamentId }) => {
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [scale, setScale] = useState(1);
     const roundRef = React.createRef(null);
-    const fetchTournamentData = ()=>{
+    const fetchTournamentData = () => {
         axios.get(`http://localhost:5000/api/tournaments/${tournamentId}`)
-        .then((response) => {
-            const tournament = response.data;
-            setMatches(tournament.matches);
-            setCurrentRound(tournament.currentRound);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            .then((response) => {
+                const tournament = response.data;
+                setMatches(tournament.matches);
+                setCurrentRound(tournament.currentRound);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
     useEffect(() => {
         if (user === "supervisor") {
@@ -35,7 +37,7 @@ const Bracket = ({ user, tournamentId }) => {
         }
         fetchTournamentData();
     }, []);
-    const refreshHandler = ()=>{
+    const refreshHandler = () => {
         fetchTournamentData();
     }
 
@@ -59,25 +61,25 @@ const Bracket = ({ user, tournamentId }) => {
 
     return (
         <div id={styles.container}>
-                {user!=="user"? <button onClick={()=>{navigate(-1)}} className="btn text-white btn-danger m-3"> <i className="fa-solid fa-backward me-2" />
-back</button>:<></>} 
+            {user !== "user" ? <button onClick={() => { navigate(-1) }} className="btn text-white btn-danger m-3"> <i className="fa-solid fa-backward me-2" />
+                {t("back")}</button> : <></>}
 
-        
-            <button onClick={()=>refreshHandler()} className="btn m-3 btn-danger "> <i className="fa-solid fa-arrow-rotate-left me-2" />
-refresh</button>
-         
-          
+
+            <button onClick={() => refreshHandler()} className="btn m-3 btn-danger "> <i className="fa-solid fa-arrow-rotate-left me-2" />
+                {t("refresh")}</button>
+
+
             {currentRound === -1 ? (
-                <h2 id={styles.uninitialized}> The tournament hasn't been initialized yet</h2>
-            ) : (   
+                <h2 id={styles.uninitialized}> {t("The tournament hasn't been initialized yet")}</h2>
+            ) : (
                 <div id={matches.length > 4 ? styles.bracket : styles.centered_bracket} style={{ transform: `scale(${scale})` }}
-               >
+                >
                     {matches.map((round, roundIndex) => {
 
                         if (roundIndex <= currentRound) {
                             return (
                                 <div className={styles.round}>
-                                 
+
                                     <h3 onClick={
                                         () => { roundRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
                                     }>
@@ -115,7 +117,7 @@ refresh</button>
                                                                 (match.team2 !== "bye") &&
                                                                 (match.winner === null)
                                                                 ? styles.vis : styles.invis)}
-                                                            onClick={() => handleOutcome(index, match.team2)}>WINNER</button>
+                                                            onClick={() => handleOutcome(index, match.team2)}>{t("WINNER")}</button>
                                                     </div>
                                                 </div>
                                                 <button className={styles.none + " " +
@@ -123,10 +125,10 @@ refresh</button>
                                                         (user === "supervisor" && match.supervisor._id === supervisorId)) &&
                                                         (match.winner === null)
                                                         ? styles.vis : styles.invis)}
-                                                    onClick={() => handleOutcome(index, "none")}>None</button>
+                                                    onClick={() => handleOutcome(index, "none")}>{t("None")}</button>
                                             </div>
                                         ))}
-                                          
+
                                     </div>
 
                                 </div>
@@ -136,12 +138,12 @@ refresh</button>
                         return <div className={styles.round} ref={roundRef}>
                             <h3 onClick={
                                 () => { roundRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-                            }>Round {roundIndex + 1}</h3>
+                            }>{t("Round")} {roundIndex + 1}</h3>
                             <div className={styles.round_div}>
                                 {round.map(() => (
                                     <div className={styles["match-container"]}>
                                         <div className={styles.match}>
-                                            <div className={styles.team + " " + styles.team}>Undecided Yet</div>
+                                            <div className={styles.team + " " + styles.team}>{t("Undecided Yet")}</div>
                                             <div className={styles.team}>{"Undecided Yet"}</div>
                                         </div>
                                     </div>

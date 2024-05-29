@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useTranslation } from 'react-i18next'
 export const TournamentCard = ({ tournament }) => {
-
+  const { t, i18n } = useTranslation()
 
   return (
     <React.Fragment>
@@ -20,8 +20,8 @@ export const TournamentCard = ({ tournament }) => {
           />
           <div className="card-body pb-0    ">
             <div className="d-flex   ">
-            <h5 className="card-title  text-wrap my-4 fs-3"> {tournament.title}</h5>
-            <h5 className="card-text  my-4 fs-6 ms-auto mw-50 rounded-pill p-3  bg-primary" >  {tournament.tournament_status}</h5>
+              <h5 className="card-title  text-wrap my-4 fs-3"> {tournament.title}</h5>
+              <h5 className="card-text  my-4 fs-6 ms-auto mw-50 rounded-pill p-3  bg-primary" >  {tournament.tournament_status}</h5>
             </div>
             <h5 className="text-warning">{tournament.format}</h5>
 
@@ -30,20 +30,20 @@ export const TournamentCard = ({ tournament }) => {
                 <p className="card-text pe-3">{tournament.start_date}</p>
                 <i className="fa-solid fa-calendar-days mb-3"></i>
               </div>
-             
+
               <div className="d-flex align-items-center mt-3 fs-5">
                 <i className="fa-regular fa-clock mb-3"></i>
                 <p className="px-3  "> {tournament.start_time}</p>
               </div>
-              
+
             </div>
           </div>
-          
+
           <hr />
-        
+
           {/* <p className="cart-text px-3 fs-4"> {tournament.about}</p> */}
           <div className="card-footer bg-dark">
-            
+
             <Link
               to={`tournament-overview/${tournament._id}`}
               className="btn btn-outline-light text-white rounded-3 fs-5 mb-4 custom-btn"
@@ -52,7 +52,7 @@ export const TournamentCard = ({ tournament }) => {
                   "linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)",
               }}
             >
-              Go to tournament
+              {t("Go to tournament")}
             </Link>
             <div className="d-flex align-items-center">
               {/* <img
@@ -61,11 +61,11 @@ export const TournamentCard = ({ tournament }) => {
                 style={{ width: 50 }}
                 alt="Avatar"
               /> */}
-             
+
             </div>
           </div>
         </div>
-        
+
       </div>
     </React.Fragment>
   );

@@ -2,7 +2,11 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./registrationCard.css"
 import { useTournamentDetails } from "..";
+import { useTranslation } from 'react-i18next'
+
 const RegistrationCard = () => {
+  const { t, i18n } = useTranslation()
+
   const tournament = useContext(useTournamentDetails);
   const [showReportBox, setShowReportBox] = useState(false);
 
@@ -11,6 +15,9 @@ const RegistrationCard = () => {
   };
 
   const handleCloseReportBox = () => {
+    setShowReportBox(false);
+  };
+  const handleOpenReportBox = () => {
     setShowReportBox(false);
   };
   return (
@@ -24,8 +31,7 @@ const RegistrationCard = () => {
             Registration {tournament.registeration_status}
           </h2>
           <p className="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            {t("Some quick example text to build on the card title and make up the bulk of the card's content.")}
           </p>
 
           <h4>
@@ -35,7 +41,7 @@ const RegistrationCard = () => {
 
           <div className="btn-group">
             <button type="button" className="btn btn-danger">
-              Report
+              {t("Report")}
             </button>
             <button
               type="button"
@@ -46,12 +52,12 @@ const RegistrationCard = () => {
               <span className="visually-hidden">Toggle Dropdown</span>
             </button>
             <ul className="dropdown-menu">
-              <li><a className="dropdown-item" >Action</a></li>
-              <li><a className="dropdown-item" >Another action</a></li>
-              <li><a className="dropdown-item" >Something else here</a></li>
+              <li><a className="dropdown-item" >{t("Action")}</a></li>
+              <li><a className="dropdown-item" >{t("Another action")}</a></li>
+              <li><a className="dropdown-item" >{t("Something else here")}</a></li>
               <li>
                 <a className="dropdown-item" onClick={handleReportClick}>
-                  Other ...
+                 {t("Other")} ...
                 </a>
               </li>
             </ul>
@@ -59,8 +65,8 @@ const RegistrationCard = () => {
           {showReportBox && (
             <div className="report-box">
               <textarea className="write-box" placeholder="Write your report here..." />
-              <button className="close-btn" onClick={handleCloseReportBox}>Close</button>
-              <button className="submit-btn" onClick={handleCloseReportBox}>Submit</button>
+              <button className="close-btn" onClick={handleCloseReportBox}>{t("Close")}</button>
+              <button className="submit-btn" onClick={handleOpenReportBox}>{t("Submit")}</button>
 
             </div>
           )}
@@ -71,7 +77,7 @@ const RegistrationCard = () => {
           className="btn btn-danger "
           disabled={tournament.registeration_status === "Closed"}
         >
-          Join Tournament
+          {t("Join Tournament")}
         </button>
 
       </div>

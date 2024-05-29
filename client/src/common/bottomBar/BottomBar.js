@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
 
 const BottomBar = ({ gamesData, selectedGame, setSelectedGame }) => {
   //bottom bar of games , with functionalites to select a game
+  const { t, i18n } = useTranslation()
+
   return (
     <React.Fragment>
       <div>
@@ -13,17 +16,17 @@ const BottomBar = ({ gamesData, selectedGame, setSelectedGame }) => {
           data-bs-target="#offcanvasTop"
           aria-controls="offcanvasTop"
         >
-          Select your game
+          {t("Select your game")}
         </button>
         <div
           className="offcanvas offcanvas-top  rounded border bg-dark h-50"
-          style={{backgroundImage:"url(https://i.imgur.com/DZMaZjP.jpeg"}}
+          style={{ backgroundImage: "url(https://i.imgur.com/DZMaZjP.jpeg" }}
           tabIndex={-1}
           id="offcanvasTop"
           aria-labelledby="offcanvasTopLabel"
         >
           <div className="offcanvas-header">
-            <h5 id="offcanvasTopLabel">Select your game</h5>
+            <h5 id="offcanvasTopLabel">{t("Select your game")}</h5>
             <Link
               type="button"
               className="btn-close bg-light text-reset"
@@ -40,11 +43,10 @@ const BottomBar = ({ gamesData, selectedGame, setSelectedGame }) => {
                       setSelectedGame(game);
                     }}
                     key={index}
-                    className={` rounded m-3 mb-5 mt-1 btn btn-sm p-1  ${
-                      game.name === selectedGame
-                        ? " border border-3 border-danger btn-outline-danger "
-                        : "border-0 btn-outline-light"
-                    } `}
+                    className={` rounded m-3 mb-5 mt-1 btn btn-sm p-1  ${game.name === selectedGame
+                      ? " border border-3 border-danger btn-outline-danger "
+                      : "border-0 btn-outline-light"
+                      } `}
                     style={{
                       backgroundColor: "",
                       width: "10rem",
