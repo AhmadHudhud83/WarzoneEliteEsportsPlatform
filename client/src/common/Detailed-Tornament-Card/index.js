@@ -11,12 +11,13 @@ import ParticipatingModal from "../participating_modal/ParticipatingModal";
 import Matches from "../../pages/supervisor_dashboard/matches/Matches";
 import Footer from "../Footer/Footer";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 export const useTournamentDetails = createContext();
 
 export const DetailedTournamentCard = (props) => {
   const { id } = useParams();
-  const [userId, setUserId] = useState(sessionStorage.getItem("user_id"));
+  const [userId, setUserId] = useState(Cookies.get("user_id"));
   const [loading, setLoading] = useState(true);
   const [tournamentDetails, setTournamentDetails] = useState(null);
   const [participated, setParticipated] = useState(false);

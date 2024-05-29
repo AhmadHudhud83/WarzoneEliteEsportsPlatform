@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const SupervisorLogin = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const SupervisorLogin = () => {
     try {
       const response = await axios.post('http://localhost:5000/supervisor/login', formData, { withCredentials: true });
       if (response.data) {
-        sessionStorage.setItem('supervisor_id', response.data.supervaisor_id);
+        Cookies.set('supervisor_id', response.data.supervaisor_id);
         navigate('/supervisor/tournaments');
       }
     }

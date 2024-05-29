@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import './SideBar.css'
 import LogoutButton from '../../pages/Logout/logout';
+import Cookies from 'js-cookie';
 
 const SideBar = ({ elementsList, sideBarTitle }) => {
 
 
-  const [playerId, setPlayerId] = React.useState(sessionStorage.getItem('user_id'));
+  const [playerId, setPlayerId] = React.useState(Cookies.get('user_id'));
 
   useEffect(() => {
-    setPlayerId(sessionStorage.getItem('user_id'));
+    setPlayerId(Cookies.get('user_id'));
   }, []);
   return (
     <React.Fragment>

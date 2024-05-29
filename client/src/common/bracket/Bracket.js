@@ -8,8 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
 import SupervisorAuthCheck from "../../pages/CheckAuth/SupervisorCheckAuth";
 import OrganizerAuthCheck from "../../pages/CheckAuth/OrganizerCheckAuth";
+import Cookies from "js-cookie";
 
-const Bracket = ({ user, tournamentId,viewFlag }) => {
+const Bracket = ({ user, tournamentId, viewFlag }) => {
     const { t, i18n } = useTranslation()
     const navigate = useNavigate();
     const [supervisorId, setSupervisorId] = useState(""); // The id of the current supervisor
@@ -20,18 +21,18 @@ const Bracket = ({ user, tournamentId,viewFlag }) => {
     const roundRef = React.createRef(null);
     const [status, setStatus] = useState("Unitialized");
     let isAuthChecked;
-    if(!viewFlag && user==="supervisor"){
-        isAuthChecked  = SupervisorAuthCheck().isAuthChecked;
+    if (!viewFlag && user === "supervisor") {
+        isAuthChecked = SupervisorAuthCheck().isAuthChecked;
     }
-    else if(!viewFlag && user==="organizer"){
-        isAuthChecked=OrganizerAuthCheck().isAuthChecked
+    else if (!viewFlag && user === "organizer") {
+        isAuthChecked = OrganizerAuthCheck().isAuthChecked
     }
-   
+
 
     useEffect(() => {
         if (user === "supervisor") {
-            // Retrieve the current supervisor id from the session storage
-            setSupervisorId(sessionStorage.getItem("supervisor_id"));
+            // Retrieve the current supervisor id from the Cookies
+            setSupervisorId(Cookies.get("supervisor_id"));
         }
         fetchTournamentData();
     }, []);
@@ -71,8 +72,8 @@ const Bracket = ({ user, tournamentId,viewFlag }) => {
         setSelectedTeam(team);
         setIsModalOpen(true);
     }
-    
-    if (!isAuthChecked&&!viewFlag) {
+
+    if (!isAuthChecked && !viewFlag) {
         return <div>Loading...</div>;
     }
 
