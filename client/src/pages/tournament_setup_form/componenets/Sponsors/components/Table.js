@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useSupervisorsAndSponsorsDetails } from "../Sponsors";
+import { useSponsorsDetails } from "../Sponsors";
 //exporting data
 const Table = () => {
   const {
@@ -11,7 +11,11 @@ const Table = () => {
     setValidationErrors,
     validationErrors,
     role,
-  } = useContext(useSupervisorsAndSponsorsDetails);
+  } = useContext(useSponsorsDetails);
+
+  //sources : https://react-bootstrap.netlify.app/docs/components/modal/
+
+
   //SPONSOR VALIDATION , CANCELED .....
   // useEffect(()=>{
   //   if(formData.sponsors.length===0){
@@ -78,7 +82,7 @@ const Table = () => {
   //===========================================================================
   //states for editing sponsor and editing modal
   const [showEditingModal, setShowEditingModal] = useState(false);
-  const [editingIndex, setEditingIndex] = useState(null); //for the index tracingg
+  const [editingIndex, setEditingIndex] = useState(null); //to keep track of the selected sponsor index
   const [editedSponsor, setEditedSponsor] = useState({ brand: "", email: "" }); //state for the current edited sponsor
   const handleCloseEditingModal = () => setShowEditingModal(false);
   //index as the main parameter for each sponsor field to send the deafult values in the inputs, and to update the selected sponsor info
@@ -238,12 +242,12 @@ const Table = () => {
             <button
               className="btn btn-danger ms-auto px-5 my-2 "
               onClick={handleShowAddingModal}
-              onMouseOver={console.log(formData)} ///////////////////////////////////////////////////////////
+            //  onMouseOver={console.log(formData)} ///////////////////////////////////////////////////////////
             >
               ADD SPONSOR
             </button>
           ) : (
-            <></>
+            <></>//if the role isn't admin, then do not show the functionalaties , because table gonna be reused for showing to paricipants
           )}
         </div>
 

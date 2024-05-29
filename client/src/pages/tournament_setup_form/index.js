@@ -2,14 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { BasicsForm } from "./componenets/Basics/BasicsForm";
 import { InfoForm } from "./componenets/Info/InfoForm";
 import { SettingsForm } from "./componenets/Settings/SettingsForm";
-import { SupervisorsAndSponsors } from "./componenets/Sponsors/Sponsors";
+import { Sponsors } from "./componenets/Sponsors/Sponsors";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DynamicForm from "./componenets/Dynamic/DynamicForm";
 import axios from "axios";
 
 //BY AHMAD HUDHUD
-
-export const TournamentForm = ({ request }) => {
+//sources : https://www.youtube.com/watch?v=wOxP4k9f5rk 
+//https://www.youtube.com/watch?v=yra7iNwAjL4&t=690s
+export const TournamentForm = ({ request }) => {// request flag (creating tournament) or(updating an existing tournament)
   const [formData, setFormData] = useState({}); //THE MOST IMPORTANT OBJECT , GLOBAL OBJECT FOR WHOLE FORM DATA INPUTS
   const params = useParams();
   const [loading, setLoading] = useState(true); //loading screen to fix component flash
@@ -239,13 +240,14 @@ export const TournamentForm = ({ request }) => {
           setFormData={handleFormChange}
           setValidationErrors={validationErrorsHandler}
           validationErrors={validationErrors}
+          requestType={request}
         />
       ),
     },
     {
-      text: "SUPERVISORS & SPONSORS",
+      text: "SPONSORS",
       component: (
-        <SupervisorsAndSponsors
+        <Sponsors
           formData={formData}
           setFormData={handleFormChange}
           setValidationErrors={validationErrorsHandler}
@@ -379,6 +381,7 @@ export const TournamentForm = ({ request }) => {
   }
 
   // a function to display the componenet based in the nav stats (using nav as an index)
+  //sources : https://www.youtube.com/watch?v=uFSu6tgYKRY&t=106s
   const NavDisplay = () => {
     return NavElements[nav].component;
   };

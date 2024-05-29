@@ -7,7 +7,8 @@ import axios from "axios";
 import DropDownButton from "../DropdownButton/DropDownButton";
 import SupervisorsModal from "../assign_supervisors_modal/SupervisorsModal.js";
 //pagination using antd library
-
+//sources : https://www.youtube.com/watch?v=MxXZCD0XF2k , https://www.youtube.com/watch?v=rL1L8JSp3A8&t=348s
+//https://ant.design/components/pagination
 const TournamentsTable = ({
   records,
   refreshHandler,
