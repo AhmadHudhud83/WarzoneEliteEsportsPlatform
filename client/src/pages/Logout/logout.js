@@ -4,7 +4,10 @@ import axios from 'axios';
 const LogoutButton = ({ pageName }) => {
   const handleLogout = async (pageName) => {
     try {
-      const response = await axios.post('http://localhost:5000/user/logout', {}, { withCredentials: true });
+      const response = await axios.post('http://localhost:5000/user/logout', {}, { withCredentials: true }).then(
+        sessionStorage.clear()
+
+      )
       console.log(response);
       if (response.status === 200) {
         window.location.href = `/${pageName}`;

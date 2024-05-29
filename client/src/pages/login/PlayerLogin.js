@@ -26,7 +26,7 @@ const PlayerLogin = () => {
         try {
             const response = await axios.post('http://localhost:5000/player/login', formData, { withCredentials: true });
             if (response.data) {
-                sessionStorage.setItem('player_id', response.data.user_id);
+                sessionStorage.setItem('user_id', response.data.user_id);
                 navigate('/');
             }
         }

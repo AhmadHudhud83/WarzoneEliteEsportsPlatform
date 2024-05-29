@@ -16,7 +16,7 @@ export const useTournamentDetails = createContext();
 
 export const DetailedTournamentCard = (props) => {
   const { id } = useParams();
-  const userId = localStorage.getItem("player_id");
+  const [userId, setUserId] = useState(sessionStorage.getItem("user_id"));
   const [loading, setLoading] = useState(true);
   const [tournamentDetails, setTournamentDetails] = useState(null);
   const [participated, setParticipated] = useState(false);
@@ -190,130 +190,130 @@ export const DetailedTournamentCard = (props) => {
     <React.Fragment>
       <useTournamentDetails.Provider value={tournamentDetails}>
 
-<div style={{height:"100vh",overflowY:"auto"}}>
-<div className="d-flex my-5 container org-cont" id="tournament-details-container" >
+        <div style={{ height: "100vh", overflowY: "auto" }}>
+          <div className="d-flex my-5 container org-cont" id="tournament-details-container" >
 
-<div className="col-md-9 ">
-  <h2 className="text-center  pb-3">
-    {tournamentDetails.title}
+            <div className="col-md-9 ">
+              <h2 className="text-center  pb-3">
+                {tournamentDetails.title}
 
-  </h2>
-  <div className="card  text-white bg-secondary cont-1  ">
-    <div className="card-header border ">
-      <div>
-        <div className="collapse " id="navbarToggleExternalContent">
-          <div className="p-0 d-block d-md-block d-lg-none ">
-            <ul
-              style={{ listStyleType: "none" }}
-              className="card-header-pills   "
-            >
-              {topNavDisplay("", "fs-6")}
-            </ul>
+              </h2>
+              <div className="card  text-white bg-secondary cont-1  ">
+                <div className="card-header border ">
+                  <div>
+                    <div className="collapse " id="navbarToggleExternalContent">
+                      <div className="p-0 d-block d-md-block d-lg-none ">
+                        <ul
+                          style={{ listStyleType: "none" }}
+                          className="card-header-pills   "
+                        >
+                          {topNavDisplay("", "fs-6")}
+                        </ul>
+                      </div>
+                    </div>
+                    <nav className="navbar navbar-dark d-block d-md-block d-lg-none ">
+                      <div className="container-fluid ">
+                        <button
+                          className="navbar-toggler  bg-danger"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#navbarToggleExternalContent"
+                          aria-controls="navbarToggleExternalContent"
+                          aria-expanded="false"
+                          aria-label="Toggle navigation"
+                        >
+                          <span className="navbar-toggler-icon" />
+                        </button>
+                      </div>
+                    </nav>
+                  </div>
+
+                  <div className="border-bottom d-sm-none d-none d-md-none d-lg-block">
+                    <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center ">
+                      {topNavDisplay(
+                        "border border-danger border-bottom border-4",
+                        "fs-6"
+                      )}
+
+                      {props.children}
+                    </ul>
+                  </div>
+                  {topNavElements.map((item, index) => {
+                    return <React.Fragment key={index}>{activeTopComponent === index && item.component}</React.Fragment>
+                  })} <div className="btn-group">
+                    <button type="button" className="btn btn-danger">
+                      {t("Report")}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                      data-bs-toggle="dropdown"
+                      aria-expanded={showReportBox}
+                    >
+                      <span className="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li><a className="dropdown-item" >{t("Action")}</a></li>
+                      <li><a className="dropdown-item" >{t("Another action")}</a></li>
+                      <li><a className="dropdown-item" >{t("Something else here")}</a></li>
+                      <li>
+                        <a className="dropdown-item" onClick={handleReportClick}>
+                          {t("Other")} ...
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  {showReportBox && (
+                    <div className="report-box">
+                      <textarea className="write-box" placeholder="Write your report here..." />
+                      <button className="close-btn" onClick={handleCloseReportBox}>{t("Close")}</button>
+                      <button className="submit-btn" onClick={handleOpenReportBox}>{t("Submit")}</button>
+
+                    </div>
+                  )}
+                </div>
+              </div>
+
+            </div>
+            {showRegCard &&
+
+              <div className="col-md-3 me-auto ms-4 bg-dark  h-50  rounded border border-danger py-5 " id="participation-container">
+                <h3>Registration {tournamentDetails.registeration_status}</h3> {/* Registration status */}
+                <p className="mb-4">
+                  {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""} {/* If tournament is ongoing, show current round */}
+                </p>
+                <hr className="mx-3 " />
+                <h5 className="text-start mt-5 mx-3 mb-4">{`${tournamentDetails.participants.length} / ${tournamentDetails.max_participants}  `}Participants Registered</h5>
+
+
+
+                <button
+                  className="btn btn-primary ml-3"
+                  id={participated ? "participated" : ""}
+                  onClick={handleParticipation}
+                  disabled={tournamentDetails.registeration_status !== "Opened"} >
+                  {
+                    participated ? // If user is already participating, and registration is opened, show drop out button
+                      tournamentDetails.registeration_status === "Opened" ?
+                        "Drop Out" : "Participated" : tournamentDetails.registeration_status === "Opened" ?
+                        "Participate" : "Registration Closed"
+                  }
+                </button>
+              </div>
+            }
           </div>
+          <ParticipatingModal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            onConfirm={handleConfirm}
+            name={name} setName={setName}
+            gameTag={gameTag} setGameTag={setGameTag}
+            discordTag={discordTag} setDiscordTag={setDiscordTag}
+          />
+          <Footer></Footer>
         </div>
-        <nav className="navbar navbar-dark d-block d-md-block d-lg-none ">
-          <div className="container-fluid ">
-            <button
-              className="navbar-toggler  bg-danger"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarToggleExternalContent"
-              aria-controls="navbarToggleExternalContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-          </div>
-        </nav>
-      </div>
-
-      <div className="border-bottom d-sm-none d-none d-md-none d-lg-block">
-        <ul className="nav nav-pills card-header-pills my-3 py-2 d-flex justify-content-center ">
-          {topNavDisplay(
-            "border border-danger border-bottom border-4",
-            "fs-6"
-          )}
-
-          {props.children}
-        </ul>
-      </div>
-      {topNavElements.map((item, index) => {
-        return <React.Fragment key={index}>{activeTopComponent === index && item.component}</React.Fragment>
-      })} <div className="btn-group">
-        <button type="button" className="btn btn-danger">
-          {t("Report")}
-        </button>
-        <button
-          type="button"
-          className="btn btn-danger dropdown-toggle dropdown-toggle-split"
-          data-bs-toggle="dropdown"
-          aria-expanded={showReportBox}
-        >
-          <span className="visually-hidden">Toggle Dropdown</span>
-        </button>
-        <ul className="dropdown-menu">
-          <li><a className="dropdown-item" >{t("Action")}</a></li>
-          <li><a className="dropdown-item" >{t("Another action")}</a></li>
-          <li><a className="dropdown-item" >{t("Something else here")}</a></li>
-          <li>
-            <a className="dropdown-item" onClick={handleReportClick}>
-              {t("Other")} ...
-            </a>
-          </li>
-        </ul>
-      </div>
-      {showReportBox && (
-        <div className="report-box">
-          <textarea className="write-box" placeholder="Write your report here..." />
-          <button className="close-btn" onClick={handleCloseReportBox}>{t("Close")}</button>
-          <button className="submit-btn" onClick={handleOpenReportBox}>{t("Submit")}</button>
-
-        </div>
-      )}
-    </div>
-  </div>
-
-</div>
-{showRegCard &&
-
-  <div className="col-md-3 me-auto ms-4 bg-dark  h-50  rounded border border-danger py-5 " id="participation-container">
-    <h3>Registration {tournamentDetails.registeration_status}</h3> {/* Registration status */}
-    <p className="mb-4">
-      {tournamentDetails.tournament_status === "Ongoing" ? "Current Round : " + tournamentDetails.currentRound : ""} {/* If tournament is ongoing, show current round */}
-    </p>
-    <hr className="mx-3 " />
-    <h5 className="text-start mt-5 mx-3 mb-4">{`${tournamentDetails.participants.length} / ${tournamentDetails.max_participants}  `}Participants Registered</h5>
 
 
-
-    <button
-      className="btn btn-primary ml-3"
-      id={participated ? "participated" : ""}
-      onClick={handleParticipation}
-      disabled={tournamentDetails.registeration_status !== "Opened"} >
-      {
-        participated ? // If user is already participating, and registration is opened, show drop out button
-          tournamentDetails.registeration_status === "Opened" ?
-            "Drop Out" : "Participated" : tournamentDetails.registeration_status === "Opened" ?
-            "Participate" : "Registration Closed"
-      }
-    </button>
-  </div>
-}
-</div>
-<ParticipatingModal
-show={showModal}
-onClose={() => setShowModal(false)}
-onConfirm={handleConfirm}
-name={name} setName={setName}
-gameTag={gameTag} setGameTag={setGameTag}
-discordTag={discordTag} setDiscordTag={setDiscordTag}
-/>
-<Footer></Footer>
-</div>
-
-      
       </useTournamentDetails.Provider>
     </React.Fragment >
   );
