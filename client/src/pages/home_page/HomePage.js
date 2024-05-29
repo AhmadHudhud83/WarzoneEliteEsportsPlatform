@@ -4,11 +4,9 @@ import axios from "axios"; //INSTALLING AXIOS PACKAGE FOR API CALLING => npm i a
 import Footer from "../../common/Footer/Footer";
 import Carousel from "./components/carousel_component/Carousel";
 import SideBar from "../../common/SideBar/SideBar";
-import BottomBar from "../../common/bottomBar/BottomBar.js";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
 import TopBar from "../../common/TopBar/TopBar.js";
-import { useNavigate } from "react-router-dom";
 
 import "./HomePage.css";
 
@@ -86,14 +84,6 @@ export const HomePage = () => {
     {
       label: t("Feedback Center"),
       link: "/feedback-center",
-      icon: <i className="me-2 fa-solid fa-comments" />,
-    },
-    {
-      label: t("Sign up"),
-      link: "/sign-up",
-      icon: <i className=" me-2 fa-solid fa-right-to-bracket" />,
-      label: " Send Feedback",
-      link: "/send-feedback",
       icon: <i className="me-2 fa-solid fa-comments" />,
     },
     {

@@ -73,8 +73,8 @@ export const Overview = () => {
                 style={{ cursor: "pointer" }}
                 key={index}
                 className={`nav-item  ${activeBottomNav === index
-                    ? "active border-bottom border-4 border-danger "
-                    : ""
+                  ? "active border-bottom border-4 border-danger "
+                  : ""
                   }`}
               >
                 <p

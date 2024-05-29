@@ -19,12 +19,6 @@ function SelectGame() {
 
   const { isAuthChecked } = OrganizerAuthCheck();
 
-
-
-
-  //////
-
-
   const navigate = useNavigate();
 
   const backHandler = () => {
