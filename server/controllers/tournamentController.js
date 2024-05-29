@@ -85,6 +85,7 @@ export const createTournament = async (req, res) => {
       //     content: `Welcome to ${req.body.title} ! `,
       //   },
       // ],
+      participants:req.body.participants,
       sponsors: req.body.sponsors,
       supervisors: req.body.supervisors,
       //image:req.file.filename

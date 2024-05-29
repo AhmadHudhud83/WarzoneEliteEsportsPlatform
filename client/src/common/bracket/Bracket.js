@@ -60,6 +60,7 @@ const Bracket = ({ user, tournamentId,viewFlag }) => {
                 const newMatches = [...matches];
                 newMatches[currentRound][matchId].winner = outcome;
                 setMatches(newMatches);
+                
             })
     };
 

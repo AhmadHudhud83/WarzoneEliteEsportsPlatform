@@ -211,7 +211,9 @@ const tournamentJoiSchema = Joi.object({
       brand: Joi.string().required(),
       email: Joi.string().required(),
     })
+    
   ),
+  participants:Joi.any()
 });
 
 //the tournament validation function , create or update
