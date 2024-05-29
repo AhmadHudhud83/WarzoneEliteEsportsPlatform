@@ -7,6 +7,8 @@ import SideBar from "../../common/SideBar/SideBar";
 import BottomBar from "../../common/bottomBar/BottomBar.js";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
+import TopBar from "../../common/TopBar/TopBar.js";
+import { useNavigate } from "react-router-dom";
 
 import "./HomePage.css";
 
@@ -28,7 +30,6 @@ export const HomePage = () => {
     axios
       .get("http://localhost:5000/api/games/names-urls")
       .then((res) => {
-        console.log(res.data);
         setGamesData(res.data);
 
         selectGameHandler(res.data[0]);
@@ -39,30 +40,31 @@ export const HomePage = () => {
   const [tournaments, setTournaments] = useState([]);
   //fetch the tournament data using  async load more button for better performance and optimization  (6 elements atmost)
   useEffect(() => {
+    if (selectedGame) {
+      axios
+        .get(
+          `http://localhost:5000/api/tournaments/paginated-by-game?page=${page}&gameName=${selectedGame}`
+        )
+        .then((res) => {
+          if (page === 1) {
+            setTournaments(res.data.tournaments);
+          } else {
+            setTournaments((new_tournament) => [
+              ...new_tournament,
+              ...res.data.tournaments,
+            ]); //add the incoming tournament data and added to the current array state using state callback
+          }
+          if (selectedGame) {
+            setTotalTournaments(res.data.totalTournaments);//if selected game not set yet , then dont set the total tournaments length , otherwise it will bug the load more button
+          }
 
-    axios
-      .get(
-        `http://localhost:5000/api/tournaments/paginated-by-game?page=${page}&gameName=${selectedGame}`
-      )
-      .then((res) => {
-        if (page === 1) {
-          console.log(res.data);
-          setTournaments(res.data.tournaments);
-        } else {
-          setTournaments((new_tournament) => [
-            ...new_tournament,
-            ...res.data.tournaments,
-          ]); //add the incoming tournament data and added to the current array state using state callback
-        }
-        if (selectedGame !== "") {
-          setTotalTournaments(res.data.totalTournaments);//if selected game not set yet , then dont set the total tournaments length , otherwise it will bug the load more button
-        }
 
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
 
-      })
-      .catch((e) => {
-        console.log(e);
-      });
   }, [selectedGame, page]); // if selectedGame or page have been changed , then fetch the new data
 
   const loadMoreHandler = () => {
@@ -87,70 +89,79 @@ export const HomePage = () => {
       icon: <i className="me-2 fa-solid fa-comments" />,
     },
     {
-      label: t("Joined Tournaments"),
-      link: "/joined-tournaments",
-      icon: <i className="me-2 fa-solid fa-server" />,
-    },
-    {
       label: t("Sign up"),
       link: "/sign-up",
       icon: <i className=" me-2 fa-solid fa-right-to-bracket" />,
+      label: " Send Feedback",
+      link: "/send-feedback",
+      icon: <i className="me-2 fa-solid fa-comments" />,
     },
+    {
+      label: "Blog",
+      link: "/blog",
+      icon: <i className="fa-solid fa-blog" />
+
+    },
+
+
   ];
 
   return (
-    <React.Fragment>
-      <div className="home-page">
 
-        <div className="container ">
-          <SideBar
-            sideBarTitle={
-              <div style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
-                <h5 className="text-white ">
-                  <img
-                    src="https://i.imgur.com/Rc2QkPh.png"
-                    height={100}
-                    width={100}
-                    className="img-fluid"
-                    alt="..."
-                  />
-                  Warzone Elite
-                </h5>
-              </div>
-            }
-            elementsList={homePageSideBarElements}
-          />
+    <div className="home-page ">
 
-          <Carousel />
+      <div className="container home-page-container ">
+        <SideBar
+          sideBarTitle={
+            <div style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+              <h5 className="text-white ">
+                <img
+                  src="https://i.imgur.com/Rc2QkPh.png"
+                  height={100}
+                  width={100}
+                  className="img-fluid"
+                  alt="..."
+                />
+                Warzone Elite
+              </h5>
+            </div>
+          }
+          elementsList={homePageSideBarElements}
+        />
+
+        <Carousel />
+
+        <div className="d-flex ">
           <h2 className="text-start pt-4  mb-0">Find tournaments</h2>
-          <div className="d-flex justify-content-end">
-            <BottomBar
-              gamesData={gamesData}
-              setSelectedGame={selectGameHandler}
-              selectedGame={selectedGame}
-            />
-          </div>
+          <TopBar
+            gamesData={gamesData}
+            setSelectedGame={selectGameHandler}
+            selectedGame={selectedGame}
+          />
+        </div>
 
-          <div className="row row-cols-1 row-cols-md-3 gx-0 px-0 mx-0  my-4  ">
-            {tournaments.map((tournament, index) => {
-              return <TournamentCard key={index} tournament={tournament} />;
-            })}
-          </div>
-          <div className="d-flex justify-content-center ">
-            {typeof tournaments[0] === "undefined" ? (
-              <h3 className="text-white my-5 ">
-                {t("No available tournaments for this game...")}
-              </h3>
-            ) : tournaments.length >= 6 &&
-              tournaments.length < totalTournaments ? (
-              <button onClick={loadMoreHandler} className="btn btn-danger mb-5">
-                {t("Load more")}
-              </button>
-            ) : null}
-          </div>
+        <div className="row row-cols-1 row-cols-md-3 gx-0 px-0 mx-0  my-4  ">
+          {tournaments.map((tournament, index) => {
+            return <TournamentCard key={index} tournament={tournament} />;
+          })}
+        </div>
+        <div className="d-flex justify-content-center ">
+          {typeof tournaments[0] === "undefined" ? (
+            <h3 className="text-white my-5 ">
+              {t("No available tournaments for this game...")}
+            </h3>
+          ) : tournaments.length >= 6 &&
+            tournaments.length < totalTournaments ? (
+            <button onClick={loadMoreHandler} className="btn btn-danger mb-5">
+              {t("Load more")}
+            </button>
+          ) : null}
         </div>
       </div>
+
       <Footer />
-    </React.Fragment>
+    </div>
+
+
   );
 };

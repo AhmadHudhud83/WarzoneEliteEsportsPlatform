@@ -43,3 +43,5 @@ OrganizerRoute.post('/organizer/signup' ,
         SignUpOrganaizer(req,res);
     }
 );
+
+

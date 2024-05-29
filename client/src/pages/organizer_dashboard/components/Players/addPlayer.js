@@ -2,6 +2,8 @@ import {useState} from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
+
 function AddPlayer(){
     const navigate = useNavigate();
     const [nameError, setNameError] = useState('');
@@ -11,6 +13,8 @@ function AddPlayer(){
         email: '',
         password:''
       });
+
+      const {isAuthChecked } =OrganizerAuthCheck();
 
 
 
@@ -55,6 +59,10 @@ function AddPlayer(){
         }
 
       };
+
+      if (!isAuthChecked) {
+        return <div>Loading...</div>;
+      }
 
     return(
         <div className="container">

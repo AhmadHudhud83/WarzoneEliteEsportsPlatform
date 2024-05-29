@@ -1,11 +1,12 @@
 import {useState} from "react";
 import axios from "axios";
 import { Link, useNavigate } from 'react-router-dom';
+import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
+
 
 
 
 function AddSupervisor(){
-
     const [nameError, setNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [formData, setFormData] = useState({
@@ -13,7 +14,10 @@ function AddSupervisor(){
         email: '',
         password:''
       });
-const navigate = useNavigate();
+
+      const {isAuthChecked } =OrganizerAuthCheck();
+
+    const navigate = useNavigate();
 
 
     const handleChange = (e) => {
@@ -58,6 +62,10 @@ const navigate = useNavigate();
         }
 
       };
+
+      if (!isAuthChecked) {
+        return <div>Loading...</div>;
+      }
 
     return(
         <div className="container">

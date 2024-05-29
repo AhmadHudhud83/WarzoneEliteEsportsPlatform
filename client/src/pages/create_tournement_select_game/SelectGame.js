@@ -6,6 +6,7 @@ import GameCard from "./components/game_card/GameCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next'
+import OrganizerAuthCheck from "../CheckAuth/OrganizerCheckAuth";
 
 
 function SelectGame() {
@@ -15,6 +16,8 @@ function SelectGame() {
   const [searchResults, setSearchResults] = useState([]); // The search results
   const [data, setData] = useState([]); // The data fetched from the server
   const numGamesToShow = 20; // The number of games to show initially
+
+  const { isAuthChecked } = OrganizerAuthCheck();
 
 
 
@@ -58,6 +61,10 @@ function SelectGame() {
         console.error("Error fetching game data:", error);
       });
   }, []);
+
+  if (!isAuthChecked) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div id={styles.container}>

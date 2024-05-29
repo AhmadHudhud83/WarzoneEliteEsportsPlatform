@@ -82,12 +82,17 @@ export const createTournament = async (req, res) => {
       prize: req.body.prize,
       schedule: req.body.schedule,
       format: req.body.format,
-      platform:req.body.platform,
+      platform: req.body.platform,
       description: req.body.description,
       tournament_status: req.body.tournament_status,
       registeration_status: req.body.registeration_status,
       cover_image_url: req.file ? req.file.path : req.body.cover_image_url, //uploading an image is optional,if not uploaded then it takes the default cover value based on the seletcted game
-      announcements: req.body.announcements,
+      // announcements: [
+      //   {
+      //     name: "Tournament Organization",
+      //     content: `Welcome to ${req.body.title} ! `,
+      //   },
+      // ],
       sponsors: req.body.sponsors,
       supervisors: req.body.supervisors,
       //image:req.file.filename
@@ -169,7 +174,9 @@ export const getTournamentById = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({
+      message: `Something went wrong fetching tournament with id :${req.params.id} `,
+    });
   }
 };
 /**
@@ -182,7 +189,7 @@ export const getTournamentById = async (req, res) => {
 export const updateTournament = async (req, res) => {
   //  const newReqBody = emptyDataValidation(req.body);
   console.log("type of req.body.sponsors : ", typeof req.body.sponsors);
-  console.log("FORMAT IS ",req.body.format)
+  console.log("FORMAT IS ", req.body.format);
   let parsedSponsors;
   try {
     parsedSponsors =
@@ -229,12 +236,11 @@ export const updateTournament = async (req, res) => {
           prize: req.body.prize,
           schedule: req.body.schedule,
           format: req.body.format,
-          platform:req.body.platform,
+          platform: req.body.platform,
           description: req.body.description,
           tournament_status: req.body.tournament_status,
           registeration_status: req.body.registeration_status,
           cover_image_url: req.file ? req.file.path : req.body.cover_image_url,
-          announcements: req.body.announcements,
           sponsors: req.body.sponsors,
           supervisors: req.body.supervisors,
         },
@@ -289,29 +295,8 @@ const deleteTournamentCoverImage = async (req, res) => {
       .json({ message: "something went wrong with deleting cover image" });
   }
 };
-/**
- * @desc get all  tournaments  based on the user Id
- * @route /api/tournaments/:userId
- * @method GET
- * @access public
- *
- */
-export const getTournamentsOfUser = async (req, res) => {
-  try {
-    const tournaments = await TournamentModel.find().sort({ createdAt: -1 });
-    res.json({ tournaments });
-  } catch (error) {
-    console.error(
-      `Error fetching  Tournaments of the user id : ${req.params.userId}`,
-      error
-    );
-    res
-      .status(500)
-      .json({
-        error: `Something went wrong fetching  Tournaments of the user id : ${req.params.userId}`,
-      });
-  }
-};
+
+
 
 //=======================================================================================
 
@@ -347,7 +332,7 @@ const structureMatches = (
     numRounds--;
   } while (numRounds > 0);
 
-  // remove the extra rounds after the last round
+  // remove the extra rounds after the   last round
   matches.splice(currentRound + numberOfRounds - init);
 };
 
@@ -391,6 +376,10 @@ export const initializeMatches = async (tournamentId) => {
 
   // Get the participants and supervisors
   const participants = tournament.participants;
+
+  if (participants.length < 2) {
+    throw new Error("Not enough participants to initialize the tournament");
+  }
   const supervisors = tournament.supervisors;
 
   // Create the matches array
@@ -439,7 +428,7 @@ const isRoundComplete = (round) => {
 };
 
 // This function sets up the next round by moving the winners of the current round to the next round
-export const setUpRound = async (tournament) => {
+const setUpRound = async (tournament) => {
   tournament.currentRound++; // Move to the next round
 
   const previousRound = tournament.currentRound - 1;
@@ -487,6 +476,15 @@ export const getTournaments = async () => {
   return tournaments;
 };
 
+// Get the tournaments supervised by a supervisor
+export const getTournamentsSupervised = async (supervisorId) => {
+  // Fetch tournamnets where the supervisor is part of the supervisors array
+  const tournaments = await TournamentModel.find({
+    'supervisors._id': supervisorId,
+  });
+  return tournaments;
+};
+
 // Reset the tournament
 export const resetTournament = async (tournamentId) => {
   // Fetch the tournament document
@@ -499,8 +497,72 @@ export const resetTournament = async (tournamentId) => {
   tournament.currentRound = -1;
   tournament.winner = null;
   tournament.tournament_status = "Uninitialized";
+  tournament.registeration_status = "Opened";
   tournament.matches = [];
 
   tournament.markModified("matches"); // Mark the matches array as modified
   await tournament.save(); // Save the updated tournament document
 };
+
+// Add a player to a tournament
+export const addPlayer = async (tournamentId, player) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+
+  tournament.participants.push(player);
+
+  // Save the updated tournament document
+  tournament.markModified("participants"); // Mark the participants array as modified
+  await tournament.save();
+};
+
+// Remove a player from a tournament
+export const removePlayer = async (tournamentId, playerId) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+
+  // Remove the player from the participants array
+  tournament.participants = tournament.participants.filter(
+    (player) => player._id !== playerId
+  );
+  console.log(playerId);
+  console.log(tournament.participants);
+
+  // Save the updated tournament document
+  tournament.markModified("participants"); // Mark the participants array as modified
+  await tournament.save();
+};
+
+// Get the tournament supervisors
+export const getSupervisors = async (tournamentId) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+
+  return tournament.supervisors;
+};
+
+// Update the tournament supervisors
+export const updateSupervisors = async (tournamentId, supervisors) => {
+  // Fetch the tournament document
+  const tournament = await TournamentModel.findById(tournamentId);
+  if (!tournament) {
+    throw new Error("Tournament not found", tournamentId);
+  }
+  console.log(supervisors);
+  tournament.supervisors = supervisors;
+
+  // Save the updated tournament document
+  tournament.markModified("supervisors"); // Mark the supervisors array as modified
+  await tournament.save();
+};
+
+

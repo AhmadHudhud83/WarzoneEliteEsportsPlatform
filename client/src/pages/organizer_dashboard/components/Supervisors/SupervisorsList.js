@@ -1,11 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import OrganizerAuthCheck from '../../../CheckAuth/OrganizerCheckAuth';
+import LogoutButton from "../../../Logout/logout";
+
 
 
 function SupervisorList() {
+  const {isAuthChecked } =OrganizerAuthCheck();
+
+
   const [supervisors, SetAllSupervisors] = useState([]);
- 
+  
 
   useEffect(() => {
     axios
@@ -27,6 +33,10 @@ function SupervisorList() {
         console.error("Error display Supervisors:", error);
       });
   };
+
+  if (!isAuthChecked) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container-xxl bg-dark">

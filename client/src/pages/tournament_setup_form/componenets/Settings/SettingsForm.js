@@ -5,6 +5,7 @@ export const SettingsForm = ({
   setFormData,
   setValidationErrors,
   validationErrors,
+  request
 }) => {
   //focus on the required input
   const inputRef = useRef();
@@ -203,7 +204,10 @@ export const SettingsForm = ({
           <label htmlFor="max-participants" className="form-label ">
             Maximum Participants
           </label>
+             {/*if the request is an updating form , then there is no abiltiy to update the max_participants */}
           <input
+          
+          disabled={request!=="UPDATE_TOURNAMENT"}
             name="max_participants"
             value={parseInt(formData.max_participants)}
             onChange={(e) => {
