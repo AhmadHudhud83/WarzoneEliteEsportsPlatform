@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import './SideBar.css'
-const SideBar = ({elementsList,sideBarTitle}) => {
+import LogoutButton from '../../pages/Logout/logout';
+
+const SideBar = ({ elementsList, sideBarTitle }) => {
+
+  const playerId = localStorage.getItem("player_id");
   return (
     <React.Fragment>
       <div
-        style={{backgroundImage:"url(https://i.imgur.com/5OFllrX.jpeg)"}}
+        style={{ backgroundImage: "url(https://i.imgur.com/5OFllrX.jpeg)" }}
         className="offcanvas offcanvas-start side-bar "
         tabIndex={-1}
         id="offcanvasExample"
@@ -13,7 +17,7 @@ const SideBar = ({elementsList,sideBarTitle}) => {
       >
         <div className="offcanvas-header mt-2" >
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-           {sideBarTitle}
+            {sideBarTitle}
           </h5>
 
           <button
@@ -32,14 +36,25 @@ const SideBar = ({elementsList,sideBarTitle}) => {
                   key={index}
                   to={item.link}
                   className="btn btn-md btn-primary text-white px-0 py-2  mb-4 custom-btn mt-5 d-block "
-                  style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}}
-                  onClick={item.label==="Logout"?item.request : ""}
+                  style={{ background: "linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)" }}
+                  onClick={item.label === "Logout" ? item.request : ""}
                 >
                   {item.icon} {item.label}
                 </Link>
               );
             })}
-            
+            <div id="logout-btn">
+              {playerId ? <LogoutButton /> :
+                <Link
+                  to="/login"
+                  className="btn btn-md btn-primary text-white px-0 py-2  mb-4 custom-btn mt-5 d-block "
+                  style={{ background: "linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)" }}
+                >
+                  <i className="fas fa-sign-in-alt"></i> Login
+                </Link>
+              }
+            </div>
+
           </div>
         </div>
       </div>
@@ -56,7 +71,7 @@ const SideBar = ({elementsList,sideBarTitle}) => {
           <span className="navbar-toggler-icon" />
         </button>
       </nav>
-     
+
     </React.Fragment>
   );
 };

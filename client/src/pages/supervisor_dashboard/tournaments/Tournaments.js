@@ -8,38 +8,28 @@ import SupervisorAuthCheck from "../../CheckAuth/SupervisorCheckAuth";
 function TournamentPage() {
   const [tournaments, setTournaments] = useState([]);
 
-  const {isAuthChecked } = SupervisorAuthCheck();
+  const { isAuthChecked } = SupervisorAuthCheck();
 
   useEffect(() => {
     // Retrieve the current supervisor id from the session storage
-    //const supervisorId = sessionStorage.getItem("supervisorId");
-    const supervisorId = "664cd6cf90ec080145afa0e4";
-
+    const supervisorId = sessionStorage.getItem("supervisor_id");
 
     // Fetch the tournaments which the supervisor is part of its supervisors array
     axios
-      .get("/api/tournaments/allTournaments")
+      .get(`/api/tournaments/supervised/${supervisorId}`)
       .then((response) => {
-        // Filter the tournaments where the supervisor is part of its supervisors array
-        const tournaments = response.data.filter(
-          (tournament) =>
-            tournament.supervisors.some(
-              (supervisor) => supervisor._id === supervisorId
-            )
-        );
-
-        setTournaments(tournaments.reverse());
-      })
-      .catch((error) => {
+        setTournaments(response.data.reverse());
+      }
+      ).catch((error) => {
         console.error("Error fetching game data:", error);
       });
   }, []);
 
 
-    if (!isAuthChecked) {
-      return <div>Loading...</div>;
-    }
-  
+  if (!isAuthChecked) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div id={styles.container}>
       <Header />

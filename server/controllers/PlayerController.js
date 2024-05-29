@@ -53,7 +53,7 @@ export const LoginPlayer = async (req, res) => {
 
         req.session.user_id = user._id;
 
-        return res.status(StatusCode.Ok).send('Welcome to the home page');
+        return res.status(StatusCode.Ok).send('Welcome to the home page', { user_id: req.session.user_id });
     } catch (error) {
         console.error('Login error:', error);
         return res.status(StatusCode.ServerError).send('Server busy, try again later');

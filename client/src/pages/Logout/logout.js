@@ -7,7 +7,7 @@ const LogoutButton = ({ pageName }) => {
       const response = await axios.post('http://localhost:5000/user/logout', {}, { withCredentials: true });
       console.log(response);
       if (response.status === 200) {
-        window.location.href = `/${pageName}`; 
+        window.location.href = `/${pageName}`;
       } else {
         alert('Logout failed');
       }
@@ -18,8 +18,8 @@ const LogoutButton = ({ pageName }) => {
   };
 
   return (
-    <button className="btn btn-md btn-primary text-white  mb-4 custom-btn mt-5 d-block ms-auto"
-    style={{background:"linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)"}} onClick={()=>handleLogout(pageName)}>Logout</button>
+    <button className="btn btn-md btn-primary text-white  custom-btn d-block ms-auto w-100"
+      style={{ background: "linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%)" }} onClick={() => handleLogout(pageName)}>Logout</button>
   );
 };
 

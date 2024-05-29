@@ -45,8 +45,7 @@ export const LoginSupervaisor = async (req, res) => {
     }
 
     req.session.supervaisor_id = user._id;
-
-    return res.status(StatusCode.Ok).send("Welcome to the home page");
+    return res.status(StatusCode.Ok).send({ message: "Welcome to the home page", supervaisor_id: req.session.supervaisor_id });
   } catch (error) {
     console.error("Login error:", error);
     return res
