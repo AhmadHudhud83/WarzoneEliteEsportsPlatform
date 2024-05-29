@@ -27,7 +27,7 @@ function GameList(){
 
 
     const handleDeleteGame=(id)=>{
-        axios.delete(`http://localhost:5000/player/delete?id=${id}`).then(()=>{
+        axios.delete(`http://localhost:5000/game/delete?id=${id}`).then(()=>{
             SetAllGames(games.filter(game => game._id !== id));
         })
           .catch(error => {
@@ -49,7 +49,7 @@ function GameList(){
                         <label className="fs-4">Games</label>
                     </div>
                     <div className="d-flex">
-                        <Link to="/organizer/dashboard/players/add" className="btn btn-outline-light btn-primary">
+                        <Link to="/organizer/dashboard/games/add" className="btn btn-outline-light btn-primary">
                             + Add Game</Link>
                     </div>
                 </div>
@@ -90,7 +90,7 @@ function GameList(){
                             
                             <td className="text-white align-middle text-center">
                                 
-                                <Link to={`/organizer/dashboard/players/edit/${game._id}` } className="btn btn-outline-light btn-primary">Edit</Link>                               
+                                <Link to={`/organizer/dashboard/games/edit/${game.name}` } className="btn btn-outline-light btn-primary">Edit</Link>                               
                                 
                             </td>
                             <td className="text-white align-middle text-center">
