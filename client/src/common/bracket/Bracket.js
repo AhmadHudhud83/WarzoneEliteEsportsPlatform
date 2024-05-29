@@ -5,9 +5,11 @@ import axios from "axios";
 import UserModal from "../user_modal/UserModal";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
 import SupervisorAuthCheck from "../../pages/CheckAuth/SupervisorCheckAuth";
 
 const Bracket = ({ user, tournamentId }) => {
+    const { t, i18n } = useTranslation()
     const navigate = useNavigate();
     const [supervisorId, setSupervisorId] = useState(""); // The id of the current supervisor
     const [matches, setMatches] = useState([]);
@@ -126,7 +128,7 @@ const Bracket = ({ user, tournamentId }) => {
                                                                 (match.team2 !== "bye") &&
                                                                 (match.winner === null)
                                                                 ? styles.vis : styles.invis)}
-                                                            onClick={() => handleOutcome(index, match.team2)}>WINNER</button>
+                                                            onClick={() => handleOutcome(index, match.team2)}>{t("WINNER")}</button>
                                                     </div>
                                                 </div>
 
@@ -136,7 +138,7 @@ const Bracket = ({ user, tournamentId }) => {
                                                         (user === "supervisor" && match.supervisor._id === supervisorId)) &&
                                                         (match.winner === null)
                                                         ? styles.vis : styles.invis)}
-                                                    onClick={() => handleOutcome(index, "none")}>None</button>
+                                                    onClick={() => handleOutcome(index, "none")}>{t("None")}</button>
                                             </div>
                                         ))}
 
@@ -150,12 +152,12 @@ const Bracket = ({ user, tournamentId }) => {
                         return <div className={styles.round} ref={roundRef}>
                             <h3 onClick={
                                 () => { roundRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-                            }>Round {roundIndex + 1}</h3>
+                            }>{t("Round")} {roundIndex + 1}</h3>
                             <div className={styles.round_div}>
                                 {round.map(() => ( // For each match in the round
                                     <div className={styles["match-container"]}>
                                         <div className={styles.match}>
-                                            <div className={styles.team + " " + styles.team}>Undecided Yet</div>
+                                            <div className={styles.team + " " + styles.team}>{t("Undecided Yet")}</div>
                                             <div className={styles.team}>{"Undecided Yet"}</div>
                                         </div> {/* If the user is an organizer or supervisor, make the team name clickable */}
                                     </div>

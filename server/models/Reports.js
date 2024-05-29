@@ -9,8 +9,6 @@ const ReportsSchema = new mongoose.Schema({
         type:String,
         
         
-
-
     },
     report_content: {
         type:String,

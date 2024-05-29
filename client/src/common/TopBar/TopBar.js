@@ -5,20 +5,20 @@ const TopBar = ({ gamesData, selectedGame, setSelectedGame }) => {
   //bottom bar of games , with functionalites to select a game
   return (
     <React.Fragment>
-       <button
-          className="btn  btn-outline-warning bg-dark mt-4 ms-auto "
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasTop"
-          aria-controls="offcanvasTop"
-        >
-          Select your game
-        </button>
+      <button
+        className="btn  btn-outline-warning bg-dark mt-4 ms-auto "
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasTop"
+        aria-controls="offcanvasTop"
+      >
+        Select your game
+      </button>
       <div >
-       
+
         <div
           className="offcanvas offcanvas-top  rounded border bg-dark h-50"
-          style={{backgroundImage:"url(https://i.imgur.com/DZMaZjP.jpeg"}}
+          style={{ backgroundImage: "url(https://i.imgur.com/DZMaZjP.jpeg" }}
           tabIndex={-1}
           id="offcanvasTop"
           aria-labelledby="offcanvasTopLabel"
@@ -41,11 +41,10 @@ const TopBar = ({ gamesData, selectedGame, setSelectedGame }) => {
                       setSelectedGame(game);
                     }}
                     key={index}
-                    className={` rounded m-3 mb-5 mt-1 btn btn-sm p-1  ${
-                      game.name === selectedGame
+                    className={` rounded m-3 mb-5 mt-1 btn btn-sm p-1  ${game.name === selectedGame
                         ? " border border-3 border-danger btn-outline-danger "
                         : "border-0 btn-outline-light"
-                    } `}
+                      } `}
                     style={{
                       backgroundColor: "",
                       width: "10rem",

@@ -8,17 +8,9 @@
     background-color: #151b27;
     transform: scale(0.85);
     transform-origin: top center;
-   
-   
-
 }
 
-#participated {
-    background-color: #151b27;
-    transform: scale(0.85);
-    transform-origin: top center;
-    overflow-y: auto;
-}
+
 
 #closed {
     cursor: none;
@@ -41,4 +33,8 @@
     border: none;
     margin-top: 20px;
     font-size: 18px;
+}
+
+#participated {
+    background-color: #151b27;
 }
