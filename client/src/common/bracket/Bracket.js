@@ -56,7 +56,10 @@ const Bracket = ({ user, tournamentId, viewFlag }) => {
 
     // Handle the outcome of a match
     const handleOutcome = (matchId, outcome) => {
-        axios.patch(`http://localhost:5000/api/tournaments/${tournamentId}/matches/${matchId}/set-winner`, { player: outcome }, { withCredentials: true })
+        if (viewFlag) {
+            return;
+        }
+        axios.patch(`http://localhost:5000/api/tournaments/${tournamentId}/matches/${matchId}/set-winner`, { player: outcome })
             .then(() => {
                 const newMatches = [...matches];
                 newMatches[currentRound][matchId].winner = outcome;
