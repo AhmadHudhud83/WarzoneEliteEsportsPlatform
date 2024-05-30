@@ -33,8 +33,8 @@ export const OrganizerDashboard = () => {
       icon: <i className="fa-solid fa-plus" />,
     },
     {
-      label: "Add Game",
-      link: "add-game",
+      label: "Games",
+      link: "games",
       icon: <i className="fa-solid fa-plus" />,
     },
 
