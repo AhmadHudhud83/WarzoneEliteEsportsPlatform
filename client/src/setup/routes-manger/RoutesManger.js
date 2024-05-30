@@ -137,7 +137,7 @@ const RoutesManger = () => {
             <Route
               path="*"
               element={
-                <AboutUs/>
+                <NotFound/>
               }
             />
           </Route>
