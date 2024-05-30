@@ -41,6 +41,9 @@ tournamentRouter.patch(
   "/:tournamentId/matches/:matchId/set-winner",
   async (req, res) => {
     try {
+      if (req.session && !req.session.supervisor_id && !req.session.organizer_id) {
+        throw new Error("You are not authorized to set a winner");
+      }
       const { tournamentId, matchId } = req.params;
       const player = req.body.player;
       setWinner(tournamentId, matchId, player);
