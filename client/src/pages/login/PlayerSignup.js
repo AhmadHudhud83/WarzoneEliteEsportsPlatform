@@ -21,9 +21,33 @@ const PlayerSignup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Basic validation
-        if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-            alert('All fields are required');
+        if (!formData.name) {
+            alert('Name is required');
+            return;
+        }
+
+        if (!/^[A-Za-z]+$/.test(formData.name) || formData.name.length < 4) {
+            alert('Name must be alpha (a-z & A-Z) and at least 4 characters long');
+            return;
+        }
+
+        if (!formData.email) {
+            alert('Email is required');
+            return;
+        }
+
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            alert('Email must be valid and include @');
+            return;
+        }
+
+        if (!formData.password) {
+            alert('Password is required');
+            return;
+        }
+
+        if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}/.test(formData.password)) {
+            alert('Password must contain at least one uppercase letter, one lowercase letter, and one number, and be at least 8 characters long');
             return;
         }
 
@@ -32,22 +56,19 @@ const PlayerSignup = () => {
             return;
         }
 
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:5000/player/signup', formData, { withCredentials: true });
+
+        axios.post('http://localhost:5000/player/signup', formData, { withCredentials: true }).then((response) => {
             if (response.data) {
                 navigate('/');
             }
-        }
-        catch (error) {
-            if (error.response && error.response.status === 404) {
+        }).catch((error) => {
+            if (error.response && error.response.status === 400) {
                 alert(error.response.data);
+            } else {
+                alert('Player signuped successfully!');
             }
+        });
 
-            else {
-                alert('system busy try again later');
-            }
-        }
     };
 
     return (
