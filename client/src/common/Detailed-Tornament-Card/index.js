@@ -46,7 +46,8 @@ export const DetailedTournamentCard = (props) => {
       .then((res) => {
         setTournamentDetails(res.data);
         setLoading(false);
-        if (userId !== null) {
+        if (userId) {
+          console.log(userId);
           setParticipated(res.data.participants.some(participant => participant._id === userId));
         }
       })
@@ -144,7 +145,7 @@ export const DetailedTournamentCard = (props) => {
     }
     // check if user is logged in
     // if not, redirect to login page
-    if (userId === null) {
+    if (!userId) {
       navigate("/login");
       return;
     }
