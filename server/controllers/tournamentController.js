@@ -13,7 +13,7 @@ export const createTournament = async (req, res) => {
   const getCoverImageUrl = async (gameName) => {
     let defaultImage = "https://i.imgur.com/KHneQTJ.png";
     try {
-     
+
       const respones = await axios.get("http://localhost:5000/api/Games");
       const games = respones.data;
       const game = games.find((g) => g.name === gameName);
@@ -503,6 +503,20 @@ export const addPlayer = async (tournamentId, player) => {
   const tournament = await TournamentModel.findById(tournamentId);
   if (!tournament) {
     throw new Error("Tournament not found", tournamentId);
+  }
+
+  if (tournament.registeration_status === "Closed") {
+    throw new Error("Registeration is closed for this tournament");
+  }
+
+  // Check if the player is already in the tournament
+  if (tournament.participants.find((p) => p._id === player._id)) {
+    throw new Error("Player is already in the tournament");
+  }
+
+  // Check if the tournament is full
+  if (tournament.participants.length >= tournament.max_participants) {
+    throw new Error("Tournament is full");
   }
 
   tournament.participants.push(player);

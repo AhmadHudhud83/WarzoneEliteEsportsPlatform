@@ -200,5 +200,3 @@ tournamentRouter.delete("/:id", deleteTournament)
 
 
 export { tournamentRouter };
-
-
