@@ -16,9 +16,7 @@ import { feedbackRouter } from "./routes/feedbackRoutes.js";
 import { blogRouter } from "./routes/blogRoutes.js";
 import { tournamentAnnouncementsRouter } from "./routes/tournamentAnnouncementsRoute.js";
 import { AuthRoute } from "./routes/authenticationRoutes.js";
-
-
-
+import {ContactRoute} from "./routes/contactUsRoutes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
@@ -54,8 +52,8 @@ app.use(SupervisorRoute);
 app.use(reportsRouter);
 app.use(feedbackRouter);
 app.use(AuthRoute);
-
-
+app.use('/api/contactus',ContactRoute);
+app.use('/api/feedback',feedbackRouter);
 
 
 

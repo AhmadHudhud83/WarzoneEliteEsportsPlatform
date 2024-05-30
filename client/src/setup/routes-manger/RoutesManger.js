@@ -23,7 +23,11 @@ import AnnouncementsPage from "../../pages/organizer_dashboard/components/Announ
 import GameList from "../../pages/organizer_dashboard/components/Games/ListGame";
 import OrganizerLogin from "../../pages/login/OrganizerLogin";
 import SupervisorLogin from "../../pages/login/SupervisorLogin";
-
+import { ContactUs } from "../../pages/ContactUs/ContactUs.js";
+import {Feedback} from "../../pages/FeedBackT/FeedBack.js";
+import { NotFound } from "../../pages/NotFound/NotFound.js";
+import { AboutUs } from "../../pages/AboutUs/AboutUs.js";
+import { ContactRequest } from "../../pages/organizer_dashboard/components/ContactRequests/ContactRequests.js";
 //tournament form flag
 const createTournamentRequest = "CREATE_TOURNAMENT"; //for creating tournament form handling
 const updateTournamentRequest = "UPDATE_TOURNAMENT"; //for updating exisiting tournament form handling
@@ -49,6 +53,10 @@ const RoutesManger = () => {
                     element={<EditeSupervisor />}
                   />
                 </Route>
+                <Route
+                path="contact-requests"
+                element={<ContactRequest/>}
+                />
 
                 <Route path="games/">
                   <Route index element={<GameList/>} />
@@ -115,13 +123,21 @@ const RoutesManger = () => {
               path="tournament-overview/:id"
               element={<DetailedTournamentCard />}
             ></Route>
+         
+            <Route
+              path="contact"
+              element={<ContactUs/>}
+            ></Route>
+          <Route
+            path="send-feedback"
+            element={<Feedback/>}
+            />
+
 
             <Route
               path="*"
               element={
-                <>
-                  <h1>Error 404</h1>
-                </>
+                <AboutUs/>
               }
             />
           </Route>

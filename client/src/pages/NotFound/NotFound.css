@@ -1,0 +1,32 @@
+
+
+.custom-container {
+    padding-top: 10%;
+}
+
+.custom-error-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.custom-heading {
+    color: #7d4cdb;
+}
+
+.custom-subheading {
+    font-size: 36px;
+    margin: 20px 0;
+}
+
+.custom-error-details {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.custom-btn-lg {
+    background: linear-gradient(to right, #0000ff, #8a2be2);
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+}

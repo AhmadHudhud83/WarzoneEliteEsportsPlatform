@@ -3,19 +3,20 @@ import { getAllFeedback, getFeedbackById, deleteFeedback, createFeedback } from 
 
 const feedbackRouter = express.Router();
 
-feedbackRouter.get('/api/feedback', (req, res) => {
+feedbackRouter.get('/', (req, res) => {
     getAllFeedback(req, res);
 });
 
-feedbackRouter.get("/api/feedback/:feedbackId", (req, res) => {
+feedbackRouter.get("/:feedbackId", (req, res) => {
     getFeedbackById(req, res);
 });
 
-feedbackRouter.delete("/api/feedback/:feedbackId", (req, res) => {
+feedbackRouter.delete("/:feedbackId", (req, res) => {
     deleteFeedback(req, res);
 });
 
-feedbackRouter.post("/api/feedback", (req, res) => {
+feedbackRouter.post("/", (req, res) => {
+    console.log("hello");
     createFeedback(req, res);
 });
 

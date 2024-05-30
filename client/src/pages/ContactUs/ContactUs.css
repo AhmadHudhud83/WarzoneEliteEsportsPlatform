@@ -1,0 +1,24 @@
+body {
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.card-body{
+    background-color: #1f1f38;
+
+}
+.card {
+    
+
+    border: none;
+    border-radius: 8px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+.contactuscontainer{
+    height: 100vh;
+    overflow-y: auto;
+}

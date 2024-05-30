@@ -1,0 +1,35 @@
+body {
+    background-color: #1c1b29;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+.feedback-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #2d2c3c;
+    border-radius: 10px;
+}
+.close-btn {
+    color: #fff;
+    float: right;
+}
+.header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.support-text {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.dropdown,
+.input-group,
+.btn {
+    background-color: #342f4b;
+    color: #fff;
+    border: none;
+}
+::placeholder {
+    color: #bbb9c7;
+    opacity: 0.8;
+}
