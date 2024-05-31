@@ -9,7 +9,7 @@ const PlayerSignup = () => {
         password: '',
         confirmPassword: '',
     });
-    const { navigate } = useNavigate();
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({
@@ -59,13 +59,14 @@ const PlayerSignup = () => {
 
         axios.post('http://localhost:5000/player/signup', formData, { withCredentials: true }).then((response) => {
             if (response.data) {
-                navigate('/');
+                alert('Signup successful');
+                navigate("/login");
             }
         }).catch((error) => {
             if (error.response && error.response.status === 400) {
-                alert(error.response.data);
+                alert(error.response.data.message);
             } else {
-                alert('Player signuped successfully!');
+                console.error('Signup error:', error);
             }
         });
 
