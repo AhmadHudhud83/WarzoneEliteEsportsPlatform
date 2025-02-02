@@ -1,1 +1,4 @@
-Warzone Elite eSports tournaments & leagues platform is a dynamic online portal dedicated to the esports community, offering a range of features to facilitate competitive gaming experiences.
+# Warzone Elite 🎮  
+
+**Warzone Elite** is a dynamic online platform designed for the esports community, offering tournaments, leagues, and competitive gaming experiences. It provides a seamless environment for organizing and participating in esports events.  
+
