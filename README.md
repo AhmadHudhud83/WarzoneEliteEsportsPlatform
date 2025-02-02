@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-"# esports-web2-project"
-=======
-# esports-web2-project
->>>>>>> e00c909202a07debedcbb49e4f1515fbbaa29db8
+Warzone Elite eSports tournaments & leagues platform is a dynamic online portal dedicated to the esports community, offering a range of features to facilitate competitive gaming experiences.
