@@ -1,0 +1,40 @@
+.cont-1 {
+    background-color: #1c222b !important;
+
+}
+
+.org-cont {
+
+    background-color: #151b27;
+    transform: scale(0.85);
+    transform-origin: top center;
+}
+
+
+
+#closed {
+    cursor: none;
+    width: 300px;
+}
+
+#tournament-details-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#participation-container {
+    margin-top: 75px;
+    text-align: center;
+}
+
+#participation-container button {
+    background: linear-gradient(286.57deg, #6600D5 0%, #4221E3 49.09%, #005FFF 100%) !important;
+    border: none;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#participated {
+    background-color: #151b27;
+}

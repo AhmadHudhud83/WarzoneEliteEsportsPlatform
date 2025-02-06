@@ -1,0 +1,32 @@
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+select option{
+    background-color: #fff;
+    color: #333
+}
+input[type="file"]::file-selector-button {
+    
+   
+    background-color:#212529;
+    color: transparent;
+    border: none;
+    display: none;
+  }
+::-webkit-file-upload-button{
+  color:transparent;
+  display:none
+}
+
+.tournament-form-container{
+  height: 100vh;
+  overflow-y: auto;
+ 
+  
+}
+.nested-tournament-form-container{
+  transform: scale(.85);
+}

@@ -1,0 +1,27 @@
+@font-face {
+    font-family: Kardust Condensed;
+    src: url('../../../../../public/assets/fonts/Kardust Condensed Bold.otf');
+}
+
+#container nav {
+    background: linear-gradient(to right, #250053, #000000);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#container nav a {
+    display: flex;
+    text-decoration: none;
+    font-family: "Kardust Condensed";
+}
+
+#container nav img {
+    width: 70px;
+    height: auto;
+}
+
+#logoutbtn {
+    height: fit-content;
+    margin-top: 15px;
+}
